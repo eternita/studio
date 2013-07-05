@@ -9,4 +9,6 @@ Studio includes following plugins:
 * NMS Database Client;
 
 
+![workflow-example-higlevel](https://raw.github.com/neuro4j/studio/master/doc/images/1.png "Flow Editor")
+
 Installation Guide available at (http://neuro4j.org/docs/wf/installguide)
