@@ -9,4 +9,4 @@ Studio includes following plugins:
 * NMS Database Client;
 
 
-Instalation Guide avaliable at (http://neuro4j.org/docs/wf/installguide)
+Installation Guide available at (http://neuro4j.org/docs/wf/installguide)
