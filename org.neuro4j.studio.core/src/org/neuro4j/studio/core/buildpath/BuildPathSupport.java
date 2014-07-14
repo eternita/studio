@@ -29,6 +29,10 @@ import org.eclipse.osgi.service.resolver.VersionRange;
 import org.neuro4j.studio.core.Neuro4jCore;
 import org.osgi.framework.Version;
 
+/**
+ *
+ *
+ */
 public class BuildPathSupport {
     public static final Neuro4jStudioCorePluginDescription NEURO4j_CORE_PLUGIN = new Neuro4jStudioCorePluginDescription(
             "org.neuro4j.studio.workflow", new VersionRange("[0.8.1,1.0.1)"), "neuro4j-workflow-core.jar", "neuro4j-workflow-core.jar", "org.neuro4j.workflow.source", "source-bundle/", "org.neuro4j.workflow.javadoclocation");
