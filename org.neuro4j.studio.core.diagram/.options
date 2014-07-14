@@ -1,0 +1,7 @@
+# Tracing options for the org.neuro4j.studio.core.diagram plug-in
+
+# Common issues
+org.neuro4j.studio.core.diagram/debug=false
+
+# Visual IDs
+org.neuro4j.studio.core.diagram/debug/visualID=false

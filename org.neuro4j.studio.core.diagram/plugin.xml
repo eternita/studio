@@ -1,0 +1,853 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension point="org.eclipse.team.core.fileTypes" id="repo-ftype">
+      <?gmfgen generated="true"?>
+      <fileTypes type="text" extension="neuro4j_diagram"/>
+   </extension>
+
+<!--
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor" id="prop-contrib">
+      <?gmfgen generated="true"?>
+      <propertyContributor
+            contributorId="org.neuro4j.studio.core.diagram"
+            labelProvider="org.neuro4j.studio.core.diagram.sheet.Neuro4jSheetLabelProvider">
+         <propertyCategory category="domain"/>
+         <propertyCategory category="visual"/>
+         <propertyCategory category="extra"/>
+      </propertyContributor>
+   </extension>
+-->
+<extension point="org.eclipse.gmf.runtime.diagram.ui.paletteProviders"> 
+  <paletteProvider class="org.eclipse.gmf.runtime.diagram.ui.providers.DefaultPaletteProvider">
+    <Priority name="High"/>
+    <contribution>
+      <predefinedEntry
+         id="standardGroup/zoomTool"
+         remove="true"/>
+         <!-- <predefinedEntry id="standardGroup/noteStack/noteTool" remove="true"/> -->
+         <predefinedEntry id="standardGroup/noteStack/textTool" remove="true"/> 
+         <predefinedEntry id="standardGroup/noteStack/noteattachmentTool" remove="true"/>
+    </contribution>
+  </paletteProvider>
+</extension>
+
+   <extension point="org.eclipse.gmf.runtime.emf.clipboard.core.clipboardSupport">
+      <factory
+            class="org.neuro4j.studio.core.diagram.clipboard.LibraryClipboardSupportFactory"
+            nsURI="http://www.eclipse.org/gmf/runtime/1.0.2/notation"
+            priority="highest"/>
+   </extension>
+<!--
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections" id="propsections">
+      <?gmfgen generated="true"?>   
+      <propertySections contributorId="org.neuro4j.studio.core.diagram">
+         <propertySection id="property.section.ConnectorAppearancePropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.ConnectionEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.appearance.ConnectionAppearancePropertySection" 
+            tab="property.tab.AppearancePropertySection">
+         </propertySection>
+         <propertySection id="property.section.ShapeColorAndFontPropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.ShapeEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.appearance.ShapeColorsAndFontsPropertySection" 
+            tab="property.tab.AppearancePropertySection">
+         </propertySection> 
+         <propertySection id="property.section.DiagramColorsAndFontsPropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.DiagramEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.appearance.DiagramColorsAndFontsPropertySection" 
+            tab="property.tab.AppearancePropertySection">
+         </propertySection>     
+         <propertySection id="property.section.RulerGridPropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.DiagramEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.grid.RulerGridPropertySection" 
+            tab="property.tab.DiagramPropertySection">
+         </propertySection>     
+         <propertySection
+            id="property.section.domain" 
+            tab="property.tab.domain"
+            class="org.neuro4j.studio.core.diagram.sheet.Neuro4jPropertySection">
+            <input type="org.eclipse.gmf.runtime.notation.View"/>
+            <input type="org.eclipse.gef.EditPart"/>
+            <input type="org.neuro4j.studio.core.diagram.navigator.Neuro4jAbstractNavigatorItem"/>
+         </propertySection>       
+      </propertySections>
+   </extension>
+
+ -->  
+
+   
+   	   <extension point="org.eclipse.core.expressions.propertyTesters" id="navigator-proptest.isURIEditorInput">
+      <?gmfgen generated="true"?>
+       <propertyTester
+           id="org.neuro4j.studio.core.diagram.URIEditorInputPropertyTester"
+           type="org.eclipse.emf.common.ui.URIEditorInput"
+           namespace="org.neuro4j.studio.core.diagram"
+           properties="isURIEditorInput"
+           class="org.neuro4j.studio.core.diagram.part.Neuro4jUriEditorInputTester">
+       </propertyTester>
+   </extension>
+
+	   <extension point="org.eclipse.ui.navigator.viewer" id="navigator-viewbinding">
+      <?gmfgen generated="true"?>
+      <viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <contentExtension pattern="org.neuro4j.studio.core.diagram.resourceContent"/>
+			<contentExtension pattern="org.neuro4j.studio.core.diagram.domainResourceContent"/>
+            <contentExtension pattern="org.neuro4j.studio.core.diagram.navigatorLinkHelper"/>
+         </includes>
+      </viewerContentBinding>
+      <viewerActionBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <actionExtension pattern="org.neuro4j.studio.core.diagram.navigatorActionProvider"/>
+         </includes>
+      </viewerActionBinding>
+   </extension>
+
+   <extension point="org.eclipse.ui.navigator.navigatorContent" id="navigator-content">
+      <?gmfgen generated="true"?>
+      <navigatorContent
+            id="org.neuro4j.studio.core.diagram.resourceContent" 
+            name="%navigatorContentName" 
+            priority="normal" 
+            contentProvider="org.neuro4j.studio.core.diagram.navigator.Neuro4jNavigatorContentProvider" 
+            labelProvider="org.neuro4j.studio.core.diagram.navigator.Neuro4jNavigatorLabelProvider"
+            icon="icons/obj16/Neuro4jDiagramFile.png"
+            activeByDefault="true">
+         <triggerPoints>
+            <or>
+	           <and>
+    	          <instanceof value="org.eclipse.core.resources.IFile"/>
+        	      <test property="org.eclipse.core.resources.extension" value="neuro4j_diagram"/>
+               </and>
+               <instanceof value="org.neuro4j.studio.core.diagram.navigator.Neuro4jAbstractNavigatorItem"/>
+            </or>
+         </triggerPoints>
+         <possibleChildren>
+            <or>
+         	   <instanceof value="org.neuro4j.studio.core.diagram.navigator.Neuro4jAbstractNavigatorItem"/>
+            </or>
+         </possibleChildren>
+         <commonSorter 
+               id="org.neuro4j.studio.core.diagram.navigatorSorter" 
+               class="org.neuro4j.studio.core.diagram.navigator.Neuro4jNavigatorSorter">
+            <parentExpression>
+               <or>
+	              <and>
+    	             <instanceof value="org.eclipse.core.resources.IFile"/>
+        	         <test property="org.eclipse.core.resources.extension" value="neuro4j_diagram"/>
+                  </and>
+                  <instanceof value="org.neuro4j.studio.core.diagram.navigator.Neuro4jAbstractNavigatorItem"/>
+               </or>
+            </parentExpression>
+         </commonSorter>
+      </navigatorContent>
+      <navigatorContent
+            id="org.neuro4j.studio.core.diagram.domainResourceContent" 
+            name="%domainNavigatorContentName" 
+            priority="normal" 
+            contentProvider="org.neuro4j.studio.core.diagram.navigator.Neuro4jDomainNavigatorContentProvider" 
+            labelProvider="org.neuro4j.studio.core.diagram.navigator.Neuro4jDomainNavigatorLabelProvider"
+            icon="icons/obj16/Neuro4jDiagramFile.png"
+            activeByDefault="true">
+         <triggerPoints>
+            <or>
+	           <and>
+    	          <instanceof value="org.eclipse.core.resources.IFile"/>
+        	      <test property="org.eclipse.core.resources.extension" value="neuro4j"/>
+               </and>
+               <instanceof value="org.neuro4j.studio.core.diagram.navigator.Neuro4jDomainNavigatorItem"/>
+            </or>
+         </triggerPoints>
+         <possibleChildren>
+            <instanceof value="org.neuro4j.studio.core.diagram.navigator.Neuro4jDomainNavigatorItem"/>
+         </possibleChildren>
+      </navigatorContent>
+      <actionProvider
+            id="org.neuro4j.studio.core.diagram.navigatorActionProvider"
+            class="org.neuro4j.studio.core.diagram.navigator.Neuro4jNavigatorActionProvider">
+         <enablement>
+            <or>
+               <instanceof value="org.neuro4j.studio.core.diagram.navigator.Neuro4jAbstractNavigatorItem"/>
+            </or>
+         </enablement>
+      </actionProvider>
+   </extension>
+   
+	   <extension point="org.eclipse.ui.navigator.linkHelper" id="navigator-linkhelper">
+      <?gmfgen generated="true"?>
+      <linkHelper
+            id="org.neuro4j.studio.core.diagram.navigatorLinkHelper"
+            class="org.neuro4j.studio.core.diagram.navigator.Neuro4jNavigatorLinkHelper">
+         <editorInputEnablement>
+            <and>
+               <instanceof value="org.eclipse.emf.common.ui.URIEditorInput"/>
+               <test property="org.neuro4j.studio.core.diagram.isURIEditorInput"/>
+            </and>
+         </editorInputEnablement>
+         <selectionEnablement>
+            <instanceof value="org.neuro4j.studio.core.diagram.navigator.Neuro4jAbstractNavigatorItem"/>
+         </selectionEnablement>
+      </linkHelper>
+   </extension>
+      
+   
+   
+   
+   
+
+
+<extension point="org.eclipse.ui.newWizards" id="creation-wizard">
+      <?gmfgen generated="false"?>
+      <category
+            id="org.neuro4j.swf.Wizard.category.ID"
+            name="%_UI_NEURO4J_Wizard_category"/>
+  	  <wizard
+  	     name="%newWizardName"
+  	     icon="icons/obj16/Neuro4jDiagramFile.png"
+  	     category="org.neuro4j.swf.Wizard.category.ID"
+  	     class="org.neuro4j.studio.core.diagram.part.Neuro4jCreationWizard"
+  	     id="org.neuro4j.studio.core.diagram.part.Neuro4jCreationWizardID">
+  	  	 <description>%newWizardDesc</description>  
+      </wizard>
+     <wizard
+           canFinishEarly="true"
+           category="org.neuro4j.swf.Wizard.category.ID"
+           class="org.neuro4j.studio.core.diagram.wizards.customblock.CustomBlockNewWizard"
+           finalPerspective="org.neuro4j.studio.flowPerspective"
+           icon="icons/newCustomBlock.png"
+           id="org.neuro4j.studio.core.diagram.wizards.customblock.CustomBlockNewWizardID"
+           name="New Custom Block Wizard">
+     </wizard>
+      <wizard
+            name="%web.neuro4jproject_ui_"
+            icon="icons/obj16/web_wiz.gif"
+            category="org.neuro4j.swf.Wizard.category.ID"
+            project="true"
+            finalPerspective="org.neuro4j.studio.flowPerspective"
+            id="org.neuro4j.studio.core.diagram.wizards.webproject.NewWebFlowProjectWizard">
+         <class class="org.neuro4j.studio.core.diagram.wizards.webproject.NewWebFlowProjectWizard">
+            <parameter name="javaeeproject" value="true"/>
+            <parameter name="menuIndex" value="4" />
+         </class>
+         <description>
+            %new.web.project.description_ui_
+         </description>
+         <selection
+               class="org.eclipse.core.resources.IResource" />
+      </wizard>
+     
+   </extension>
+<!--
+<extension point="org.eclipse.ui.popupMenus" id="init-diagram-action">
+      <?gmfgen generated="false"?>
+      <objectContribution
+            id="org.neuro4j.studio.core.diagram.InitDiagram"
+            nameFilter="*.n4j"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               label="%initDiagramActionLabel"
+               class="org.neuro4j.studio.core.diagram.part.Neuro4jInitDiagramFileAction"
+               menubarPath="additions"
+               enablesFor="1"
+               id="org.neuro4j.studio.core.diagram.InitDiagramAction">
+         </action>
+      </objectContribution>
+   </extension>
+-->
+<extension point="org.eclipse.ui.commands">
+	<category name="OpenCommands" description="Open implementations." id="org.neuro4j.studio.core.diagram.nodes"/>
+	<command categoryId="org.neuro4j.studio.core.diagram.nodes" description="Open Implementaion" id="org.neuro4j.studio.core.diagram.nodes.openCallNode" name="Open Flow">
+	</command>
+	<command categoryId="org.neuro4j.studio.core.diagram.nodes" description="Open Implementaion" id="org.neuro4j.studio.core.diagram.nodes.openLogicNode" name="Open Custom Block Implementation">
+	</command>
+	<command categoryId="org.neuro4j.studio.core.diagram.nodes" description="Open Implementaion" id="org.neuro4j.studio.core.diagram.nodes.openViewNode" name="Open View Template">
+	</command>
+</extension>
+<extension point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.neuro4j.studio.core.diagram.edit.parts.CallNodeEditPart1"
+            objectClass="org.neuro4j.studio.core.diagram.edit.parts.CallNodeEditPart">
+         <menu 
+            id="CallNodeOpen" 
+            label="&amp;Open" 
+            path="additions"> 
+            <separator name="group1"/>
+         </menu>
+         <action
+               class="org.neuro4j.studio.core.diagram.edit.parts.actions.OpenCallNodeAction"
+               definitionId="org.neuro4j.studio.core.diagram.nodes.openCallNode"
+               enablesFor="1"
+               id="org.neuro4j.studio.core.diagram.edit.parts.actions.CallNodeOpenAction1"
+               label="&amp;Open Implementation"
+               menubarPath="OpenCallNode">
+         </action>
+      </objectContribution>    
+      <objectContribution
+            adaptable="false"
+            id="org.neuro4j.studio.core.diagram.edit.parts.ViewNodeEditPart1"
+            objectClass="org.neuro4j.studio.core.diagram.edit.parts.ViewNodeEditPart">
+         <menu 
+            id="ViewNodeOpen" 
+            label="&amp;Open" 
+            path="additions"> 
+            <separator name="group1"/>
+         </menu>
+         <action
+               class="org.neuro4j.studio.core.diagram.edit.parts.actions.OpenViewNodeAction"
+               definitionId="org.neuro4j.studio.core.diagram.nodes.openViewNode"
+               enablesFor="1"
+               id="org.neuro4j.studio.core.diagram.edit.parts.actions.OpenViewNodeAction1"
+               label="&amp;Open Implementation"
+               menubarPath="OpenViewNode">
+         </action>
+      </objectContribution> 
+      <objectContribution
+            adaptable="false"
+            id="org.neuro4j.studio.core.diagram.edit.parts.LogicNodeEditPart1"
+            objectClass="org.neuro4j.studio.core.diagram.edit.parts.LogicNodeEditPart">
+         <menu 
+            id="LogicNodeOpen" 
+            label="&amp;Open" 
+            path="additions"> 
+            <separator name="group1"/>
+         </menu>
+         <action
+               class="org.neuro4j.studio.core.diagram.edit.parts.actions.OpenCustomBlockAction"
+               definitionId="org.neuro4j.studio.core.diagram.nodes.openLogicNode"
+               enablesFor="1"
+               id="org.neuro4j.studio.core.diagram.edit.parts.actions.OpenCustomBlockAction1"
+               label="&amp;Open Implementation"
+               menubarPath="OpenLogicNode">
+         </action>
+      </objectContribution>                    
+</extension>
+<extension point="org.eclipse.core.runtime.preferences" id="prefs">
+      <?gmfgen generated="true"?>
+      <initializer class="org.neuro4j.studio.core.diagram.preferences.DiagramPreferenceInitializer"/>
+   </extension>
+<!--
+<extension point="org.eclipse.ui.preferencePages" id="prefpages">
+      <?gmfgen generated="true"?>
+      <page
+            id="org.neuro4j.studio.core.diagram.general"
+            name="%prefpage.org.neuro4j.studio.core.diagram.general"
+            class="org.neuro4j.studio.core.diagram.preferences.DiagramGeneralPreferencePage">
+      </page>
+      <page
+            id="org.neuro4j.studio.core.diagram.appearance"
+            name="%prefpage.org.neuro4j.studio.core.diagram.appearance"
+            category="org.neuro4j.studio.core.diagram.general"
+            class="org.neuro4j.studio.core.diagram.preferences.DiagramAppearancePreferencePage">
+      </page>
+      <page
+            id="org.neuro4j.studio.core.diagram.connections"
+            name="%prefpage.org.neuro4j.studio.core.diagram.connections"
+            category="org.neuro4j.studio.core.diagram.general"
+            class="org.neuro4j.studio.core.diagram.preferences.DiagramConnectionsPreferencePage">
+      </page>
+      <page
+            id="org.neuro4j.studio.core.diagram.printing"
+            name="%prefpage.org.neuro4j.studio.core.diagram.printing"
+            category="org.neuro4j.studio.core.diagram.general"
+            class="org.neuro4j.studio.core.diagram.preferences.DiagramPrintingPreferencePage">
+      </page>
+      <page
+            id="org.neuro4j.studio.core.diagram.rulersAndGrid"
+            name="%prefpage.org.neuro4j.studio.core.diagram.rulersAndGrid"
+            category="org.neuro4j.studio.core.diagram.general"
+            class="org.neuro4j.studio.core.diagram.preferences.DiagramRulersAndGridPreferencePage">
+      </page>
+   </extension>
+-->
+
+<extension point="org.eclipse.emf.ecore.extension_parser" id="resource-factory">
+      <?gmfgen generated="true"?>
+      <parser
+         type="neuro4j_diagram"
+         class="org.eclipse.gmf.runtime.emf.core.resources.GMFResourceFactory">
+      </parser>
+   </extension>
+
+<extension point="org.eclipse.ui.contexts" id="ui-context">
+      <?gmfgen generated="true"?>
+      <context
+         description="%context.description"
+         id="org.neuro4j.studio.core.diagram.ui.diagramContext"
+         name="%context.name"
+         parentId="org.eclipse.gmf.runtime.diagram.ui.diagramContext">
+      </context>
+   </extension>
+
+<extension point="org.eclipse.gmf.runtime.common.ui.services.action.globalActionHandlerProviders" id="global-actions">
+      <?gmfgen generated="true"?>
+      <GlobalActionHandlerProvider
+         class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramGlobalActionHandlerProvider"
+         id="Neuro4jPresentation">
+         <Priority name="Lowest"/>
+         <ViewId id="org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorID">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="delete"/>
+            </ElementType>
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart">
+               <GlobalActionId actionId="save"/>
+            </ElementType>
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="save">
+               </GlobalActionId>
+            </ElementType>        
+         </ViewId>
+      </GlobalActionHandlerProvider>
+      <GlobalActionHandlerProvider
+         class="org.eclipse.gmf.runtime.diagram.ui.providers.ide.providers.DiagramIDEGlobalActionHandlerProvider"
+         id="Neuro4jPresentationIDE">
+         <Priority name="Lowest"/>
+         <ViewId id="org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorID">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="bookmark"/>
+            </ElementType>
+         </ViewId>
+      </GlobalActionHandlerProvider>
+      <GlobalActionHandlerProvider
+            class="org.eclipse.gmf.runtime.diagram.ui.render.providers.DiagramUIRenderGlobalActionHandlerProvider"
+            id="Neuro4jRender">
+         <Priority name="Lowest"/>
+         <ViewId id="org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorID">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="cut"/>
+               <GlobalActionId actionId="copy"/>
+               <GlobalActionId actionId="paste"/>
+            </ElementType>
+         </ViewId>
+      </GlobalActionHandlerProvider>
+   </extension>
+
+<extension point="org.eclipse.gmf.runtime.diagram.core.viewProviders" id="view-provider">
+      <?gmfgen generated="true"?>
+      <viewProvider class="org.neuro4j.studio.core.diagram.providers.Neuro4jViewProvider">
+         <Priority name="Lowest"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="Neuro4j"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2007,2011,2006,2008,2005,2010,2016,2017,2013,2002,2004,2018,3005,3001,3002,3006,3007,3003,3004,3008,3010,3011,3012,3013"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="4009,4008"/>
+      </viewProvider>
+   </extension>
+
+<extension point="org.eclipse.gmf.runtime.diagram.ui.editpartProviders" id="ep-provider">
+      <?gmfgen generated="true"?>
+      <editpartProvider class="org.neuro4j.studio.core.diagram.providers.Neuro4jEditPartProvider">
+         <Priority name="High"/>
+         <object class="org.eclipse.gmf.runtime.notation.Diagram" id="generated-diagram">
+            <method name="getType()" value="Neuro4j"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
+            <method name="getType()" value="2007,2011,2006,2008,2005,2010,2016,2017,2013,2002,2004,2018,3005,3001,3002,3006,3007,3003,3004,3008,3010,3011,3012,3013"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
+            <method name="getType()" value="4009,4008"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-labels">
+            <method name="getType()" value="5008,5001,5006,5007,5002,5005,5003,5004"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-compartments">
+            <method name="getType()" value="7006,7007,7008,7004,7005,7009,7010,7012,7013,7014,7002,7001"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.View" id="ShapesByType">
+            <method name="getType()" value="Note">
+            </method>
+         </object>
+ 
+         <context views="generated-diagram,generated-nodes,generated-links,generated-labels,generated-compartments"/>
+      </editpartProvider>
+   </extension>
+
+<extension point="org.eclipse.gmf.runtime.emf.ui.modelingAssistantProviders" id="modelassist-provider">
+      <?gmfgen generated="true"?>
+      <modelingAssistantProvider class="org.neuro4j.studio.core.diagram.providers.Neuro4jModelingAssistantProvider">
+         <Priority name="Lowest"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.NetworkEditPart" id="Network_1000"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.DecisionNodeEditPart" id="DecisionNode_2007"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.FollowByRelationNodeEditPart" id="FollowByRelationNode_2011"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.LoopNodeEditPart" id="LoopNode_2006"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.CallNodeEditPart" id="CallNode_2008"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.EndNodeEditPart" id="EndNode_2005"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.MapperNodeEditPart" id="MapperNode_2010"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.OperatorOutputEditPart" id="OperatorOutput_2016"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.LogicNodeEditPart" id="LogicNode_2017"/>        
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.JoinNodeEditPart" id="JoinNode_2002"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.StartNodeEditPart" id="StartNode_2004"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.ViewNodeEditPart" id="ViewNode_2018"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.StandardNodeEditPart" id="StandardNode_2019"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.StandardNodeRelationEditPart" id="StandardNodeRelation_2020"/>
+         
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.OperatorOutput2EditPart" id="OperatorOutput_3001"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.OperatorOutput3EditPart" id="OperatorOutput_3002"/>
+
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.OperatorOutput4EditPart" id="OperatorOutput_3003"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.OperatorOutput5EditPart" id="OperatorOutput_3004"/>
+
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.OperatorOutput6EditPart" id="OperatorOutput_3010"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.OperatorOutput7EditPart" id="OperatorOutput_3011"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.OperatorOutput8EditPart" id="OperatorOutput_3012"/>
+         <object class="org.neuro4j.studio.core.diagram.edit.parts.OperatorOutput9EditPart" id="OperatorOutput_3013"/>
+         <context elements="Network_1000,DecisionNode_2007,FollowByRelationNode_2011,LoopNode_2006,CallNode_2008,EndNode_2005,MapperNode_2010,OperatorOutput_2016,LogicNode_2017,JoinNode_2002,StartNode_2004,ViewNode_2018,StandardNode_2019,StandardNodeRelation_2020,OperatorOutput_3001,OperatorOutput_3002,OperatorOutput_3003,OperatorOutput_3004,OperatorOutput_3010,OperatorOutput_3011,OperatorOutput_3012,OperatorOutput_3013"/>
+      </modelingAssistantProvider>
+   </extension>
+
+<extension point="org.eclipse.gmf.runtime.common.ui.services.iconProviders" id="icon-provider">
+      <?gmfgen generated="true"?>
+      <IconProvider class="org.neuro4j.studio.core.diagram.providers.Neuro4jIconProvider">
+         <Priority name="Low"/>
+      </IconProvider>
+   </extension>
+
+
+<extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypes" id="element-types">
+      <?gmfgen generated="true"?>
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <metamodelType
+               id="org.neuro4j.studio.core.diagram.Network_1000"
+               name="%metatype.name.Network_1000"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="Network"
+               edithelper="org.neuro4j.studio.core.diagram.edit.helpers.NetworkEditHelper">
+            <param name="semanticHint" value="1000"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <metamodelType
+               id="org.neuro4j.studio.core.diagram.DecisionNode_2007"
+               name="%metatype.name.DecisionNode_2007"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="DecisionNode"
+               edithelper="org.neuro4j.studio.core.diagram.edit.helpers.DecisionNodeEditHelper">
+            <param name="semanticHint" value="2007"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <metamodelType
+               id="org.neuro4j.studio.core.diagram.FollowByRelationNode_2011"
+               name="%metatype.name.FollowByRelationNode_2011"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="FollowByRelationNode"
+               edithelper="org.neuro4j.studio.core.diagram.edit.helpers.FollowByRelationNodeEditHelper">
+            <param name="semanticHint" value="2011"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <metamodelType
+               id="org.neuro4j.studio.core.diagram.LoopNode_2006"
+               name="%metatype.name.LoopNode_2006"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="LoopNode"
+               edithelper="org.neuro4j.studio.core.diagram.edit.helpers.LoopNodeEditHelper">
+            <param name="semanticHint" value="2006"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <metamodelType
+               id="org.neuro4j.studio.core.diagram.CallNode_2008"
+               name="%metatype.name.CallNode_2008"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="CallNode"
+               edithelper="org.neuro4j.studio.core.diagram.edit.helpers.CallNodeEditHelper">
+            <param name="semanticHint" value="2008"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <metamodelType
+               id="org.neuro4j.studio.core.diagram.NoteNode"
+               name="%metatype.name.NoteNode"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="NoteNode"
+               edithelper="org.neuro4j.studio.core.diagram.edit.helpers.CallNodeEditHelper">
+            <param name="semanticHint" value="2008"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <metamodelType
+               id="org.neuro4j.studio.core.diagram.EndNode_2005"
+               name="%metatype.name.EndNode_2005"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="EndNode"
+               edithelper="org.neuro4j.studio.core.diagram.edit.helpers.EndNodeEditHelper">
+            <param name="semanticHint" value="2005"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <metamodelType
+               id="org.neuro4j.studio.core.diagram.MapperNode_2010"
+               name="%metatype.name.MapperNode_2010"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="MapperNode"
+               edithelper="org.neuro4j.studio.core.diagram.edit.helpers.MapperNodeEditHelper">
+            <param name="semanticHint" value="2010"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <metamodelType
+               id="org.neuro4j.studio.core.diagram.LogicNode_2017"
+               name="%metatype.name.LogicNode_2017"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="LogicNode"
+               edithelper="org.neuro4j.studio.core.diagram.edit.helpers.LogicNodeEditHelper">
+            <param name="semanticHint" value="2017"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <metamodelType
+               id="org.neuro4j.studio.core.diagram.JoinNode_2002"
+               name="%metatype.name.JoinNode_2002"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="JoinNode"
+               edithelper="org.neuro4j.studio.core.diagram.edit.helpers.JoinNodeEditHelper">
+            <param name="semanticHint" value="2002"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <metamodelType
+               id="org.neuro4j.studio.core.diagram.StandardNode_2019"
+               name="%metatype.name.StandardNode_2019"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="JoinNode"
+               edithelper="org.neuro4j.studio.core.diagram.edit.helpers.JoinNodeEditHelper">
+            <param name="semanticHint" value="2019"/>
+         </metamodelType>
+      </metamodel>  
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <metamodelType
+               id="org.neuro4j.studio.core.diagram.StandardNodeRelation_2020"
+               name="%metatype.name.StandardNodeRelation_2020"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="JoinNode"
+               edithelper="org.neuro4j.studio.core.diagram.edit.helpers.JoinNodeEditHelper">
+            <param name="semanticHint" value="2020"/>
+         </metamodelType>
+      </metamodel>             
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <metamodelType
+               id="org.neuro4j.studio.core.diagram.StartNode_2004"
+               name="%metatype.name.StartNode_2004"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="StartNode"
+               edithelper="org.neuro4j.studio.core.diagram.edit.helpers.StartNodeEditHelper">
+            <param name="semanticHint" value="2004"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <metamodelType
+               id="org.neuro4j.studio.core.diagram.ViewNode_2018"
+               name="%metatype.name.ViewNode_2018"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="ViewNode"
+               edithelper="org.neuro4j.studio.core.diagram.edit.helpers.ViewNodeEditHelper">
+            <param name="semanticHint" value="2018"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <metamodelType
+               id="org.neuro4j.studio.core.diagram.OperatorOutput_3001"
+               name="%metatype.name.OperatorOutput_3001"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="OperatorOutput"
+               edithelper="org.neuro4j.studio.core.diagram.edit.helpers.OperatorOutputEditHelper">
+            <param name="semanticHint" value="3001"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <specializationType
+               id="org.neuro4j.studio.core.diagram.OperatorOutput_3002"
+               name="%metatype.name.OperatorOutput_3002"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.neuro4j.studio.core.diagram.OperatorOutput_3001"/>
+            <param name="semanticHint" value="3002"/>
+         </specializationType>
+      </metamodel>
+
+
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <specializationType
+               id="org.neuro4j.studio.core.diagram.OperatorOutput_3003"
+               name="%metatype.name.OperatorOutput_3003"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.neuro4j.studio.core.diagram.OperatorOutput_3001"/>
+            <param name="semanticHint" value="3003"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <specializationType
+               id="org.neuro4j.studio.core.diagram.OperatorOutput_3004"
+               name="%metatype.name.OperatorOutput_3004"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.neuro4j.studio.core.diagram.OperatorOutput_3001"/>
+            <param name="semanticHint" value="3004"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <specializationType
+               id="org.neuro4j.studio.core.diagram.OperatorOutput_3010"
+               name="%metatype.name.OperatorOutput_3010"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.neuro4j.studio.core.diagram.OperatorOutput_3001"/>
+            <param name="semanticHint" value="3010"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <specializationType
+               id="org.neuro4j.studio.core.diagram.OperatorOutput_3011"
+               name="%metatype.name.OperatorOutput_3011"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.neuro4j.studio.core.diagram.OperatorOutput_3001"/>
+            <param name="semanticHint" value="3011"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <specializationType
+               id="org.neuro4j.studio.core.diagram.OperatorOutput_3012"
+               name="%metatype.name.OperatorOutput_3012"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.neuro4j.studio.core.diagram.OperatorOutput_3001"/>
+            <param name="semanticHint" value="3012"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <specializationType
+               id="org.neuro4j.studio.core.diagram.OperatorOutput_3013"
+               name="%metatype.name.OperatorOutput_3013"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.neuro4j.studio.core.diagram.OperatorOutput_3001"/>
+            <param name="semanticHint" value="3013"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="http://www.neuro4j.org/neuro2">
+         <specializationType
+               id="org.neuro4j.studio.core.diagram.OperatorOutput_4008"
+               name="%metatype.name.OperatorOutput_4008"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.neuro4j.studio.core.diagram.OperatorOutput_3001"/>
+            <param name="semanticHint" value="4008"/>
+         </specializationType>
+      </metamodel>
+   </extension>
+
+<extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypeBindings" id="element-types-bindings">
+      <?gmfgen generated="true"?>
+      <clientContext id="org.neuro4j.studio.core.diagram.TypeContext">
+         <enablement>
+            <test
+               property="org.eclipse.gmf.runtime.emf.core.editingDomain"
+               value="org.neuro4j.studio.core.diagram.EditingDomain"/>
+         </enablement>
+      </clientContext> 
+      <binding context="org.neuro4j.studio.core.diagram.TypeContext">
+         <elementType ref="org.neuro4j.studio.core.diagram.Network_1000"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.DecisionNode_2007"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.FollowByRelationNode_2011"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.LoopNode_2006"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.CallNode_2008"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.EndNode_2005"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.MapperNode_2010"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.OperatorOutput_2016"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.LogicNode_2017"/>
+
+         <elementType ref="org.neuro4j.studio.core.diagram.JoinNode_2002"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.StartNode_2004"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.ViewNode_2018"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.StandardNode_2019"/>
+         
+         <elementType ref="org.neuro4j.studio.core.diagram.OperatorOutput_3001"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.OperatorOutput_3002"/>
+
+    
+         <elementType ref="org.neuro4j.studio.core.diagram.OperatorOutput_3003"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.OperatorOutput_3004"/>
+
+         <elementType ref="org.neuro4j.studio.core.diagram.OperatorOutput_3010"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.OperatorOutput_3011"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.OperatorOutput_3012"/>
+         <elementType ref="org.neuro4j.studio.core.diagram.OperatorOutput_3013"/>
+
+         <elementType ref="org.neuro4j.studio.core.diagram.OperatorOutput_4008"/>
+         <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>
+      </binding>
+   </extension>
+
+<extension point="org.eclipse.ui.commands" id="update-cmd">
+      <?gmfgen generated="true"?>
+      <command
+         categoryId="org.eclipse.ui.category.edit"
+         defaultHandler="org.neuro4j.studio.core.diagram.part.Neuro4jDiagramUpdateCommand"
+         description="%update.diagram.description"
+         id="org.neuro4j.studio.core.diagram.updateDiagram"
+         name="%update.diagram.name"/>
+   </extension>
+
+<extension point="org.eclipse.ui.bindings" id="update-cmd-binding">
+      <?gmfgen generated="true"?>
+      <key 
+         commandId="org.neuro4j.studio.core.diagram.updateDiagram"
+         contextId="org.neuro4j.studio.core.diagram.ui.diagramContext"
+         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+         sequence="F5"/>
+   </extension>
+
+
+<extension point="org.eclipse.ui.handlers" id="menu-handlers">
+      <?gmfgen generated="true"?>
+   </extension>
+<extension point="org.eclipse.gmf.runtime.common.ui.services.parserProviders" id="parser-provider">
+      <?gmfgen generated="true"?>
+      <ParserProvider class="org.neuro4j.studio.core.diagram.providers.Neuro4jParserProvider">
+         <Priority name="Lowest"/>
+      </ParserProvider>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.neuro4j.studio.core.perspective.FlowPerspectiveFactory"
+            icon="icons/editor.png"
+            id="org.neuro4j.studio.flowPerspective"
+            name="%flow.perspectiveName"/>
+   </extension>
+<extension point="org.eclipse.ui.preferencePages" id="prefpages">
+      <?gmfgen generated="true"?>
+      <page
+            id="org.neuro4j.studio.core.diagram.general"
+            name="%prefpage.org.neuro4j.studio.core.diagram.general"
+            class="org.neuro4j.studio.core.diagram.preferences.DiagramGeneralPreferencePage">
+      </page>
+      <page
+            id="org.neuro4j.studio.core.diagram.appearance"
+            name="%prefpage.org.neuro4j.studio.core.diagram.appearance"
+            category="org.neuro4j.studio.core.diagram.general"
+            class="org.neuro4j.studio.core.diagram.preferences.DiagramAppearancePreferencePage">
+      </page>
+      <page
+            id="org.neuro4j.studio.core.diagram.connections"
+            name="%prefpage.org.neuro4j.studio.core.diagram.connections"
+            category="org.neuro4j.studio.core.diagram.general"
+            class="org.neuro4j.studio.core.diagram.preferences.DiagramConnectionsPreferencePage">
+      </page>
+      <page
+            id="org.neuro4j.studio.core.diagram.printing"
+            name="%prefpage.org.neuro4j.studio.core.diagram.printing"
+            category="org.neuro4j.studio.core.diagram.general"
+            class="org.neuro4j.studio.core.diagram.preferences.DiagramPrintingPreferencePage">
+      </page>
+      <page
+            id="org.neuro4j.studio.core.diagram.rulersAndGrid"
+            name="%prefpage.org.neuro4j.studio.core.diagram.rulersAndGrid"
+            category="org.neuro4j.studio.core.diagram.general"
+            class="org.neuro4j.studio.core.diagram.preferences.DiagramRulersAndGridPreferencePage">
+      </page>
+   </extension>
+
+
+   <!-- optionally, specify keybindings -->
+</plugin>

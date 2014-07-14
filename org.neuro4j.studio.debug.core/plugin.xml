@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.neuro4j.studio.debug.core"
+   name="org.neuro4j.studio.debug.core"
+   version="1.0.0"
+   class="org.neuro4j.studio.debug.core.DebugExamplesPlugin">
+
+   <requires>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.core.variables"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.runtime.compatibility"/>
+   </requires>
+
+
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            sourceLocatorId="org.neuro4j.studio.debug.core.sourceLookupDirector.pda"
+            name="Remote Neuro4j Flows"
+            sourcePathComputerId="org.neuro4j.studio.debug.core.sourcePathComputer.pda"
+            delegate="org.neuro4j.studio.debug.core.launching.FlowLaunchDelegate"
+            modes="debug"
+            id="org.neuro4j.studio.debug.core.launchConfigurationType.pda">
+      </launchConfigurationType>
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.sourceLocators">
+      <sourceLocator
+            name="Neuro4j Flow Source Lookup Director"
+            class="org.neuro4j.studio.debug.core.launching.FlowSourceLookupDirector"
+            id="org.neuro4j.studio.debug.core.sourceLookupDirector.pda">
+      </sourceLocator>
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.sourcePathComputers">
+      <sourcePathComputer
+            class="org.neuro4j.studio.debug.core.launching.FlowSourcePathComputerDelegate"
+            id="org.neuro4j.studio.debug.core.sourcePathComputer.pda">
+      </sourcePathComputer>
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.breakpoints">
+      <breakpoint
+            markerType="org.neuro4j.studio.debug.core.flowLineBreakpointMarker"
+            class="org.neuro4j.studio.debug.core.model.FlowLineBreakpoint"
+            id="flowLineBreakpoint">
+      </breakpoint>
+   </extension>
+   
+   <extension
+         id="flowLineBreakpointMarker"
+         name="%JavaLineBreakpoint.name"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.jdt.debug.javaLineBreakpointMarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+
+</plugin>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+   
+     <extension
+      point="org.eclipse.jdt.core.classpathContainerInitializer">
+      <classpathContainerInitializer
+            class="org.neuro4j.studio.core.buildpath.Neuro4jContainerInitializer"
+            id="org.neuro4j.studio.core.NEURO4J_CONTAINER">
+      </classpathContainerInitializer>
+   </extension>
+   <extension
+         point="org.eclipse.jdt.ui.classpathContainerPage">
+      <classpathContainerPage
+            name="%Neuro4jContainerName"
+            class="org.neuro4j.studio.core.buildpath.Neuro4jContainerWizardPage"
+            id="org.neuro4j.studio.core.NEURO4J_CONTAINER">
+      </classpathContainerPage>
+   </extension>
+
+    
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.neuro4j.org/neuro2"
+            class="org.neuro4j.studio.neuro4j.Neuro4jPackage"
+            genModel="model/neuro4j.genmodel"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.markerResolution">
+      <markerResolutionGenerator 
+            markerType="org.eclipse.jdt.core.buildpath_problem"
+            class="org.neuro4j.studio.core.buildpath.ClasspathVariableMarkerResolutionGenerator"
+            >
+            <attribute
+                  name="id"
+                  value="1010">
+            </attribute>
+      </markerResolutionGenerator>
+   </extension>
+ 
+
+</plugin>

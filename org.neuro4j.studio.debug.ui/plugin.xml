@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="Neuro4j Flow Debug"
+            icon="icons/sample.gif"
+            class="org.neuro4j.studio.debug.ui.model.FlowDebugPerspectiveFactory"
+            id="org.neuro4j.studio.debug.ui.model.DebugPerspective">
+         <description>
+               Flow debug Perspective
+         </description>
+      </perspective>
+   </extension>
+
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            type="org.neuro4j.studio.debug.core.launchConfigurationType.pda"
+            description="Debug remote Neuro4j Flow"
+            class="org.neuro4j.studio.debug.ui.launching.DebugConfigTabGroup"
+            id="org.neuro4j.studio.debug.ui.launchConfigurationTabGroup.pda">
+                        <launchMode 
+                  mode="debug"
+                  perspective="org.neuro4j.studio.debug.ui.model.DebugPerspective"
+                  description="Flow debug description">
+            </launchMode>
+      </launchConfigurationTabGroup>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.debugModelPresentations">
+      <debugModelPresentation
+            class="org.neuro4j.studio.debug.ui.model.FlowModelPresentation"
+            id="org.neuro4j.studio.debug.ui.pda">
+      </debugModelPresentation>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            class="org.neuro4j.studio.debug.ui.model.PDABreakpointAdapterFactory"
+            adaptableType="org.eclipse.ui.texteditor.ITextEditor">
+         <adapter
+               type="org.eclipse.debug.ui.actions.IToggleBreakpointsTarget">
+         </adapter>
+      </factory>
+         <factory
+               adaptableType="org.eclipse.debug.core.ILaunch"
+               class="org.eclipse.debug.internal.ui.contexts.SuspendTriggerAdapterFactory">
+            <adapter
+                  type="org.eclipse.debug.ui.contexts.ISuspendTrigger">
+            </adapter>
+         </factory>      
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            name="Context View"
+            icon="icons/sample.gif"
+            category="org.eclipse.debug.ui"
+            class="org.neuro4j.studio.debug.ui.views.DataStackView"
+            id="org.neuro4j.studio.debug.ui.DataStackView">
+      </view>
+      <view
+            name="Flow Stack View"
+            icon="icons/sample.gif"
+            category="org.eclipse.debug.ui"
+            class="org.neuro4j.studio.debug.ui.views.FlowLaunchView"
+            id="org.neuro4j.studio.debug.ui.DebugView">
+      </view>
+       <view
+            name="Flow Breakpoints"
+            icon="icons/sample.gif"
+            category="org.eclipse.debug.ui"
+            class="org.neuro4j.studio.debug.ui.views.breakpoints.FlowBreakpointsView"
+            allowMultiple="true"
+            id="org.neuro4j.studio.debug.ui.BreakpointView">
+      </view>
+      
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.neuro4j.studio.debug.ui.model.DebugPerspective">
+         <view
+               relative="org.eclipse.debug.ui.VariableView"
+               visible="false"
+               relationship="stack"
+               id="org.neuro4j.studio.debug.ui.DataStackView">
+         </view>
+         <viewShortcut
+               id="org.neuro4j.studio.debug.ui.DataStackView">
+         </viewShortcut>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.contexts">
+      <context
+            name="Debugging Flow"
+            description="Debugging Flow"
+            id="org.neuro4j.studio.debug.ui.debugging"
+            parentId="org.eclipse.debug.ui.debugging">
+      </context>
+     <context
+           name="Debugging Breakpoint"
+           description="Debugging Breakpoint"
+           id="org.neuro4j.studio.debug.ui.debugging.bp"
+           parentId="org.eclipse.ui.contexts.window">
+     </context>
+         
+   </extension>
+   <!--
+    <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            type="org.neuro4j.studio.debug.core.launchConfigurationType.pda"
+            helpContextId="org.eclipse.jdt.debug.ui.launchConfigHelpContext.local_java_application"
+            class="org.eclipse.jdt.internal.debug.ui.launcher.LocalJavaApplicationTabGroup"
+            id="org.neuro4j.studio.debug.core.launchConfigurationTabGroup.localJavaApplication">
+            <launchMode 
+                  mode="debug"
+                  perspective="org.neuro4j.studio.debug.ui.model.DebugPerspective"
+                  description="Flow debug description">
+            </launchMode>
+      </launchConfigurationTabGroup>
+
+   </extension>
+   -->
+   <!--
+   <extension
+         point="org.eclipse.debug.ui.debugModelContextBindings">
+      <modelContextBinding
+            debugModelId="org.neuro4j.studio.debug.ui.pda"
+            contextId="org.neuro4j.studio.debug.ui.debugging">
+      </modelContextBinding>
+   </extension>
+   -->
+   <extension
+         point="org.eclipse.debug.ui.contextViewBindings">
+      <contextViewBinding
+            viewId="org.neuro4j.studio.debug.ui.DataStackView"
+            contextId="org.neuro4j.studio.debug.ui.debugging"
+            autoClose="true"
+            autoOpen="true">
+      </contextViewBinding>
+           <contextViewBinding           
+            viewId="org.neuro4j.studio.debug.ui.DebugView"
+            contextId="org.neuro4j.studio.debug.ui.debugging"
+            autoOpen="true">
+     </contextViewBinding>
+     <contextViewBinding
+           viewId="org.neuro4j.studio.debug.ui.BreakpointView"
+           contextId="org.neuro4j.studio.debug.ui.debugging.bp">
+     </contextViewBinding>
+     <perspective
+           perspectiveId="org.neuro4j.studio.debug.ui.model.DebugPerspective"/>
+     
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+            icon="icons/launch.png"
+            configTypeID="org.neuro4j.studio.debug.core.launchConfigurationType.pda"
+            id="org.neuro4j.studio.debug.ui.launchConfigurationTypeImage">
+      </launchConfigurationTypeImage>
+   </extension>
+
+
+<extension point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.neuro4j.studio.core.diagram.edit.parts.actions.SetBreakpoinAction2"
+            objectClass="org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart">
+         <action
+               class="org.neuro4j.studio.debug.ui.model.SetBreakPoinAction"
+               definitionId="org.neuro4j.studio.core.diagram.nodes.SetBreakPoint"
+               enablesFor="1"
+               id="org.neuro4j.studio.core.diagram.edit.parts.actions.SetBreakpoinAction2"
+               label="&amp;Set Flow Breakpoint"
+               menubarPath="SetBreakpoint">
+         </action>
+      </objectContribution>                     
+</extension>
+<extension point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.neuro4j.studio.core.diagram.edit.parts.actions.RemoveBreakpoinAction2"
+            objectClass="org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart">
+         <action
+               class="org.neuro4j.studio.debug.ui.model.RemoveBreakPointAction"
+               definitionId="org.neuro4j.studio.core.diagram.nodes.SetBreakPoint"
+               enablesFor="1"
+               id="org.neuro4j.studio.core.diagram.edit.parts.actions.RemoveBreakpoinAction2"
+               label="&amp;Remove Flow Breakpoint"
+               menubarPath="RemoveBreakpoint">
+         </action>
+      </objectContribution>                     
+</extension>
+  <extension
+        point="org.eclipse.ui.contexts">
+      <context
+            description="%ActionContext.breakpointsview.description"
+            id="org.neuro4j.studio.debug.ui.BreakpointView"
+            name="%ActionContext.breakpointsview.name"
+            parentId="org.eclipse.ui.contexts.window">
+      </context>     
+</extension>
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+
+        <viewerContribution
+            targetID="org.neuro4j.studio.debug.ui.BreakpointView"
+            id="flow.org.eclipse.debug.ui.breakpointview.popupMenu">
+         <action
+               label="%RemoveAllAction.label"
+               icon="icons/full/elcl16/rem_all_co.gif"
+               helpContextId="remove_all_breakpoints_action_context"
+               class="org.neuro4j.studio.debug.ui.views.breakpoints.RemoveAllBreakpointsAction"
+               menubarPath="breakpointGroup"
+               id="flow.org.eclipse.debug.ui.actions.RemoveAllBreakpoints">
+         </action>
+        <action
+               label="%RemoveAction.label"
+               icon="icons/full/elcl16/rem_co.gif"
+               helpContextId="remove_breakpoint_action_context"
+               class="org.neuro4j.studio.debug.ui.views.breakpoints.RemoveBreakpointAction"
+               menubarPath="breakpointGroup"
+               enablesFor="+"
+               id="flow.org.eclipse.debug.ui.breakpointsView.toolbar.remove">
+        </action>
+
+         
+      </viewerContribution>
+</extension>
+</plugin>

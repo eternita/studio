@@ -1,0 +1,12 @@
+</display-name>
+
+ <servlet>
+    <servlet-name>neuro4j-webflows</servlet-name>
+    <servlet-class>org.neuro4j.web.logic.FlowDispatcherServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>neuro4j-webflows</servlet-name>
+    <url-pattern>/n4j/*</url-pattern>
+  </servlet-mapping>

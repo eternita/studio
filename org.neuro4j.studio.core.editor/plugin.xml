@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+
+<!--
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.neuro4j.studio.core.presentation.Neuro4jEditorID"
+            name="%_UI_Neuro4jEditor_label"
+            icon="icons/full/obj16/Neuro4jModelFile.gif"
+            extensions="n4j"
+            class="org.neuro4j.studio.core.presentation.Neuro4jEditor"
+            contributorClass="org.neuro4j.studio.core.presentation.Neuro4jActionBarContributor">
+      </editor>
+   </extension>
+-->
+</plugin>

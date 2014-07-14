@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Neuro4j Workflow Processor Bundle
+Bundle-SymbolicName: org.neuro4j.studio.workflow
+Bundle-Version: 1.0.1
+Bundle-ClassPath: neuro4j-workflow-core.jar,
+ commons-codec-1.6.jar,
+ commons-logging-1.1.3.jar,
+ fluent-hc-4.2.5.jar,
+ slf4j-api-1.6.1.jar,
+ slf4j-log4j12-1.6.1.jar,
+ log4j-1.2.16.jar,
+ commons-httpclient-3.1.jar,
+ neuro4j-logic-web.jar,
+ commons-collections-3.2.1.jar,
+ commons-beanutils-1.8.3.jar
+Bundle-Vendor: Neuro4j.org
+Export-Package: org.apache.commons.beanutils,
+ org.apache.commons.collections,
+ org.neuro4j.web.logic.render,
+ org.neuro4j.workflow,
+ org.neuro4j.workflow.common,
+ org.neuro4j.workflow.enums,
+ org.neuro4j.workflow.loader,
+ org.neuro4j.workflow.node,
+ org.neuro4j.workflow.xml
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

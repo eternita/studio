@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.neuro4j.studio.ui"
+      label="Neuro4j Flows"
+      version="1.0.1"
+      provider-name="Neuro4j.org"
+      image="eclipse_n4j_update_120.jpg">
+
+   <description url="http://neuro4j.org/projects/java-workflow-engine">
+      Neuro4j Studio - Neuro4j Workflow Project 
+      Copyright (c) 2014 Neuro4j. All rights reserved.
+      For information about the Neuro4j Workflow project  visit http://neuro4j.org/projects/java-workflow-engine
+   </description>
+
+   <copyright url="http://neuro4j.org/copyright">
+      []
+   </copyright>
+
+   <license url="http://neuro4j.org/license">
+      Copyright 2014 Neuro4j.org
+
+   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   </license>
+
+   <url>
+      <discovery label="Neuro4j Workflows" url="http://neuro4j.org/projects/java-workflow-engine"/>
+   </url>
+
+   <plugin
+         id="org.neuro4j.studio.core"
+         download-size="0"
+         install-size="0"
+         version="1.0.1"
+         unpack="false"/>
+
+   <plugin
+         id="org.neuro4j.studio.core.ext"
+         download-size="0"
+         install-size="0"
+         version="1.0.1"
+         unpack="false"/>
+
+   <plugin
+         id="org.neuro4j.studio.core.diagram"
+         download-size="0"
+         install-size="0"
+         version="1.0.1"
+         unpack="false"/>
+
+   <plugin
+         id="org.neuro4j.studio.core.edit"
+         download-size="0"
+         install-size="0"
+         version="1.0.1"
+         unpack="false"/>
+
+   <plugin
+         id="org.neuro4j.studio.core.editor"
+         download-size="0"
+         install-size="0"
+         version="1.0.1"
+         unpack="false"/>
+
+   <plugin
+         id="org.neuro4j.studio.flow"
+         download-size="0"
+         install-size="0"
+         version="1.0.1"
+         unpack="false"/>
+
+   <plugin
+         id="org.neuro4j.studio.properties.ui"
+         download-size="0"
+         install-size="0"
+         version="1.0.1"
+         unpack="false"/>
+
+   <plugin
+         id="org.neuro4j.studio.workflow"
+         download-size="0"
+         install-size="0"
+         version="1.0.1"/>
+
+</feature>

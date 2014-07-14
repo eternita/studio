@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+       <extension point="org.eclipse.core.contenttype.contentTypes">
+		<content-type id="org.neuro4j.studio.contenttype.flow"
+		              base-type="org.eclipse.core.runtime.xml"
+					  name="%contentType.flow.name"
+					  file-extensions="xml,n4j"
+					  priority="high">
+			 <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber">
+				<parameter name="element" value="network"/>
+			</describer>
+		</content-type>
+        
+    </extension>
+    
+<extension
+          point="org.eclipse.emf.ecore.content_parser">
+       <parser
+             class="org.neuro4j.studio.flow.utils.FlowResourceFactoryImpl"
+             contentTypeIdentifier="org.neuro4j.studio.contenttype.flow">
+       </parser>
+    </extension>
+    <extension point="org.eclipse.emf.ecore.extension_parser">
+        <parser type="n4j"
+            class="org.neuro4j.studio.flow.utils.FlowResourceFactoryImpl" />
+    </extension>   
+
+   <extension point="org.eclipse.ui.contexts" id="ui-context">
+      <?gmfgen generated="true"?>
+      <context
+         description="%context.description"
+         id="org.neuro4j.studio.core.diagram.ui.diagramContext"
+         name="%context.name"
+         parentId="org.eclipse.gmf.runtime.diagram.ui.diagramContext">
+      </context>
+   </extension>
+      <extension point="org.eclipse.gmf.runtime.common.ui.services.action.globalActionHandlerProviders" id="global-actions">
+      <?gmfgen generated="true"?>
+      <GlobalActionHandlerProvider
+         class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramGlobalActionHandlerProvider"
+         id="Neuro4jPresentation">
+         <Priority name="Lowest"/>
+         <ViewId id="org.neuro4j.studio.flow.diagram.part.Neuro4jDiagramEditorID">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="delete"/>
+            </ElementType>
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart">
+               <GlobalActionId actionId="save"/>
+            </ElementType>
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="save">
+               </GlobalActionId>
+            </ElementType>        
+         </ViewId>
+      </GlobalActionHandlerProvider>
+      <GlobalActionHandlerProvider
+         class="org.eclipse.gmf.runtime.diagram.ui.providers.ide.providers.DiagramIDEGlobalActionHandlerProvider"
+         id="Neuro4jPresentationIDE">
+         <Priority name="Lowest"/>
+         <ViewId id="org.neuro4j.studio.flow.diagram.part.Neuro4jDiagramEditorID">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="bookmark"/>
+            </ElementType>
+         </ViewId>
+      </GlobalActionHandlerProvider>
+      <GlobalActionHandlerProvider
+            class="org.eclipse.gmf.runtime.diagram.ui.render.providers.DiagramUIRenderGlobalActionHandlerProvider"
+            id="Neuro4jRender">
+         <Priority name="Lowest"/>
+         <ViewId id="org.neuro4j.studio.flow.diagram.part.Neuro4jDiagramEditorID">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="cut"/>
+               <GlobalActionId actionId="copy"/>
+               <GlobalActionId actionId="paste"/>
+            </ElementType>
+         </ViewId>
+      </GlobalActionHandlerProvider>
+   </extension>
+   
+   <extension point="org.eclipse.core.runtime.preferences" id="prefs">
+      <?gmfgen generated="true"?>
+      <initializer class="org.neuro4j.studio.flow.editors.DiagramPreferenceInitializer"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor" id="prop-contrib">
+      <?gmfgen generated="true"?>
+      <propertyContributor
+            contributorId="org.neuro4j.studio.core.diagram"
+            labelProvider="org.neuro4j.studio.core.diagram.sheet.Neuro4jSheetLabelProvider">
+         <propertyCategory category="domain"/>
+         <propertyCategory category="visual"/>
+         <propertyCategory category="extra"/>
+      </propertyContributor>
+   </extension>
+
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs" id="proptabs">
+      <?gmfgen generated="true"?>   
+      <propertyTabs contributorId="org.neuro4j.studio.core.diagram">
+         <propertyTab
+             category="visual"
+             id="property.tab.AppearancePropertySection"
+             label="%tab.appearance"/>
+          <propertyTab
+             category="visual"
+             id="property.tab.DiagramPropertySection"
+             label="%tab.diagram"/>             
+          <propertyTab
+             category="domain"
+             id="property.tab.domain"
+             label="%tab.domain.n4g"/>
+      </propertyTabs>
+   </extension>
+
+<extension point="org.eclipse.ui.menus" id="context-menus">
+      <?gmfgen generated="true"?>
+      <!-- menuContribution locationURI="menu:org.eclipse.ui.main.menu?after=">
+      </menuContribution>
+      <menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar?after=">
+      </menuContribution -->
+      <menuContribution locationURI="popup:org.eclipse.gmf.runtime.diagram.ui.DiagramEditorContextMenu">
+         <command commandId="org.neuro4j.studio.core.diagram.LoadResourceAction">
+            <visibleWhen>
+               <and>
+                  <with variable="activePartId"><equals value="org.neuro4j.studio.flow.diagram.part.Neuro4jDiagramEditorID"/></with>
+                  <with variable="selection"><iterate ifEmpty="false"> 
+                     <instanceof value="org.neuro4j.studio.core.diagram.edit.parts.NetworkEditPart"/>
+                  </iterate></with>
+               </and>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+
+<extension point="org.eclipse.ui.commands" id="menu-commands">
+      <?gmfgen generated="true"?>
+      <category id="org.neuro4j.studio.flow.diagram.part.Neuro4jDiagramEditorID" name="%cmdcategory.name" description="%cmdcategory.desc"/>
+      <command id="org.neuro4j.studio.core.diagram.LoadResourceAction"
+         name="Load Resource"
+         categoryId="org.neuro4j.studio.flow.diagram.part.Neuro4jDiagramEditorID"
+         defaultHandler="org.neuro4j.studio.core.diagram.part.LoadResourceAction"/>
+   </extension>
+   
+      <extension point="org.eclipse.ui.editors" id="gmf-xml-editor">
+      <?gmfgen generated="true"?>
+      <editor
+         id="org.neuro4j.studio.flow.diagram.part.Neuro4jDiagramEditorID"
+         name="Neuro4j Flow Editor"
+         icon="icons/editor.png"
+         extensions="n4j"
+         default="true"
+         class="org.neuro4j.studio.flow.editors.Neuro2PageEditor"
+         matchingStrategy="org.neuro4j.studio.core.diagram.part.Neuro4jMatchingStrategy"
+         contributorClass="org.neuro4j.studio.core.diagram.part.Neuro4jDiagramActionBarContributor">
+      </editor>
+   </extension>
+      <extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor" id="prop-contrib">
+      <?gmfgen generated="true"?>
+      <propertyContributor
+            contributorId="org.neuro4j.studio.core.diagram"
+            labelProvider="org.neuro4j.studio.core.diagram.sheet.Neuro4jSheetLabelProvider">
+         <propertyCategory category="domain"/>
+         <propertyCategory category="visual"/>
+         <propertyCategory category="extra"/>
+      </propertyContributor>
+   </extension>
+      <extension point="org.eclipse.ui.views.properties.tabbed.propertySections" id="propsections">
+      <?gmfgen generated="true"?>   
+      <propertySections contributorId="org.neuro4j.studio.core.diagram">
+         <propertySection id="property.section.ConnectorAppearancePropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.ConnectionEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.appearance.ConnectionAppearancePropertySection" 
+            tab="property.tab.AppearancePropertySection">
+         </propertySection>
+         <propertySection id="property.section.ShapeColorAndFontPropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.ShapeEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.appearance.ShapeColorsAndFontsPropertySection" 
+            tab="property.tab.AppearancePropertySection">
+         </propertySection> 
+         <propertySection id="property.section.DiagramColorsAndFontsPropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.DiagramEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.appearance.DiagramColorsAndFontsPropertySection" 
+            tab="property.tab.AppearancePropertySection">
+         </propertySection>     
+         <propertySection id="property.section.RulerGridPropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.DiagramEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.grid.RulerGridPropertySection" 
+            tab="property.tab.DiagramPropertySection">
+         </propertySection>     
+         <propertySection
+            id="property.section.domain" 
+            tab="property.tab.domain"
+            class="org.neuro4j.studio.core.diagram.sheet.Neuro4jPropertySection">
+            <input type="org.eclipse.gmf.runtime.notation.View"/>
+            <input type="org.eclipse.gef.EditPart"/>
+            <input type="org.neuro4j.studio.core.diagram.navigator.Neuro4jAbstractNavigatorItem"/>
+         </propertySection>       
+      </propertySections>
+   </extension>
+   
+</plugin>

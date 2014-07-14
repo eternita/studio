@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+gmf_dashboard/domainGenerationModel=platform\:/resource/org.neuro4j.studio.core/model/neuro4j.genmodel
+gmf_dashboard/domainModel=platform\:/resource/org.neuro4j.studio.core/model/neuro4j.ecore
+gmf_dashboard/generationModel=platform\:/resource/org.neuro4j.studio.core/model/neuro4j.gmfgen
+gmf_dashboard/graphicalDefinitionModel=platform\:/resource/org.neuro4j.studio.core/model/neuro4j.gmfgraph
+gmf_dashboard/mappingModel=platform\:/resource/org.neuro4j.studio.core/model/neuro4j.gmfmap
+gmf_dashboard/toolingDefinitionModel=platform\:/resource/org.neuro4j.studio.core/model/neuro4j.gmftool
