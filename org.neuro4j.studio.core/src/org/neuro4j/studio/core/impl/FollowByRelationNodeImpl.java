@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.neuro4j.workflow.common.SWFParametersConstants;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.FollowByRelationNode;
 import org.neuro4j.studio.core.Network;
@@ -279,7 +279,7 @@ public class FollowByRelationNodeImpl extends ActionNodeImpl implements FollowBy
         return IMPL_CLASS;
     }
 
-    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.SwitchBlock";
+    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.SwitchNode";
 
     @Override
     public String getDefaultName(int count) {

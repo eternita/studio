@@ -43,7 +43,7 @@ public class LogicClassNameLoader {
     private static LogicClassNameLoader instance = new LogicClassNameLoader();
 
     private static final IType[] EMPTY_ARRAY = new IType[0];
-    private static final String LOGIC_BASE_CLASS = "import org.neuro4j.workflow.def.CustomBlock";
+    private static final String LOGIC_BASE_CLASS = "import org.neuro4j.workflow.def.CustomNode";
 
     private Map<String, List<String>> classes = new HashMap<String, List<String>>();
 

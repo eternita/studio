@@ -90,7 +90,7 @@ public class FlowJavaStackFrameLabelProvider extends DebugElementLabelProvider {
             IVariable[] vars = frame.getVariables();
             IVariable var = vars[0];
 
-            if (var.getValue().getReferenceTypeName().equals("import org.neuro4j.workflow.def.node.CallByFlowNameBlock") && vars.length > 2) {
+            if (var.getValue().getReferenceTypeName().equals("import org.neuro4j.workflow.node.CallNode") && vars.length > 2) {
                 return true;
             }
 

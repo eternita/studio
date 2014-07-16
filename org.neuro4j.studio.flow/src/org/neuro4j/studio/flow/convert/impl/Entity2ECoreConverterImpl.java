@@ -40,8 +40,8 @@ import org.neuro4j.studio.core.impl.StartNodeImpl;
 import org.neuro4j.studio.core.impl.ViewNodeImpl;
 import org.neuro4j.studio.core.util.PropetiesConstants;
 import org.neuro4j.studio.flow.convert.Entity2ECoreConverter;
-import org.neuro4j.workflow.xml.Transition;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.Transition;
+import org.neuro4j.workflow.node.WorkflowNode;
 
 public class Entity2ECoreConverterImpl implements Entity2ECoreConverter {
     Neuro4jFactory neuro4jFactory = null;

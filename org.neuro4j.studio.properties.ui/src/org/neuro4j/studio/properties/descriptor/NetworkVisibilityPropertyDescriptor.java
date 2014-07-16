@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.ComboBoxLabelProvider;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
-import org.neuro4j.workflow.enums.NetworkVisibility;
+import org.neuro4j.workflow.enums.FlowVisibility;
 
 public class NetworkVisibilityPropertyDescriptor extends ComboBoxPropertyDescriptor {
 
@@ -40,6 +40,6 @@ public class NetworkVisibilityPropertyDescriptor extends ComboBoxPropertyDescrip
 
     private String[] getAllowedValues()
     {
-        return NetworkVisibility.types();
+        return FlowVisibility.types();
     }
 }

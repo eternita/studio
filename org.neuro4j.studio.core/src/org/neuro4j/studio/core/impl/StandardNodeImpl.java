@@ -20,7 +20,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.swt.graphics.Color;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.KeyValuePair;
 import org.neuro4j.studio.core.Neuro4jPackage;
 import org.neuro4j.studio.core.StandardNode;

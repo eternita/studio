@@ -17,7 +17,7 @@ package org.neuro4j.studio.core.relation.impl;
 
 import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.LogicNode;
 import org.neuro4j.studio.core.OperatorOutput;

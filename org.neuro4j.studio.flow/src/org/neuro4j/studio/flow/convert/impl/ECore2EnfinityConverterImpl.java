@@ -33,7 +33,7 @@ import org.neuro4j.studio.core.XmlTransition;
 import org.neuro4j.studio.core.util.FlowUtils;
 import org.neuro4j.studio.core.util.PropetiesConstants;
 import org.neuro4j.studio.flow.convert.ECore2EnfinityConverter;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 
 public class ECore2EnfinityConverterImpl implements ECore2EnfinityConverter {
 

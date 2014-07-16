@@ -17,7 +17,7 @@ package org.neuro4j.studio.core;
 
 import java.util.List;
 
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 
 /**
  * <!-- begin-user-doc -->

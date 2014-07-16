@@ -16,7 +16,7 @@
 package org.neuro4j.studio.core.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jPackage;
 import org.neuro4j.studio.core.NoteNode;

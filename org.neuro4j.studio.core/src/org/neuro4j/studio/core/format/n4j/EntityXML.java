@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.neuro4j.studio.flow.format.n4j;
+package org.neuro4j.studio.core.format.n4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +23,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.neuro4j.studio.core.XmlTransition;
-import org.neuro4j.workflow.xml.Transition;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.Transition;
+import org.neuro4j.workflow.node.WorkflowNode;
 
 public class EntityXML {
 

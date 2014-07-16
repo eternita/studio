@@ -19,7 +19,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.neuro4j.workflow.common.SWFParametersConstants;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jPackage;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.neuro4j.studio.flow.format.n4j;
+package org.neuro4j.studio.core.format.n4j;
 
 public class SWFConstants {
 

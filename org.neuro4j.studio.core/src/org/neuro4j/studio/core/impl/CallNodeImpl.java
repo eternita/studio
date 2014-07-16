@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.neuro4j.workflow.common.SWFParametersConstants;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.CallNode;
 import org.neuro4j.studio.core.InOutParameter;
@@ -360,7 +360,7 @@ public class CallNodeImpl extends ActionNodeImpl implements CallNode {
         return IMPL_CLASS;
     }
 
-    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.CallBlock";
+    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.CallNode";
 
     @Override
     public ActionNode createPasteClone(Network net) {

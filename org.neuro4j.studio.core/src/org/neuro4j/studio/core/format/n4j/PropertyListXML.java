@@ -13,35 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.neuro4j.studio.flow.format.n4j;
+package org.neuro4j.studio.core.format.n4j;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import java.util.ArrayList;
+import java.util.List;
 
-public class PropertyXML {
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-    @XmlAttribute
-    String key;
+@XmlRootElement(name = "property_list")
+public class PropertyListXML {
 
-    @XmlAttribute
-    String value;
+    @XmlJavaTypeAdapter(PropertyListXMLAdapter.class)
+    @XmlElement(name = "properties")
+    List<PropertyXML> reps = new ArrayList<PropertyXML>();
 
-    public PropertyXML() {
-        super();
-    }
-
-    public PropertyXML(String key, String value) {
-        super();
-        this.key = key;
-        this.value = value;
-
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public String getValue() {
-        return value;
+    public List<PropertyXML> getProperties() {
+        return reps;
     }
 
 }

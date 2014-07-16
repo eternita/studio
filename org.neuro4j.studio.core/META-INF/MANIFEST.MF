@@ -15,6 +15,7 @@ Require-Bundle: org.neuro4j.studio.workflow,
 Bundle-Activator: org.neuro4j.studio.core.Neuro4jCorePlugin
 Bundle-ActivationPolicy: lazy
 Export-Package: org.neuro4j.studio.core,
+ org.neuro4j.studio.core.format.n4j,
  org.neuro4j.studio.core.buildpath,
  org.neuro4j.studio.core.coordinates,
  org.neuro4j.studio.core.impl,

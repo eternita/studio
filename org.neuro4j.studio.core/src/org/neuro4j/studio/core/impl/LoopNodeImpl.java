@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.neuro4j.workflow.common.SWFParametersConstants;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.HasFewInOutAnchors;
 import org.neuro4j.studio.core.LoopNode;
@@ -574,7 +574,7 @@ public class LoopNodeImpl extends ActionNodeImpl implements LoopNode, HasFewInOu
         return IMPL_CLASS;
     }
 
-    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.LoopBlock";
+    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.LoopNode";
 
     @Override
     public ActionNode createPasteClone(Network net) {

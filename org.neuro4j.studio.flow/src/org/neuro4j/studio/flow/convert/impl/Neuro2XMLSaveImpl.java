@@ -33,12 +33,12 @@ import org.eclipse.gmf.runtime.notation.impl.BoundsImpl;
 import org.eclipse.gmf.runtime.notation.impl.DiagramImpl;
 import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
 import org.neuro4j.studio.core.ActionNode;
+import org.neuro4j.studio.core.format.n4j.NetworkConverter;
 import org.neuro4j.studio.core.util.PropetiesConstants;
 import org.neuro4j.studio.core.util.UUIDMgr;
 import org.neuro4j.studio.flow.convert.ECore2EnfinityConverter;
-import org.neuro4j.studio.flow.format.n4j.NetworkConverter;
 import org.neuro4j.workflow.Workflow;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 import org.w3c.dom.Document;
 
 public class Neuro2XMLSaveImpl extends XMLSaveImpl {

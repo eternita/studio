@@ -239,7 +239,7 @@ public class EndNodeImpl extends ActionNodeImpl implements EndNode {
         return IMPL_CLASS;
     }
 
-    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.EndBlock";
+    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.EndNode";
 
     @Override
     public ActionNode createPasteClone(Network net) {

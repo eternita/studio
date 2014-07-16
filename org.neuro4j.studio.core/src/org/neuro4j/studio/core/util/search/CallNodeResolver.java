@@ -30,15 +30,20 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.ide.undo.WorkspaceUndoMonitor;
+import org.neuro4j.studio.core.XmlWorkflow;
+import org.neuro4j.studio.core.format.n4j.ConvertationException;
+import org.neuro4j.studio.core.format.n4j.NetworkConverter;
 import org.neuro4j.studio.core.impl.EndNodeImpl;
+import org.neuro4j.studio.core.util.PropetiesConstants;
 import org.neuro4j.workflow.Workflow;
 import org.neuro4j.workflow.common.FlowExecutionException;
 import org.neuro4j.workflow.common.FlowInitializationException;
 import org.neuro4j.workflow.common.WorkflowEngine;
 import org.neuro4j.workflow.loader.WorkflowLoader;
-import org.neuro4j.workflow.xml.StartNode;
-import org.neuro4j.workflow.xml.Transition;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.StartNode;
+import org.neuro4j.workflow.node.Transition;
+import org.neuro4j.workflow.node.WorkflowNode;
+
 
 public class CallNodeResolver {
 
@@ -133,11 +138,14 @@ public class CallNodeResolver {
         Set<WorkflowNode> visited = new HashSet<WorkflowNode>();
 
         try {
-            Workflow wflow = WorkflowLoader.loadFlowFromFS(is, flow);
-            StartNode startNode = wflow.getStartNode(startNodeName);
+           // Workflow wflow = WorkflowLoader.loadFlowFromFS(is, flow);
+        	XmlWorkflow wflow = NetworkConverter.xml2workflow(is, flow);
+        	
+        	WorkflowNode startNode = wflow.getNodeByName(startNodeName);
+        	
             findEndNodes(startNode, visited, endNodes);
             return endNodes;
-        } catch (FlowInitializationException e) {
+        } catch (ConvertationException e) {
 
             e.printStackTrace();
         }
@@ -147,7 +155,6 @@ public class CallNodeResolver {
 
     private void findEndNodes(WorkflowNode node, Set<WorkflowNode> visited, List<String> endNodes)
     {
-        Set<String> list = new HashSet<String>();
 
         for (Transition transition : node.getExits())
         {
@@ -169,7 +176,7 @@ public class CallNodeResolver {
 
     private boolean isEndNode(WorkflowNode node)
     {
-        if (EndNodeImpl.IMPL_CLASS.equals(node.getExecutableClass()))
+        if (EndNodeImpl.IMPL_CLASS.equals(node.getParameter(PropetiesConstants.SWF_BLOCK_CLASS)))
         {
             return true;
         }
@@ -184,7 +191,6 @@ public class CallNodeResolver {
 
         for (String key : keys)
         {
-            // fArr = SimpleWorkflowEngine.parseFlowName(key);
             if (path.endsWith(key)) {
                 map.remove(key);
             }

@@ -17,7 +17,7 @@ package org.neuro4j.studio.core;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.graphics.Color;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 
 /**
  * <!-- begin-user-doc -->

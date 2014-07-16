@@ -13,24 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.neuro4j.studio.flow.format.n4j;
 
-import java.util.ArrayList;
-import java.util.List;
+package org.neuro4j.studio.core;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import org.neuro4j.workflow.Workflow;
+import org.neuro4j.workflow.node.WorkflowNode;
 
-@XmlRootElement(name = "property_list")
-public class PropertyListXML {
+public class XmlWorkflowNode extends WorkflowNode {
 
-    @XmlJavaTypeAdapter(PropertyListXMLAdapter.class)
-    @XmlElement(name = "properties")
-    List<PropertyXML> reps = new ArrayList<PropertyXML>();
-
-    public List<PropertyXML> getProperties() {
-        return reps;
-    }
+	public XmlWorkflowNode(String name, String uuid, Workflow workflow) {
+		super(name, uuid, workflow);
+	}
 
 }

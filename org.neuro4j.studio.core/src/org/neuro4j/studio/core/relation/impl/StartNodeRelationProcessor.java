@@ -16,7 +16,7 @@
 package org.neuro4j.studio.core.relation.impl;
 
 import org.eclipse.emf.common.util.EList;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.OperatorOutput;
 import org.neuro4j.studio.core.StartNode;

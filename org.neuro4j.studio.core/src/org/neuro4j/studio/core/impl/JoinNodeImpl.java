@@ -190,7 +190,7 @@ public class JoinNodeImpl extends ActionNodeImpl implements JoinNode {
         return IMPL_CLASS;
     }
 
-    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.JoinBlock";
+    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.JoinNode";
 
     @Override
     public ActionNode createPasteClone(Network net) {

@@ -16,7 +16,7 @@
 package org.neuro4j.studio.core;
 
 import org.neuro4j.workflow.Workflow;
-import org.neuro4j.workflow.xml.Transition;
+import org.neuro4j.workflow.node.Transition;
 
 public class XmlTransition extends Transition {
 

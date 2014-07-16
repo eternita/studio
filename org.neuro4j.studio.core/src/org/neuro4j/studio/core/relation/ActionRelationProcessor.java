@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmf.runtime.notation.datatype.RelativeBendpoint;
-import org.neuro4j.workflow.xml.Transition;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.Transition;
+import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.Neuro4jFactory;
 import org.neuro4j.studio.core.OperatorOutput;

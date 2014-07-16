@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.neuro4j.workflow.common.SWFParametersConstants;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.DecisionNode;
 import org.neuro4j.studio.core.Network;
@@ -619,7 +619,7 @@ public class DecisionNodeImpl extends ActionNodeImpl implements DecisionNode {
         return IMPL_CLASS;
     }
 
-    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.DecisionBlock";
+    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.DecisionNode";
 
     @Override
     public ActionNode createPasteClone(Network net) {

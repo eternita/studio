@@ -13,26 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.neuro4j.studio.flow.format.n4j;
+package org.neuro4j.studio.core.format.n4j;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
-public class RelationTailXML {
+public class PropertyXML {
 
     @XmlAttribute
-    String uuid;
+    String key;
 
-    public RelationTailXML() {
+    @XmlAttribute
+    String value;
+
+    public PropertyXML() {
         super();
     }
 
-    public RelationTailXML(String ruuid) {
+    public PropertyXML(String key, String value) {
         super();
-        this.uuid = ruuid;
+        this.key = key;
+        this.value = value;
+
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getKey() {
+        return key;
+    }
+
+    public String getValue() {
+        return value;
     }
 
 }

@@ -31,7 +31,8 @@ import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.NetworkTypesEnum;
 import org.neuro4j.studio.core.Neuro4jPackage;
 import org.neuro4j.studio.properties.descriptor.NetworkVisibilityPropertyDescriptor;
-import org.neuro4j.workflow.enums.NetworkVisibility;
+
+import org.neuro4j.workflow.enums.FlowVisibility;
 
 public class NetworkPropertySource extends PropertySource {
 
@@ -94,7 +95,7 @@ public class NetworkPropertySource extends PropertySource {
     public void setPropertyValue(Object propertyId, Object value) {
         if (VISIBILITY_NAME.equals(propertyId)) {
             Integer index = (Integer) value;
-            NetworkVisibility[] names = NetworkVisibility.values();
+            FlowVisibility[] names = FlowVisibility.values();
             value = names[index].name();
 
         }
@@ -109,13 +110,13 @@ public class NetworkPropertySource extends PropertySource {
             PropertyValueWrapper value = (PropertyValueWrapper) itemPropertySource
                     .getPropertyDescriptor(object, propertyId)
                     .getPropertyValue(object);
-            NetworkVisibility op = null;
+            FlowVisibility op = null;
             if (value != null) {
-                op = NetworkVisibility.valueOf((String) value
+                op = FlowVisibility.valueOf((String) value
                         .getEditableValue(this));
             }
             if (op == null) {
-                op = NetworkVisibility.Public;
+                op = FlowVisibility.Public;
             }
             return new PropertyValueWrapper(af, object, op.ordinal(), null);
         }

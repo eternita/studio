@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.neuro4j.workflow.common.SWFParametersConstants;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.HasFewInOutAnchors;
 import org.neuro4j.studio.core.InOutParameter;
@@ -586,7 +586,7 @@ public class LogicNodeImpl extends ActionNodeImpl implements LogicNode, HasFewIn
         return IMPL_CLASS;
     }
 
-    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.CustomBlock";
+    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.CustomNode";
 
     @Override
     public String buildToolTip() {

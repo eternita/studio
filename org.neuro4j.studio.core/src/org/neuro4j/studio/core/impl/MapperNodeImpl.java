@@ -33,7 +33,7 @@ import org.neuro4j.studio.core.Neuro4jFactory;
 import org.neuro4j.studio.core.Neuro4jPackage;
 import org.neuro4j.studio.core.OperatorOutput;
 import org.neuro4j.studio.core.util.UUIDMgr;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 
 /**
  * <!-- begin-user-doc -->

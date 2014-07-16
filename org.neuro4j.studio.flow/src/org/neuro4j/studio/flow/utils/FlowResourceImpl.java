@@ -36,6 +36,8 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.NoteNode;
+import org.neuro4j.studio.core.format.n4j.ConvertationException;
+import org.neuro4j.studio.core.format.n4j.NetworkConverter;
 import org.neuro4j.studio.core.impl.ActionNodeImpl;
 import org.neuro4j.studio.core.relation.ActionNodeRelationProcessorFactory;
 import org.neuro4j.studio.core.relation.ActionRelationProcessor;
@@ -43,11 +45,9 @@ import org.neuro4j.studio.core.util.search.CallNodeResolver;
 import org.neuro4j.studio.flow.convert.Entity2ECoreConverter;
 import org.neuro4j.studio.flow.convert.impl.Entity2ECoreConverterImpl;
 import org.neuro4j.studio.flow.convert.impl.Neuro2XMLSaveImpl;
-import org.neuro4j.studio.flow.format.n4j.ConvertationException;
-import org.neuro4j.studio.flow.format.n4j.NetworkConverter;
 import org.neuro4j.workflow.Workflow;
-import org.neuro4j.workflow.enums.NetworkVisibility;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.enums.FlowVisibility;
+import org.neuro4j.workflow.node.WorkflowNode;
 import org.xml.sax.InputSource;
 
 public class FlowResourceImpl extends GMFResource {
@@ -156,7 +156,7 @@ public class FlowResourceImpl extends GMFResource {
         String visibility = entity.getParameter(eNetwork.VISIBILITY_KEY);
         if (visibility == null)
         {
-            visibility = NetworkVisibility.getDefault().name();
+            visibility = FlowVisibility.getDefault().name();
         }
         eNetwork.setVisibility(visibility);
 

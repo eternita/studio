@@ -23,15 +23,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.gmf.runtime.notation.datatype.RelativeBendpoint;
-import org.neuro4j.workflow.Workflow;
-import org.neuro4j.workflow.WorkflowMngImpl;
-import org.neuro4j.workflow.loader.WorkflowLoader;
-import org.neuro4j.workflow.xml.StartNode;
-import org.neuro4j.workflow.common.FlowInitializationException;
-import org.neuro4j.workflow.common.ParameterDefinition;
 import org.neuro4j.studio.core.InOutParameter;
 import org.neuro4j.studio.core.Neuro4jFactory;
 import org.neuro4j.studio.core.util.search.CallNodeResolver;
+import org.neuro4j.workflow.Workflow;
+import org.neuro4j.workflow.common.FlowInitializationException;
+import org.neuro4j.workflow.common.ParameterDefinition;
+import org.neuro4j.workflow.loader.WorkflowLoader;
+import org.neuro4j.workflow.node.StartNode;
 
 public class FlowUtils {
 

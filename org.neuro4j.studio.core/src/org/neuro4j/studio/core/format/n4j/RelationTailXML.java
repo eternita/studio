@@ -13,21 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.neuro4j.studio.flow.convert;
+package org.neuro4j.studio.core.format.n4j;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
-import org.neuro4j.studio.core.ActionNode;
-import org.neuro4j.workflow.node.WorkflowNode;
+import javax.xml.bind.annotation.XmlAttribute;
 
-public interface ECore2EnfinityConverter {
+public class RelationTailXML {
 
-    public WorkflowNode convert(EObject eCore);
+    @XmlAttribute
+    String uuid;
 
-    public void setResource(XMLResource resource);
+    public RelationTailXML() {
+        super();
+    }
 
-    public WorkflowNode convert(ActionNode node, ShapeImpl updatedObject);
+    public RelationTailXML(String ruuid) {
+        super();
+        this.uuid = ruuid;
+    }
 
-    void setCoordinates(WorkflowNode entity, ShapeImpl node);
+    public String getUuid() {
+        return uuid;
+    }
+
 }

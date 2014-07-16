@@ -31,15 +31,15 @@ public class FlowBreakpointFactory {
     private static void init()
     {
 
-        set.add("StartBlock.java");
-        set.add("EndBlock.java");
-        set.add("DecisionBlock.java");
-        set.add("LoopBlock.java");
-        set.add("JoinBlock.java");
-        set.add("CallBlock.java");
-        set.add("SwitchBlock.java");
-        set.add("CustomBlock.java");
-        set.add("SetViewTemplate.java");
+        set.add("StartNode.java");
+        set.add("EndNode.java");
+        set.add("DecisionNode.java");
+        set.add("LoopNode.java");
+        set.add("JoinNode.java");
+        set.add("CallNode.java");
+        set.add("SwitchNode.java");
+        set.add("CustomNode.java");
+        set.add("ViewNode.java");
         set.add("KeyMapper.java");
 
     }
@@ -53,31 +53,31 @@ public class FlowBreakpointFactory {
 
     public static ActionNodeBreakpoint createInitBreakpointByName(String name) {
 
-        if (name.equals("StartBlock.java"))
+        if (name.equals("StartNode.java"))
         {
             return (ActionNodeBreakpoint) BreakpoinMng.getInstance().createBreakPoint(Neuro4jFactory.eINSTANCE.createStartNode());
-        } else if (name.equals("EndBlock.java"))
+        } else if (name.equals("EndNode.java"))
         {
             return (ActionNodeBreakpoint) BreakpoinMng.getInstance().createBreakPoint(Neuro4jFactory.eINSTANCE.createEndNode());
-        } else if (name.equals("DecisionBlock.java"))
+        } else if (name.equals("DecisionNode.java"))
         {
             return (ActionNodeBreakpoint) BreakpoinMng.getInstance().createBreakPoint(Neuro4jFactory.eINSTANCE.createDecisionNode());
-        } else if (name.equals("LoopBlock.java"))
+        } else if (name.equals("LoopNode.java"))
         {
             return (ActionNodeBreakpoint) BreakpoinMng.getInstance().createBreakPoint(Neuro4jFactory.eINSTANCE.createLoopNode());
-        } else if (name.equals("JoinBlock.java"))
+        } else if (name.equals("JoinNode.java"))
         {
             return (ActionNodeBreakpoint) BreakpoinMng.getInstance().createBreakPoint(Neuro4jFactory.eINSTANCE.createJoinNode());
-        } else if (name.equals("CallBlock.java"))
+        } else if (name.equals("CallNode.java"))
         {
             return (ActionNodeBreakpoint) BreakpoinMng.getInstance().createBreakPoint(Neuro4jFactory.eINSTANCE.createCallNode());
-        } else if (name.equals("SwitchBlock.java"))
+        } else if (name.equals("SwitchNode.java"))
         {
             return (ActionNodeBreakpoint) BreakpoinMng.getInstance().createBreakPoint(Neuro4jFactory.eINSTANCE.createFollowByRelationNode());
-        } else if (name.equals("CustomBlock.java"))
+        } else if (name.equals("CustomNode.java"))
         {
             return (ActionNodeBreakpoint) BreakpoinMng.getInstance().createBreakPoint(Neuro4jFactory.eINSTANCE.createLogicNode());
-        } else if (name.equals("SetViewTemplate.java"))
+        } else if (name.equals("ViewNode.java"))
         {
             return (ActionNodeBreakpoint) BreakpoinMng.getInstance().createBreakPoint(Neuro4jFactory.eINSTANCE.createViewNode());
         } else if (name.equals("KeyMapper.java"))

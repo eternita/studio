@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.neuro4j.studio.core.impl.OperatorOutputImpl;
-import org.neuro4j.workflow.xml.WorkflowNode;
+import org.neuro4j.workflow.node.WorkflowNode;
 
 public interface Entity2ECoreConverter {
 
