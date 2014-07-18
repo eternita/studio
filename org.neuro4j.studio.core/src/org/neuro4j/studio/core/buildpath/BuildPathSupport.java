@@ -35,10 +35,10 @@ import org.osgi.framework.Version;
  */
 public class BuildPathSupport {
     public static final Neuro4jStudioCorePluginDescription NEURO4j_CORE_PLUGIN = new Neuro4jStudioCorePluginDescription(
-            "org.neuro4j.studio.workflow", new VersionRange("[0.8.1,1.0.1)"), "neuro4j-workflow-core.jar", "neuro4j-workflow-core.jar", "org.neuro4j.workflow.source", "source-bundle/", "org.neuro4j.workflow.javadoclocation");
+            "org.neuro4j.studio.workflow", new VersionRange("[1.0.1,1.0.8)"), "neuro4j-workflow-core.jar", "neuro4j-workflow-core.jar", "org.neuro4j.workflow.source", "source-bundle/", "org.neuro4j.workflow.javadoclocation");
 
     public static final Neuro4jStudioCorePluginDescription NEURO4j_WORKFLOW_COMMON_PLUGIN = new Neuro4jStudioCorePluginDescription(
-            "org.neuro4j.studio.workflow", new VersionRange("[0.8.1,1.0.1)"), "neuro4j-workflow-common.jar", "neuro4j-workflow-common.jar", "org.neuro4j.workflow.core.source", "source-bundle/", "org.neuro4j.workflow.common.javadoclocation");
+            "org.neuro4j.studio.workflow", new VersionRange("[1.0.1,1.0.8)"), "neuro4j-workflow-common.jar", "neuro4j-workflow-common.jar", "org.neuro4j.workflow.core.source", "source-bundle/", "org.neuro4j.workflow.common.javadoclocation");
 
     public static IClasspathEntry getNeuro4j1ClasspathEntry()
     {

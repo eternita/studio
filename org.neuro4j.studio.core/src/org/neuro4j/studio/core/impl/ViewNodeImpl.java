@@ -307,7 +307,7 @@ public class ViewNodeImpl extends ActionNodeImpl implements ViewNode {
         return IMPL_CLASS;
     }
 
-    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.SetViewTemplate";
+    public static final String IMPL_CLASS = "org.neuro4j.workflow.node.ViewNode";
 
     @Override
     public ActionNode createPasteClone(Network net) {
