@@ -18,10 +18,10 @@ package org.neuro4j.studio.core.relation.impl;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
-import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.OperatorOutput;
-import org.neuro4j.studio.core.XmlTransition;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
+import org.neuro4j.studio.core.format.f4j.TransitionXML;
 import org.neuro4j.studio.core.impl.ActionNodeImpl;
 import org.neuro4j.studio.core.impl.CallNodeImpl;
 import org.neuro4j.studio.core.relation.ActionRelationProcessor;
@@ -30,7 +30,7 @@ import org.neuro4j.studio.core.util.OutputNamesUtils;
 public class CallNodeRelationProcessor extends ActionRelationProcessor {
 
     @Override
-    protected void processOutpuNode(ActionNodeImpl source, WorkflowNode entity, OperatorOutput output, XmlTransition relation) {
+    protected void processOutpuNode(ActionNodeImpl source, NodeXML entity, OperatorOutput output, TransitionXML relation) {
         processOutpuNode(source, null, output);
     }
 

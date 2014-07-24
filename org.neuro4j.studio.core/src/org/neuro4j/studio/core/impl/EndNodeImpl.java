@@ -27,6 +27,7 @@ import org.neuro4j.studio.core.EndNode;
 import org.neuro4j.studio.core.InOutParameter;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jPackage;
+import org.neuro4j.studio.core.NodeType;
 import org.neuro4j.studio.core.util.UUIDMgr;
 
 /**
@@ -253,5 +254,10 @@ public class EndNodeImpl extends ActionNodeImpl implements EndNode {
 
         return node;
     }
+    
+	@Override
+	public NodeType getNodeType() {
+		return NodeType.END;
+	}
 
 } // EndNodeImpl

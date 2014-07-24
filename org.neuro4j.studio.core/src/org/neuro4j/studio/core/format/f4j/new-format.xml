@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow alias="name1" visibility="public|private">
+	<nodes>
+	    <node uuid="123" name="" x="" y="" type="start|end|call|map|decision|loop|custom|join">
+	     <impl>org.neuro4j.test.CustomNode1</impl>
+	      <parameters>
+	         <parameter name="name1" value="value1" type="IN/OUT"/>
+	         <parameter name="name1" value="value1" type="IN/OUT"/>
+	      </parameters>
+	      <transitions>
+	      	<transition id="id1" name="name1" toNode="TargetUUID1">
+	      	   <points>coord.1|coord.1</points>
+	      	</transition>
+	      </transitions>
+	    </node>
+	</nodes>
+</flow>

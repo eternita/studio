@@ -23,6 +23,7 @@ import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.JoinNode;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jPackage;
+import org.neuro4j.studio.core.NodeType;
 import org.neuro4j.studio.core.OperatorOutput;
 import org.neuro4j.studio.core.util.UUIDMgr;
 
@@ -204,4 +205,9 @@ public class JoinNodeImpl extends ActionNodeImpl implements JoinNode {
         return node;
     }
 
+	@Override
+	public NodeType getNodeType() {
+		return NodeType.JOIN;
+	}
+    
 } // JoinNodeImpl

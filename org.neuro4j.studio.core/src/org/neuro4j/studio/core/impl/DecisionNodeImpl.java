@@ -19,15 +19,16 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.neuro4j.workflow.common.SWFParametersConstants;
-import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.DecisionNode;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jPackage;
+import org.neuro4j.studio.core.NodeType;
 import org.neuro4j.studio.core.OperatorInput;
 import org.neuro4j.studio.core.OperatorOutput;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.util.UUIDMgr;
+import org.neuro4j.workflow.common.SWFParametersConstants;
 
 /**
  * <!-- begin-user-doc -->
@@ -567,21 +568,20 @@ public class DecisionNodeImpl extends ActionNodeImpl implements DecisionNode {
     }
 
     @Override
-    public void getNodeSpecificProperties(WorkflowNode entity) {
-        setCompKey(entity.getParameter(COMP_KEY_PROPERTY_KEY));
-        setDecisionKey(entity.getParameter(DECISION_KEY_PROPERTY_KEY));
-        setCompType(entity.getParameter(COMP_TYPE_PROPERTY_KEY));
-        setOperator(entity.getParameter(OPERATOR_PROPERTY_KEY));
+    public void getNodeSpecificProperties(NodeXML entity) {
+        setCompKey(entity.getConfig(COMP_KEY_PROPERTY_KEY));
+        setDecisionKey(entity.getConfig(DECISION_KEY_PROPERTY_KEY));
+        setCompType(entity.getConfig(COMP_TYPE_PROPERTY_KEY));
+        setOperator(entity.getConfig(OPERATOR_PROPERTY_KEY));
 
-        // super.getNodeSpecificProperties(entity);
     }
 
     @Override
-    public void setNodeSpecificProperties(WorkflowNode entity) {
-        setNotNullProperty(entity, OPERATOR_PROPERTY_KEY, getOperator());
-        setNotNullProperty(entity, COMP_KEY_PROPERTY_KEY, getCompKey());
-        setNotNullProperty(entity, COMP_TYPE_PROPERTY_KEY, getCompType());
-        setNotNullProperty(entity, DECISION_KEY_PROPERTY_KEY, getDecisionKey());
+    public void setNodeSpecificProperties(NodeXML entity) {
+        setNotNullConfig(entity, OPERATOR_PROPERTY_KEY, getOperator());
+        setNotNullConfig(entity, COMP_KEY_PROPERTY_KEY, getCompKey());
+        setNotNullConfig(entity, COMP_TYPE_PROPERTY_KEY, getCompType());
+        setNotNullConfig(entity, DECISION_KEY_PROPERTY_KEY, getDecisionKey());
     }
 
     public static final String OPERATOR_PROPERTY_KEY = SWFParametersConstants.DECISION_NODE_OPERATOR;
@@ -589,30 +589,7 @@ public class DecisionNodeImpl extends ActionNodeImpl implements DecisionNode {
     public static final String COMP_TYPE_PROPERTY_KEY = SWFParametersConstants.DECISION_NODE_COMP_TYPE;
     public static final String DECISION_KEY_PROPERTY_KEY = SWFParametersConstants.DECISION_NODE_DECISION_KEY;
 
-    // @Override
-    // public String getFreeOutputTerminal(String connectionName)
-    // {
-    // if (connectionName == null)
-    // {
-    // if (mainTrueOutput == null)
-    // {
-    // return "SOUTH";
-    // } else {
-    // return "EAST";
-    // }
-    // }
-    // if ("FALSE".equals(connectionName)){
-    // return "EAST";
-    // } else{
-    // return "SOUTH";
-    // }
-    //
-    // }
-    //
-    // @Override
-    // public String getFreeInputTerminal(String connectionName) {
-    // return "NORTH";
-    // }
+
 
     @Override
     public String getLogicImplementationClassName() {
@@ -636,5 +613,10 @@ public class DecisionNodeImpl extends ActionNodeImpl implements DecisionNode {
 
         return node;
     }
+    
+	@Override
+	public NodeType getNodeType() {
+		return NodeType.DECISION;
+	}
 
 } // DecisionNodeImpl

@@ -16,10 +16,11 @@
 package org.neuro4j.studio.core.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jPackage;
+import org.neuro4j.studio.core.NodeType;
 import org.neuro4j.studio.core.NoteNode;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.util.PropetiesConstants;
 
 /**
@@ -92,28 +93,32 @@ public class NoteNodeImpl extends ActionNodeImpl implements NoteNode {
     }
 
     @Override
-    public void getNodeSpecificProperties(WorkflowNode entity) {
-        String desc = entity.getParameter(DESCRIPTION);
-        String locationW = entity.getParameter(PropetiesConstants.LOCATION_W);
+    public void getNodeSpecificProperties(NodeXML entity) {
+        String locationW = entity.getConfig(PropetiesConstants.LOCATION_W);
         if (locationW != null)
         {
             int w = Integer.parseInt(locationW);
             setWidth(w);
         }
 
-        String locationH = entity.getParameter(PropetiesConstants.LOCATION_H);
+        String locationH = entity.getConfig(PropetiesConstants.LOCATION_H);
         if (locationH != null)
         {
             int h = Integer.parseInt(locationH);
             setHeight(h);
         }
-        setDescription(desc);
+        setDescription(entity.description);
     }
 
     @Override
-    public void setNodeSpecificProperties(WorkflowNode entity) {
-        setNotNullProperty(entity, DESCRIPTION, getDescription());
+    public void setNodeSpecificProperties(NodeXML entity) {
+        setNotNullConfig(entity, DESCRIPTION, getDescription());
 
     }
+    
+	@Override
+	public NodeType getNodeType() {
+		return NodeType.NOTE;
+	}
 
 } // NoteNodeImpl

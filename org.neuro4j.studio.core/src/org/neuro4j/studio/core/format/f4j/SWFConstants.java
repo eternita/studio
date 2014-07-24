@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2014, Neuro4j.org
+ * Copyright (c) 2013-2014, Neuro4j
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.neuro4j.studio.core.format.n4j;
+
+package org.neuro4j.studio.core.format.f4j;
 
 public class SWFConstants {
 
@@ -24,8 +25,8 @@ public class SWFConstants {
     public static final String SWF_BLOCK_PARAM_INFO = "SWF_BLOCK_PARAM_INFO";
     public static final String SWF_BLOCK_DESCRIPTION = "SWF_BLOCK_DESCRIPTION";
 
-    // public static final String SWF_CUSTOM_BLOCK_CLASS = "SWF_CUSTOM_BLOCK_CLASS";
-  //  public static final String N4J_CONSOLE_NODE_TYPE = "N4J_CONSOLE_NODE_TYPE"; // 'circle', 'square', 'triangle',
+    public static final String SWF_CUSTOM_BLOCK_CLASS = "SWF_CUSTOM_BLOCK_CLASS";
+   // public static final String N4J_CONSOLE_NODE_TYPE = "N4J_CONSOLE_NODE_TYPE"; // 'circle', 'square', 'triangle',
                                                                                 // 'star'
     public static final String N4J_CONSOLE_NODE_COLOR = "N4J_CONSOLE_NODE_COLOR";
 
@@ -41,7 +42,6 @@ public class SWFConstants {
 
     public final static String NEXT_RELATION_NAME = "NEXT";
     public final static String PARAMETER_DELIMITER = ":";
-    public final static String POINTS = "points";
 
     public final static String NULL_VALUE = "NULL";
 

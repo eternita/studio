@@ -15,19 +15,21 @@
  */
 package org.neuro4j.studio.flow.convert;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
 import org.neuro4j.studio.core.ActionNode;
-import org.neuro4j.workflow.node.WorkflowNode;
+
+import org.neuro4j.studio.core.format.f4j.FlowXML;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
+ ;
 
 public interface ECore2EnfinityConverter {
 
-    public WorkflowNode convert(EObject eCore);
+  //  public WorkflowNode convert(EObject eCore);
 
     public void setResource(XMLResource resource);
 
-    public WorkflowNode convert(ActionNode node, ShapeImpl updatedObject);
+    public NodeXML convert(ActionNode node, ShapeImpl updatedObject, FlowXML network);
 
-    void setCoordinates(WorkflowNode entity, ShapeImpl node);
+    void setCoordinates(NodeXML entity, ShapeImpl node);
 }

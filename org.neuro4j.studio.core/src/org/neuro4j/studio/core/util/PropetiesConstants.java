@@ -20,7 +20,7 @@ public class PropetiesConstants {
     public static final String LOCATION_Y = "y";
     public static final String LOCATION_W = "w";
     public static final String LOCATION_H = "h";
-    public static final String N4J_CONSOLE_NODE_TYPE = "N4J_CONSOLE_NODE_TYPE";
+   // public static final String N4J_CONSOLE_NODE_TYPE = "N4J_CONSOLE_NODE_TYPE";
     public static final String SWF_BLOCK_CLASS = "SWF_BLOCK_CLASS";
     public static final String FLOW_FILE_EXT = "n4j";
     public static final String RELATION_DEFAULT_NAME = "NEXT";

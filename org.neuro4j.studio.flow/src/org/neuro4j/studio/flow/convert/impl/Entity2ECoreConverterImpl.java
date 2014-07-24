@@ -27,6 +27,9 @@ import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jFactory;
 import org.neuro4j.studio.core.Neuro4jPackage;
+import org.neuro4j.studio.core.NodeType;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
+import org.neuro4j.studio.core.format.f4j.TransitionXML;
 import org.neuro4j.studio.core.impl.CallNodeImpl;
 import org.neuro4j.studio.core.impl.DecisionNodeImpl;
 import org.neuro4j.studio.core.impl.EndNodeImpl;
@@ -40,7 +43,6 @@ import org.neuro4j.studio.core.impl.StartNodeImpl;
 import org.neuro4j.studio.core.impl.ViewNodeImpl;
 import org.neuro4j.studio.core.util.PropetiesConstants;
 import org.neuro4j.studio.flow.convert.Entity2ECoreConverter;
-import org.neuro4j.workflow.node.Transition;
 import org.neuro4j.workflow.node.WorkflowNode;
 
 public class Entity2ECoreConverterImpl implements Entity2ECoreConverter {
@@ -58,7 +60,7 @@ public class Entity2ECoreConverterImpl implements Entity2ECoreConverter {
      * Converts Entity to ActionNode
      */
     @Override
-    public EObject convert(WorkflowNode entity) {
+    public EObject convert(NodeXML entity) {
 
         EClass eClass = getEClassByEntity(entity);
         EObject eObject = null;
@@ -75,48 +77,121 @@ public class Entity2ECoreConverterImpl implements Entity2ECoreConverter {
         return eObject;
     }
 
-    private EClass getEClassByEntity(WorkflowNode entity)
-    {
-        String blockClass = entity.getParameter("SWF_BLOCK_CLASS");
-        EClass eClass = getClass(blockClass);
+    private EClass getEClassByEntity(NodeXML entity)
+    {   
+    	NodeType type= NodeType.valueOf(entity.type());    
+        EClass eClass = getClass(type);
         return eClass;
     }
 
-    private EClass getClass(String className) {
-        if (JoinNodeImpl.IMPL_CLASS.equals(className)) {
-            return neuro4jPackage.getJoinNode();
-        } else if (StartNodeImpl.IMPL_CLASS.equals(className)) {
-            return neuro4jPackage.getStartNode();
-        } else if (EndNodeImpl.IMPL_CLASS.equals(className)) {
-            return neuro4jPackage.getEndNode();
-        } else if (CallNodeImpl.IMPL_CLASS.equals(className)) {
-            return neuro4jPackage.getCallNode();
-        } else if (DecisionNodeImpl.IMPL_CLASS.equals(className)) {
-            return neuro4jPackage.getDecisionNode();
-        } else if (LoopNodeImpl.IMPL_CLASS.equals(className)) {
-            return neuro4jPackage.getLoopNode();
-        } else if (LogicNodeImpl.IMPL_CLASS.equals(className)) {
-            return neuro4jPackage.getLogicNode();
-        } else if (MapperNodeImpl.IMPL_CLASS.equals(className)) {
-            return neuro4jPackage.getMapperNode();
-        } else if (FollowByRelationNodeImpl.IMPL_CLASS.equals(className)) {
-            return neuro4jPackage.getFollowByRelationNode();
-        } else if (ViewNodeImpl.IMPL_CLASS.equals(className)) {
-            return neuro4jPackage.getViewNode();
-        } else if (Network.CONFIG_NODE_CLASS_NAME.equals(className)) {
-            return null;
-        } else if (Network.NOTE_NODE_CLASS_NAME.equals(className)) {
-            return neuro4jPackage.getNoteNode();
-            // return null;
-        } else {
-            // if not it is custom implementation of logic node
-            // return neuro4jPackage.getS
-            return neuro4jPackage.getLogicNode();
-        }
+    private EClass getClass(NodeType type) {
+    	
+    	switch (type) {
+		case JOIN:
+			 return neuro4jPackage.getJoinNode();
+	
+		case START:
+			  return neuro4jPackage.getStartNode();
+
+		case END:
+			 return neuro4jPackage.getEndNode();
+	
+		case CALL:
+			 return neuro4jPackage.getCallNode();
+	
+		case DECISION:
+			 return neuro4jPackage.getDecisionNode();
+	
+		case LOOP:
+			 return neuro4jPackage.getLoopNode();
+	
+		case CUSTOM:
+			 return neuro4jPackage.getLogicNode();
+
+		case MAP:
+			 return neuro4jPackage.getMapperNode();
+	
+		case SWITCH:
+			 return neuro4jPackage.getFollowByRelationNode();
+	
+		case VIEW:
+			 return neuro4jPackage.getViewNode();
+	
+		case NOTE:
+			 return neuro4jPackage.getNoteNode();
+		
+		default:
+	
+			return null;
+		}
+    	
+//
+//        } else if (NodeType.START.equals(className)) {
+//            return neuro4jPackage.getStartNode();
+//        } else if (NodeType.END.equals(className)) {
+//            return neuro4jPackage.getEndNode();
+//        } else if (NodeType.CALL.equals(className)) {
+//            return neuro4jPackage.getCallNode();
+//        } else if (NodeType.DECISION.equals(className)) {
+//            return neuro4jPackage.getDecisionNode();
+//        } else if (NodeType.LOOP.equals(className)) {
+//            return neuro4jPackage.getLoopNode();
+//        } else if (NodeType.CUSTOM.equals(className)) {
+//            return neuro4jPackage.getLogicNode();
+//        } else if (NodeType.MAP.equals(className)) {
+//            return neuro4jPackage.getMapperNode();
+//        } else if (NodeType.SWITCH.equals(className)) {
+//            return neuro4jPackage.getFollowByRelationNode();
+//        } else if (NodeType.VIEW.equals(className)) {
+//            return neuro4jPackage.getViewNode();
+//        } else if (Network.CONFIG_NODE_CLASS_NAME.equals(className)) {
+//            return null;
+//        } else if (NodeType.NOTE.equals(className)) {
+//            return neuro4jPackage.getNoteNode();
+//            // return null;
+//        } else {
+//            // if not it is custom implementation of logic node
+//            // return neuro4jPackage.getS
+//            return neuro4jPackage.getLogicNode();
+//        }
 
     }
+    
+//    private EClass getClass(String className) {
+//        if (JoinNodeImpl.IMPL_CLASS.equals(className)) {
+//            return neuro4jPackage.getJoinNode();
+//        } else if (StartNodeImpl.IMPL_CLASS.equals(className)) {
+//            return neuro4jPackage.getStartNode();
+//        } else if (EndNodeImpl.IMPL_CLASS.equals(className)) {
+//            return neuro4jPackage.getEndNode();
+//        } else if (CallNodeImpl.IMPL_CLASS.equals(className)) {
+//            return neuro4jPackage.getCallNode();
+//        } else if (DecisionNodeImpl.IMPL_CLASS.equals(className)) {
+//            return neuro4jPackage.getDecisionNode();
+//        } else if (LoopNodeImpl.IMPL_CLASS.equals(className)) {
+//            return neuro4jPackage.getLoopNode();
+//        } else if (LogicNodeImpl.IMPL_CLASS.equals(className)) {
+//            return neuro4jPackage.getLogicNode();
+//        } else if (MapperNodeImpl.IMPL_CLASS.equals(className)) {
+//            return neuro4jPackage.getMapperNode();
+//        } else if (FollowByRelationNodeImpl.IMPL_CLASS.equals(className)) {
+//            return neuro4jPackage.getFollowByRelationNode();
+//        } else if (ViewNodeImpl.IMPL_CLASS.equals(className)) {
+//            return neuro4jPackage.getViewNode();
+//        } else if (Network.CONFIG_NODE_CLASS_NAME.equals(className)) {
+//            return null;
+//        } else if (Network.NOTE_NODE_CLASS_NAME.equals(className)) {
+//            return neuro4jPackage.getNoteNode();
+//            // return null;
+//        } else {
+//            // if not it is custom implementation of logic node
+//            // return neuro4jPackage.getS
+//            return neuro4jPackage.getLogicNode();
+//        }
+//
+//    }
 
-    private void processAttributes(EObject eObject, WorkflowNode entity) {
+    private void processAttributes(EObject eObject, NodeXML entity) {
         ActionNode node = (ActionNode) eObject;
         node.setNetwork(this.network);
         processNodeName(node, entity);
@@ -131,7 +206,7 @@ public class Entity2ECoreConverterImpl implements Entity2ECoreConverter {
      * @param node
      * @param entity
      */
-    private void processNodeName(ActionNode node, WorkflowNode entity) {
+    private void processNodeName(ActionNode node, NodeXML entity) {
         if (entity.getName() != null)
         {
             node.setName(entity.getName());
@@ -144,21 +219,11 @@ public class Entity2ECoreConverterImpl implements Entity2ECoreConverter {
      * @param node
      * @param entity
      */
-    private void processCoordinates(ActionNode node, WorkflowNode entity) {
+    private void processCoordinates(ActionNode node, NodeXML entity) {
 
-        String locationX = entity.getParameter(PropetiesConstants.LOCATION_X);
-        if (locationX != null)
-        {
-            int x = Integer.parseInt(locationX);
-            node.setX(x);
-        }
+       node.setX(entity.x());
 
-        String locationY = entity.getParameter(PropetiesConstants.LOCATION_Y);
-        if (locationY != null)
-        {
-            int y = Integer.parseInt(locationY);
-            node.setY(y);
-        }
+       node.setY(entity.y());
     }
 
     /**
@@ -167,15 +232,15 @@ public class Entity2ECoreConverterImpl implements Entity2ECoreConverter {
      * 
      **/
     @Override
-    public List<OperatorOutputImpl> getOutRelations(WorkflowNode entity, Map<String, EObject> map) {
-        Collection<Transition> relations = entity.getExits();
+    public List<OperatorOutputImpl> getOutRelations(NodeXML entity, Map<String, EObject> map) {
+        Collection<TransitionXML> relations = entity.getRelations();
         List<OperatorOutputImpl> re = new ArrayList<OperatorOutputImpl>();
-        for (Transition rel : relations) {
+        for (TransitionXML rel : relations) {
 
-            OperatorOutputImpl relation = (OperatorOutputImpl) map.get(rel.getUuid());
+            OperatorOutputImpl relation = (OperatorOutputImpl) map.get(rel.uuid());
 
-            relation.setId(rel.getUuid());
-            relation.setName(rel.getName());
+            relation.setId(rel.uuid());
+            relation.setName(rel.name());
             re.add(relation);
         }
 

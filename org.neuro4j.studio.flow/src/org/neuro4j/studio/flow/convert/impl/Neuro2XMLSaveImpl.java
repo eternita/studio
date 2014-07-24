@@ -33,18 +33,20 @@ import org.eclipse.gmf.runtime.notation.impl.BoundsImpl;
 import org.eclipse.gmf.runtime.notation.impl.DiagramImpl;
 import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
 import org.neuro4j.studio.core.ActionNode;
-import org.neuro4j.studio.core.format.n4j.NetworkConverter;
+import org.neuro4j.studio.core.NodeType;
+import org.neuro4j.studio.core.format.f4j.FlowConverter;
+import org.neuro4j.studio.core.format.f4j.FlowXML;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.util.PropetiesConstants;
 import org.neuro4j.studio.core.util.UUIDMgr;
 import org.neuro4j.studio.flow.convert.ECore2EnfinityConverter;
-import org.neuro4j.workflow.Workflow;
-import org.neuro4j.workflow.node.WorkflowNode;
+import org.neuro4j.workflow.enums.FlowVisibility;
 import org.w3c.dom.Document;
 
 public class Neuro2XMLSaveImpl extends XMLSaveImpl {
 
     protected ECore2EnfinityConverter converter = null;
-    protected Workflow network;
+    protected FlowXML network;
 
     public Neuro2XMLSaveImpl(Map<?, ?> options, XMLHelper helper,
             String encoding) {
@@ -81,7 +83,7 @@ public class Neuro2XMLSaveImpl extends XMLSaveImpl {
             saveNotes(diagram);
         }
 
-        NetworkConverter.network2xmlstream(network, outputStream);
+        FlowConverter.flow2xmlstream(network, outputStream);
 
         endSave(contents);
         outputStream.flush();
@@ -90,14 +92,14 @@ public class Neuro2XMLSaveImpl extends XMLSaveImpl {
 
     private void saveNetworkConfiguration(org.neuro4j.studio.core.Network eNetwork)
     {
-        WorkflowNode configuration = new WorkflowNode("networkConfig", UUIDMgr.getInstance().createUUIDString(), null);
-        // configuration.setName(SWFConstants.NETWORK_CONFIG_NAME);
-        configuration.addParameter("SWF_BLOCK_CLASS", eNetwork.CONFIG_NODE_CLASS_NAME);
-        // configuration.setUuid(UUIDMgr.getInstance().createUUIDString());
-        configuration.addParameter(eNetwork.VISIBILITY_KEY, eNetwork.getVisibility());
-
-        network.registerNode(configuration);
+    	String visibility = eNetwork.getVisibility();
+    	if (visibility == null)
+    	{
+    		visibility = FlowVisibility.Public.name();
+    	}
+    	network.setVisibility(visibility);     
     }
+    
 
     private void saveNotes(DiagramImpl diagram)
     {
@@ -105,45 +107,38 @@ public class Neuro2XMLSaveImpl extends XMLSaveImpl {
         for (ShapeImpl shape : shapes)
         {
             if ("NOTE".equalsIgnoreCase(shape.getType())) {
-                WorkflowNode note = createNoteEntity(shape);
+                NodeXML note = createNoteEntity(shape);
                 network.registerNode(note);
             }
         }
 
     }
 
-    private WorkflowNode createNoteEntity(ShapeImpl shape)
+    private NodeXML createNoteEntity(ShapeImpl shape)
     {
-        WorkflowNode configuration = new WorkflowNode("note", UUIDMgr.getInstance().createUUIDString(), null);
-        configuration.addParameter("SWF_BLOCK_CLASS", org.neuro4j.studio.core.Network.NOTE_NODE_CLASS_NAME);
-        // configuration.setUuid(UUIDMgr.getInstance().createUUIDString());
-        configuration.addParameter("description", shape.getDescription());
+    	NodeXML configuration = new NodeXML("note", UUIDMgr.getInstance().createUUIDString(), null);
+    	configuration.setType(NodeType.NOTE.toString());
+        configuration.setDescription(shape.getDescription());
         this.converter.setCoordinates(configuration, shape);
         BoundsImpl bounds = (BoundsImpl) shape.getLayoutConstraint();
-        configuration.addParameter(PropetiesConstants.LOCATION_W, bounds.getWidth() + "");
-        configuration.addParameter(PropetiesConstants.LOCATION_H, bounds.getHeight() + "");
+                      
+        
+        configuration.addConfig(PropetiesConstants.LOCATION_W, bounds.getWidth() + "");
+        configuration.addConfig(PropetiesConstants.LOCATION_H, bounds.getHeight() + "");
         return configuration;
     }
 
     @Override
     protected void endSave(List<? extends EObject> contents) throws IOException {
-        // // TODO Auto-generated method stub
         super.endSave(contents);
 
     }
-
-    // @Override
-    // public void write(Writer os) throws IOException {
-    // // TODO Auto-generated method stub
-    // super.write(os);
-    // NetworkConverter.network2xmlstream(network, arg1)
-    // }
 
     @Override
     protected void init(XMLResource resource, Map<?, ?> options) {
         // TODO Auto-generated method stub
         super.init(resource, options);
-        network = new Workflow(resource.getURI().lastSegment(), resource.getURI().path());
+        network = new FlowXML(resource.getURI().lastSegment(), resource.getURI().path());
     }
 
     @Override
@@ -162,7 +157,7 @@ public class Neuro2XMLSaveImpl extends XMLSaveImpl {
 
                     ShapeImpl updatedObject = getUpdatedObject(value);
 
-                    WorkflowNode entity = this.converter.convert(node, updatedObject);
+                    NodeXML entity = this.converter.convert(node, updatedObject, network);
                     network.registerNode(entity);
 
                 }

@@ -23,17 +23,18 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.neuro4j.workflow.common.SWFParametersConstants;
-import org.neuro4j.workflow.enums.StartNodeTypes;
-import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.InOutParameter;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jPackage;
 import org.neuro4j.studio.core.Node;
+import org.neuro4j.studio.core.NodeType;
 import org.neuro4j.studio.core.OperatorOutput;
 import org.neuro4j.studio.core.StartNode;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.util.UUIDMgr;
+import org.neuro4j.workflow.common.SWFParametersConstants;
+import org.neuro4j.workflow.enums.StartNodeTypes;
 
 /**
  * <!-- begin-user-doc -->
@@ -303,14 +304,14 @@ public class StartNodeImpl extends ActionNodeImpl implements StartNode {
     }
 
     @Override
-    public void setNodeSpecificProperties(WorkflowNode entity) {
-        setNotNullProperty(entity, START_NODE_TYPE_PROPERTY_KEY, getType(), StartNodeTypes.PUBLIC.name());
+    public void setNodeSpecificProperties(NodeXML entity) {
+        setNotNullConfig(entity, START_NODE_TYPE_PROPERTY_KEY, getType(), StartNodeTypes.PUBLIC.name());
 
     }
 
     @Override
-    public void getNodeSpecificProperties(WorkflowNode entity) {
-        setType(entity.getParameter(START_NODE_TYPE_PROPERTY_KEY));
+    public void getNodeSpecificProperties(NodeXML entity) {
+        setType(entity.getConfig(START_NODE_TYPE_PROPERTY_KEY));
     }
 
     public static final String START_NODE_TYPE_PROPERTY_KEY = SWFParametersConstants.START_NODE_TYPE;
@@ -352,5 +353,10 @@ public class StartNodeImpl extends ActionNodeImpl implements StartNode {
 
         return node;
     }
+    
+	@Override
+	public NodeType getNodeType() {
+		return NodeType.START;
+	}
 
 } // StartNodeImpl

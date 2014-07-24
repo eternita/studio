@@ -120,6 +120,28 @@ public class FlowUtils {
         return parameter;
 
     }
+    
+	public static InOutParameter getInParameter(String className, String key,
+			String value, String type) {
+		InOutParameter parameter = Neuro4jFactory.eINSTANCE
+				.createInOutParameter();
+		parameter.setName(key);
+		parameter.setValue(value);
+		// load parameter definition from class
+		Map<String, ParameterDefinition> map = ParameterDefinitionLoader
+				.getInstance().getParameterDefinition(className, type);
+		if (map == null) {
+			return parameter;
+		}
+		ParameterDefinition paramDef = map.get(key);
+		if (paramDef != null) {
+			parameter.setClassName(paramDef.type());
+			parameter.setOptional(paramDef.isOptional());
+		}
+
+		return parameter;
+
+	}
 
     public static List<RelativeBendpoint> parseCoordinatesToList(String value)
     {

@@ -22,7 +22,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.neuro4j.studio.core.XmlTransition;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
+import org.neuro4j.studio.core.format.f4j.ParameterXML;
+import org.neuro4j.studio.core.format.f4j.TransitionXML;
 import org.neuro4j.workflow.node.Transition;
 import org.neuro4j.workflow.node.WorkflowNode;
 
@@ -58,31 +60,31 @@ public class EntityXML {
         this.name = name;
     }
 
-    public EntityXML(WorkflowNode entity) {
+    public EntityXML(NodeXML entity) {
         super();
         this.uuid = entity.getUuid();
         this.name = entity.getName();
 
-        for (String key : entity.getParameters().keySet())
-            properties.add(new PropertyXML(key, entity.getParameter(key)));
+        for (ParameterXML key : entity.getParameters())
+            properties.add(new PropertyXML(key.getKey(), key.getValue()));
 
-        for (Transition rid : entity.getExits())
-            relations.add(new RelationTailXML(rid.getUuid()));
+        for (TransitionXML rid : entity.getRelations())
+            relations.add(new RelationTailXML(rid.uuid()));
 
     }
 
-    public EntityXML(XmlTransition transition) {
+    public EntityXML(TransitionXML transition) {
         super();
-        this.uuid = transition.getUuid();
-        this.name = transition.getName();
+        this.uuid = transition.uuid();
+        this.name = transition.name();
 
         if (transition.isValid())
         {
-            properties.add(new PropertyXML("StartUUID", transition.getFromUuid()));
-            properties.add(new PropertyXML(SWFConstants.EndUUID, transition.getToUuid()));
-            properties.add(new PropertyXML("points", transition.getCoordinates()));
-            relations.add(new RelationTailXML(transition.getFromUuid()));
-            relations.add(new RelationTailXML(transition.getToUuid()));
+            properties.add(new PropertyXML("StartUUID", transition.fromNode()));
+            properties.add(new PropertyXML(SWFConstants.EndUUID, transition.toNode()));
+            properties.add(new PropertyXML("points", transition.points()));
+            relations.add(new RelationTailXML(transition.fromNode()));
+            relations.add(new RelationTailXML(transition.toNode()));
         }
 
     }

@@ -18,13 +18,14 @@ package org.neuro4j.studio.core.impl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.neuro4j.workflow.common.SWFParametersConstants;
-import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jPackage;
+import org.neuro4j.studio.core.NodeType;
 import org.neuro4j.studio.core.ViewNode;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.util.UUIDMgr;
+import org.neuro4j.workflow.common.SWFParametersConstants;
 
 /**
  * <!-- begin-user-doc -->
@@ -283,14 +284,14 @@ public class ViewNodeImpl extends ActionNodeImpl implements ViewNode {
     }
 
     @Override
-    public void setNodeSpecificProperties(WorkflowNode entity) {
-        setNotNullProperty(entity, VIEW_TEMPLATE_NAME, getViewName());
-        setNotNullProperty(entity, VIEW_TEMPLATE_DYNAMIC_NAME, getDynamicViewName());
-        setNotNullProperty(entity, VIEW_TEMPLATE_RENDER_TYPE, getRenderType());
+    public void setNodeSpecificProperties(NodeXML entity) {
+        setNotNullConfig(entity, VIEW_TEMPLATE_NAME, getViewName());
+        setNotNullConfig(entity, VIEW_TEMPLATE_DYNAMIC_NAME, getDynamicViewName());
+        setNotNullConfig(entity, VIEW_TEMPLATE_RENDER_TYPE, getRenderType());
     }
 
     @Override
-    public void getNodeSpecificProperties(WorkflowNode entity) {
+    public void getNodeSpecificProperties(NodeXML entity) {
         setDynamicViewName(entity.getParameter(VIEW_TEMPLATE_DYNAMIC_NAME));
         setViewName(entity.getParameter(VIEW_TEMPLATE_NAME));
         setRenderType(entity.getParameter(VIEW_TEMPLATE_RENDER_TYPE));
@@ -323,5 +324,10 @@ public class ViewNodeImpl extends ActionNodeImpl implements ViewNode {
 
         return node;
     }
+    
+	@Override
+	public NodeType getNodeType() {
+		return NodeType.VIEW;
+	}
 
 } // ViewNodeImpl

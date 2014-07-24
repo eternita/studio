@@ -20,11 +20,12 @@ import java.util.List;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.swt.graphics.Color;
-import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.KeyValuePair;
 import org.neuro4j.studio.core.Neuro4jPackage;
 import org.neuro4j.studio.core.StandardNode;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.util.UUIDMgr;
+import org.neuro4j.workflow.node.WorkflowNode;
 
 /**
  * <!-- begin-user-doc -->
@@ -61,7 +62,7 @@ public class StandardNodeImpl extends JoinNodeImpl implements StandardNode {
     }
 
     @Override
-    public void getNodeSpecificProperties(WorkflowNode entity)
+    public void getNodeSpecificProperties(NodeXML entity)
     {
 
         String r_type = entity.getParameter("r_type");
@@ -72,27 +73,6 @@ public class StandardNodeImpl extends JoinNodeImpl implements StandardNode {
 
     }
 
-    // public List<Connected> getConnections()
-    // {
-    // if (connections == null)
-    // {
-    // connections = new ArrayList<Connected>(5);
-    // }
-    //
-    //
-    // return connections;
-    // }
-    //
-    // public List<KeyValuePair> getProperties()
-    // {
-    // if (properties == null)
-    // {
-    // properties = new ArrayList<KeyValuePair>(3);
-    // }
-    //
-    //
-    // return properties;
-    // }
 
     public int getType()
     {
@@ -128,15 +108,7 @@ public class StandardNodeImpl extends JoinNodeImpl implements StandardNode {
     }
 
     @Override
-    public void setNodeSpecificProperties(WorkflowNode entity) {
-        // super.setNodeSpecificProperties(entity);
-        // if (properties != null)
-        // {
-        // for(KeyValuePair para: properties)
-        // {
-        // entity.setProperty(para.getKey(), para.getValue());
-        // }
-        // }
+    public void setNodeSpecificProperties(NodeXML entity) {
 
     }
 

@@ -16,60 +16,59 @@
 package org.neuro4j.studio.core.relation.impl;
 
 import org.eclipse.emf.common.util.EList;
-import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.OperatorOutput;
 import org.neuro4j.studio.core.StartNode;
-import org.neuro4j.studio.core.XmlTransition;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
+import org.neuro4j.studio.core.format.f4j.TransitionXML;
 import org.neuro4j.studio.core.impl.ActionNodeImpl;
 import org.neuro4j.studio.core.relation.ActionRelationProcessor;
 
 public class StartNodeRelationProcessor extends ActionRelationProcessor {
 
-    @Override
-    protected void processOutpuNode(ActionNodeImpl source, WorkflowNode entity, OperatorOutput output, XmlTransition transition) {
-        processOutpuNode(source, null, output);
+	@Override
+	protected void processOutpuNode(ActionNodeImpl source, NodeXML entity,
+			OperatorOutput output, TransitionXML transition) {
+		processOutpuNode(source, null, output);
 
-    }
+	}
 
-    /* *
-     * Process than user draws diagram
-     */
-    @Override
-    public boolean processOutpuNode(ActionNode source, ActionNode target, OperatorOutput output) {
-        StartNode node = (StartNode) source;
-        EList<OperatorOutput> list = node.getOutput();
-        if (node.getMainOutput() == null)
-        {
-            output.setName(StartNode.NEXT);
-            list.add(output);
-            node.setMainOutput(output);
-            return true;
-        } else {
-            if (node.getOutput().contains(output) && output.getName() != null)
-            {
-                return true;
-            }
-            return false;
-        }
+	/* *
+	 * Process than user draws diagram
+	 */
+	@Override
+	public boolean processOutpuNode(ActionNode source, ActionNode target,
+			OperatorOutput output) {
+		StartNode node = (StartNode) source;
+		EList<OperatorOutput> list = node.getOutput();
+		if (node.getMainOutput() == null) {
+			output.setName(StartNode.NEXT);
+			list.add(output);
+			node.setMainOutput(output);
+			return true;
+		} else {
+			if (node.getOutput().contains(output) && output.getName() != null) {
+				return true;
+			}
+			return false;
+		}
 
-    }
+	}
 
-    @Override
-    public boolean updateOutpuNode(ActionNode source, ActionNode target,
-            OperatorOutput output, String oldValue, String newValue) {
-        StartNode node = (StartNode) source;
-        if (null == newValue)
-        {
-            node.setMainOutput(null);
-        }
-        return false;
-    }
+	@Override
+	public boolean updateOutpuNode(ActionNode source, ActionNode target,
+			OperatorOutput output, String oldValue, String newValue) {
+		StartNode node = (StartNode) source;
+		if (null == newValue) {
+			node.setMainOutput(null);
+		}
+		return false;
+	}
 
-    @Override
-    public boolean processOutpuNode(ActionNode source, String sourceAnchor,
-            ActionNode target, String targetAnchor, OperatorOutput output) {
-        return processOutpuNode(source, target, output);
-    }
+	@Override
+	public boolean processOutpuNode(ActionNode source, String sourceAnchor,
+			ActionNode target, String targetAnchor, OperatorOutput output) {
+		return processOutpuNode(source, target, output);
+	}
 
 }

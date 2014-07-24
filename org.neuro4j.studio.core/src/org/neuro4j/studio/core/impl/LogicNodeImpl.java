@@ -16,6 +16,7 @@
 package org.neuro4j.studio.core.impl;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -24,17 +25,20 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.neuro4j.workflow.common.SWFParametersConstants;
-import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.HasFewInOutAnchors;
 import org.neuro4j.studio.core.InOutParameter;
 import org.neuro4j.studio.core.LogicNode;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jPackage;
+import org.neuro4j.studio.core.NodeType;
 import org.neuro4j.studio.core.OperatorOutput;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
+import org.neuro4j.studio.core.format.f4j.ParameterXML;
 import org.neuro4j.studio.core.util.FlowUtils;
 import org.neuro4j.studio.core.util.UUIDMgr;
+import org.neuro4j.workflow.common.SWFParametersConstants;
+import org.neuro4j.workflow.node.WorkflowNode;
 
 /**
  * <!-- begin-user-doc -->
@@ -471,38 +475,38 @@ public class LogicNodeImpl extends ActionNodeImpl implements LogicNode, HasFewIn
     }
 
     @Override
-    public void setNodeSpecificProperties(WorkflowNode entity) {
-        setNotNullProperty(entity, CLASS_NAME_PROPERTY_KEY, getName());
-        setNotNullProperty(entity, CUSTOM_CLASS_NAME_PROPERTY_KEY, getClassName());
+    public void setNodeSpecificProperties(NodeXML entity) {
+        setNotNullConfig(entity, CLASS_NAME_PROPERTY_KEY, getName());
+        setNotNullConfig(entity, CUSTOM_CLASS_NAME_PROPERTY_KEY, getClassName());
         saveInOutParameters(entity);
 
     }
 
-    private void saveInOutParameters(WorkflowNode entity)
+    private void saveInOutParameters(NodeXML entity)
     {
         EList<InOutParameter> parameters = getInParameters();
         int i = 1;
         for (InOutParameter parameter : parameters)
         {
-            saveParameter(i++, PARAMETER_TYPE_IN, parameter, entity);
+            saveParameter(i++, true, parameter, entity);
 
         }
         i = 1;
         parameters = getOutParameters();
         for (InOutParameter parameter : parameters)
         {
-            saveParameter(i++, PARAMETER_TYPE_OUT, parameter, entity);
+            saveParameter(i++, false, parameter, entity);
 
         }
     }
 
-    private void saveParameter(int number, String type, InOutParameter parameter, WorkflowNode entity)
+    private void saveParameter(int number, boolean isInput, InOutParameter parameter, NodeXML entity)
     {
         if (parameter.getValue() != null && "".equals(parameter.getValue().trim()))
         {
             return;
         }
-        setNotNullProperty(entity, PARAMETER_MAPPING_NAME + number + ":" + type, parameter.getName() + PARAMETER_MAPPING_DELIMETER + parameter.getValue());
+        setNotNullProperty(entity, parameter.getName(), parameter.getValue(), isInput);
 
     }
 
@@ -512,22 +516,18 @@ public class LogicNodeImpl extends ActionNodeImpl implements LogicNode, HasFewIn
      * @see org.neuro4j.studio.core.impl.ActionNodeImpl#getNodeSpecificProperties(org.neuro4j.core.Entity)
      */
     @Override
-    public void getNodeSpecificProperties(WorkflowNode entity) {
-        setClassName(entity.getParameter(CUSTOM_CLASS_NAME_PROPERTY_KEY));
-        setName(entity.getParameter(CLASS_NAME_PROPERTY_KEY));
+    public void getNodeSpecificProperties(NodeXML entity) {
+        setClassName(entity.getConfig(CUSTOM_CLASS_NAME_PROPERTY_KEY));
+        setName(entity.getName());
         readInputParameters(entity);
     }
 
-    private void readInputParameters(WorkflowNode entity)
+    private void readInputParameters(NodeXML entity)
     {
-        Set<String> properties = entity.getParameters().keySet();
-        for (String propertyName : properties) {
-            if (propertyName.startsWith(PARAMETER_MAPPING_NAME))
-            {
-                String property = entity.getParameter(propertyName);
-                if (property != null) {
-                    boolean isOutput = FlowUtils.isOutputParameter(propertyName);
-                    InOutParameter parameter = FlowUtils.parseInParameter(getClassName(), property, (isOutput) ? "output" : "input");
+        List<ParameterXML> properties = entity.getParameters();
+        for (ParameterXML p : properties) {
+                    boolean isOutput = !p.input;
+                    InOutParameter parameter = FlowUtils.getInParameter(getClassName(), p.getKey(), p.getValue(), (isOutput) ? "output" : "input");
                     if (parameter.isValid()) {
                         if (isOutput)
                         {
@@ -537,8 +537,6 @@ public class LogicNodeImpl extends ActionNodeImpl implements LogicNode, HasFewIn
                         }
 
                     }
-                }
-            }
         }
 
     }
@@ -613,5 +611,10 @@ public class LogicNodeImpl extends ActionNodeImpl implements LogicNode, HasFewIn
 
         return node;
     }
+    
+	@Override
+	public NodeType getNodeType() {
+		return NodeType.CUSTOM;
+	}
 
 } // LogicNodeImpl

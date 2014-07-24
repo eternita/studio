@@ -24,10 +24,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.neuro4j.studio.core.XmlTransition;
-import org.neuro4j.workflow.Workflow;
-import org.neuro4j.workflow.node.Transition;
-import org.neuro4j.workflow.node.WorkflowNode;
+import org.neuro4j.studio.core.format.f4j.FlowXML;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
+import org.neuro4j.studio.core.format.f4j.TransitionXML;
 
 @XmlRootElement(name = "network")
 public class NetworkXML {
@@ -43,15 +42,15 @@ public class NetworkXML {
 
     }
 
-    public NetworkXML(Workflow n)
+    public NetworkXML(FlowXML n)
     {
-        for (WorkflowNode e : n.getNodes())
+        for (NodeXML e : n.getXmlNodes())
         {
             entities.add(new EntityXML(e));
 
-            for (Transition transition : e.getExits())
+            for (TransitionXML transition : e.getRelations())
             {
-                entities.add(new EntityXML((XmlTransition) transition));
+                entities.add(new EntityXML(transition));
             }
         }
 

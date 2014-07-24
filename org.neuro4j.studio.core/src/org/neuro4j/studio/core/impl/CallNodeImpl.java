@@ -24,14 +24,15 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.neuro4j.workflow.common.SWFParametersConstants;
-import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.CallNode;
 import org.neuro4j.studio.core.InOutParameter;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jPackage;
+import org.neuro4j.studio.core.NodeType;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.util.UUIDMgr;
+import org.neuro4j.workflow.common.SWFParametersConstants;
 
 /**
  * <!-- begin-user-doc -->
@@ -341,13 +342,13 @@ public class CallNodeImpl extends ActionNodeImpl implements CallNode {
     }
 
     @Override
-    public void setNodeSpecificProperties(WorkflowNode entity) {
-        setNotNullProperty(entity, FLOW_NAME_PROPERTY_KEY, getFlowName());
-        setNotNullProperty(entity, DYNAMIC_FLOW_NAME_PROPERTY_KEY, getDynamicFlowName());
+    public void setNodeSpecificProperties(NodeXML entity) {
+        setNotNullConfig(entity, FLOW_NAME_PROPERTY_KEY, getFlowName());
+        setNotNullConfig(entity, DYNAMIC_FLOW_NAME_PROPERTY_KEY, getDynamicFlowName());
     }
 
     @Override
-    public void getNodeSpecificProperties(WorkflowNode entity) {
+    public void getNodeSpecificProperties(NodeXML entity) {
         setFlowName(entity.getParameter(FLOW_NAME_PROPERTY_KEY));
         setDynamicFlowName(entity.getParameter(DYNAMIC_FLOW_NAME_PROPERTY_KEY));
     }
@@ -376,5 +377,10 @@ public class CallNodeImpl extends ActionNodeImpl implements CallNode {
 
         return node;
     }
+
+	@Override
+	public NodeType getNodeType() {
+		return NodeType.CALL;
+	}
 
 } // CallNodeImpl

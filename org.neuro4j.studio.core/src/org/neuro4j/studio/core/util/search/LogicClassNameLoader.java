@@ -16,25 +16,17 @@
 package org.neuro4j.studio.core.util.search;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeHierarchy;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.neuro4j.studio.core.util.ClassloaderHelper;
-import org.neuro4j.studio.core.util.CollectionWorkspaceUpdater;
 import org.neuro4j.studio.core.util.MapWorkspaceUpdater;
 import org.neuro4j.studio.core.util.WorkspaceUpdater;
 
@@ -43,7 +35,7 @@ public class LogicClassNameLoader {
     private static LogicClassNameLoader instance = new LogicClassNameLoader();
 
     private static final IType[] EMPTY_ARRAY = new IType[0];
-    private static final String LOGIC_BASE_CLASS = "import org.neuro4j.workflow.def.CustomNode";
+    private static final String LOGIC_BASE_CLASS = "org.neuro4j.workflow.node.CustomBlock";
 
     private Map<String, List<String>> classes = new HashMap<String, List<String>>();
 

@@ -174,8 +174,9 @@ public class Neuro4jFactoryImpl extends EFactoryImpl implements Neuro4jFactory {
      * @generated
      */
     public ActionNode createActionNode() {
-        ActionNodeImpl actionNode = new ActionNodeImpl();
-        return actionNode;
+//        ActionNodeImpl actionNode = new ActionNodeImpl();
+    	throw new UnsupportedOperationException();
+      //  return null;
     }
 
     /**

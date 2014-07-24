@@ -36,6 +36,9 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.NoteNode;
+import org.neuro4j.studio.core.format.f4j.FlowConverter;
+import org.neuro4j.studio.core.format.f4j.FlowXML;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.format.n4j.ConvertationException;
 import org.neuro4j.studio.core.format.n4j.NetworkConverter;
 import org.neuro4j.studio.core.impl.ActionNodeImpl;
@@ -45,7 +48,7 @@ import org.neuro4j.studio.core.util.search.CallNodeResolver;
 import org.neuro4j.studio.flow.convert.Entity2ECoreConverter;
 import org.neuro4j.studio.flow.convert.impl.Entity2ECoreConverterImpl;
 import org.neuro4j.studio.flow.convert.impl.Neuro2XMLSaveImpl;
-import org.neuro4j.workflow.Workflow;
+import org.neuro4j.workflow.common.FlowInitializationException;
 import org.neuro4j.workflow.enums.FlowVisibility;
 import org.neuro4j.workflow.node.WorkflowNode;
 import org.xml.sax.InputSource;
@@ -83,11 +86,11 @@ public class FlowResourceImpl extends GMFResource {
         eNetwork.setResource(null);
 
         converter = new Entity2ECoreConverterImpl(eNetwork);
-        Workflow network = xml2network(inputStream);
-        Collection<WorkflowNode> entitiesIds = network.getNodes();
+        FlowXML network = xml2network(inputStream);
+        Collection<NodeXML> entitiesIds = network.getXmlNodes();
         Map<String, EObject> map = getIntrinsicIDToEObjectMap();
-
-        for (WorkflowNode entity : entitiesIds)
+        eNetwork.setVisibility(network.visibility);
+        for (NodeXML entity : entitiesIds)
         {
             if (map != null)
             {
@@ -111,15 +114,13 @@ public class FlowResourceImpl extends GMFResource {
                     }
                     eNetwork.processNodeCount(eObject);
 
-                } else {
-                    processNotActionNode(entity, eNetwork);
-                }
+                } 
             }
         }
 
         // entitiesIds = FlowUtils.getEntities(network);
 
-        for (WorkflowNode entity : entitiesIds)
+        for (NodeXML entity : entitiesIds)
         {
             // Connected entity = network.getById(uuid);
             ActionNodeImpl eobjMain = (ActionNodeImpl) map.get(entity.getUuid());
@@ -140,18 +141,9 @@ public class FlowResourceImpl extends GMFResource {
 
     }
 
-    private void processNotActionNode(WorkflowNode entity, Network eNetwork)
-    {
-        // TODO:
-        String name = entity.getParameter("SWF_BLOCK_CLASS");
-        if (eNetwork.CONFIG_NODE_CLASS_NAME.equalsIgnoreCase(name))
-        {
-            loadNetworkConfiguration(entity, eNetwork);
-        }
 
-    }
 
-    private void loadNetworkConfiguration(WorkflowNode entity, Network eNetwork)
+    private void loadNetworkConfiguration(NodeXML entity, Network eNetwork)
     {
         String visibility = entity.getParameter(eNetwork.VISIBILITY_KEY);
         if (visibility == null)
@@ -185,13 +177,16 @@ public class FlowResourceImpl extends GMFResource {
         super.doUnload();
     }
 
-    private static Workflow xml2network(InputStream stream) {
+    private static FlowXML xml2network(InputStream stream) {
         try {
-            return NetworkConverter.xml2workflow(stream, "123");
-        } catch (ConvertationException e) {
-
-            e.printStackTrace();
-        }
+			return FlowConverter.xml2workflow(stream, "123");
+		} catch (org.neuro4j.studio.core.format.f4j.ConvertationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FlowInitializationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return null;
     }
 

@@ -17,11 +17,9 @@ package org.neuro4j.studio.core.util.search;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,20 +27,16 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.ide.undo.WorkspaceUndoMonitor;
-import org.neuro4j.studio.core.XmlWorkflow;
-import org.neuro4j.studio.core.format.n4j.ConvertationException;
-import org.neuro4j.studio.core.format.n4j.NetworkConverter;
+import org.neuro4j.studio.core.format.f4j.FlowConverter;
+import org.neuro4j.studio.core.format.f4j.FlowXML;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
+import org.neuro4j.studio.core.format.f4j.TransitionXML;
+import org.neuro4j.studio.core.format.f4j.ConvertationException;
 import org.neuro4j.studio.core.impl.EndNodeImpl;
 import org.neuro4j.studio.core.util.PropetiesConstants;
-import org.neuro4j.workflow.Workflow;
 import org.neuro4j.workflow.common.FlowExecutionException;
 import org.neuro4j.workflow.common.FlowInitializationException;
 import org.neuro4j.workflow.common.WorkflowEngine;
-import org.neuro4j.workflow.loader.WorkflowLoader;
-import org.neuro4j.workflow.node.StartNode;
-import org.neuro4j.workflow.node.Transition;
-import org.neuro4j.workflow.node.WorkflowNode;
 
 
 public class CallNodeResolver {
@@ -135,34 +129,38 @@ public class CallNodeResolver {
     public List<String> getEndNodeListForStartNode(InputStream is, String flow, String startNodeName)
     {
         List<String> endNodes = new ArrayList<String>();
-        Set<WorkflowNode> visited = new HashSet<WorkflowNode>();
+        Set<String> visited = new HashSet<String>();
 
         try {
            // Workflow wflow = WorkflowLoader.loadFlowFromFS(is, flow);
-        	XmlWorkflow wflow = NetworkConverter.xml2workflow(is, flow);
+        	//FlowXML wflow = NetworkConverter.xml2workflow(is, flow);
+        	FlowXML wflow = FlowConverter.xml2workflow(is, flow);
         	
-        	WorkflowNode startNode = wflow.getNodeByName(startNodeName);
+        	NodeXML startNode = wflow.getNodeByName(startNodeName);
         	
             findEndNodes(startNode, visited, endNodes);
             return endNodes;
         } catch (ConvertationException e) {
 
             e.printStackTrace();
-        }
+        } catch (FlowInitializationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         return Collections.EMPTY_LIST;
     }
 
-    private void findEndNodes(WorkflowNode node, Set<WorkflowNode> visited, List<String> endNodes)
+    private void findEndNodes(NodeXML node, Set<String> visited, List<String> endNodes)
     {
 
-        for (Transition transition : node.getExits())
+        for (TransitionXML transition : node.getRelations())
         {
-            WorkflowNode n = transition.getToNode();
-            if (visited.contains(n)) {
+            NodeXML n = transition.getTargetNode();
+            if (visited.contains(n.getUuid())) {
                 return;
             }
-            visited.add(n);
+            visited.add(n.getUuid());
             if (isEndNode(n))
             {
                 endNodes.add(n.getName());
@@ -174,7 +172,7 @@ public class CallNodeResolver {
 
     }
 
-    private boolean isEndNode(WorkflowNode node)
+    private boolean isEndNode(NodeXML node)
     {
         if (EndNodeImpl.IMPL_CLASS.equals(node.getParameter(PropetiesConstants.SWF_BLOCK_CLASS)))
         {

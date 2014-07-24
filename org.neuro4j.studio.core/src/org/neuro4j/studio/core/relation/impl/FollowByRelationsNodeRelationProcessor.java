@@ -15,40 +15,42 @@
  */
 package org.neuro4j.studio.core.relation.impl;
 
-import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.OperatorOutput;
-import org.neuro4j.studio.core.XmlTransition;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
+import org.neuro4j.studio.core.format.f4j.TransitionXML;
 import org.neuro4j.studio.core.impl.ActionNodeImpl;
 import org.neuro4j.studio.core.relation.ActionRelationProcessor;
 
-public class FollowByRelationsNodeRelationProcessor extends ActionRelationProcessor {
+public class FollowByRelationsNodeRelationProcessor extends
+		ActionRelationProcessor {
 
-    @Override
-    protected void processOutpuNode(ActionNodeImpl source, WorkflowNode entity, OperatorOutput output, XmlTransition relation) {
-        output.setName(relation.getName());
-        processOutpuNode(source, null, output);
-    }
+	@Override
+	protected void processOutpuNode(ActionNodeImpl source, NodeXML entity,
+			OperatorOutput output, TransitionXML relation) {
+		output.setName(relation.name());
+		processOutpuNode(source, null, output);
+	}
 
-    @Override
-    public boolean processOutpuNode(ActionNode source, ActionNode target,
-            OperatorOutput output) {
-        source.getOutput().add(output);
-        return true;
+	@Override
+	public boolean processOutpuNode(ActionNode source, ActionNode target,
+			OperatorOutput output) {
+		source.getOutput().add(output);
+		return true;
 
-    }
+	}
 
-    @Override
-    public boolean updateOutpuNode(ActionNode source, ActionNode target,
-            OperatorOutput output, String oldValue, String newValue) {
-        return false;
-    }
+	@Override
+	public boolean updateOutpuNode(ActionNode source, ActionNode target,
+			OperatorOutput output, String oldValue, String newValue) {
+		return false;
+	}
 
-    @Override
-    public boolean processOutpuNode(ActionNode source, String sourceAnchor,
-            ActionNode target, String targetAnchor, OperatorOutput output) {
-        source.getOutput().add(output);
-        return true;
-    }
+	@Override
+	public boolean processOutpuNode(ActionNode source, String sourceAnchor,
+			ActionNode target, String targetAnchor, OperatorOutput output) {
+		source.getOutput().add(output);
+		return true;
+	}
 
 }

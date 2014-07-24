@@ -19,13 +19,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.impl.OperatorOutputImpl;
-import org.neuro4j.workflow.node.WorkflowNode;
 
 public interface Entity2ECoreConverter {
 
-    public EObject convert(WorkflowNode entity);
+    public EObject convert(NodeXML entity);
 
-    List<OperatorOutputImpl> getOutRelations(WorkflowNode entity, Map<String, EObject> map);
+    List<OperatorOutputImpl> getOutRelations(NodeXML entity, Map<String, EObject> map);
 
 }

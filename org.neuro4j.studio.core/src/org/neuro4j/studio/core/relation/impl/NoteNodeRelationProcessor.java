@@ -15,46 +15,45 @@
  */
 package org.neuro4j.studio.core.relation.impl;
 
-import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.OperatorOutput;
-import org.neuro4j.studio.core.XmlTransition;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
+import org.neuro4j.studio.core.format.f4j.TransitionXML;
 import org.neuro4j.studio.core.impl.ActionNodeImpl;
 import org.neuro4j.studio.core.impl.CallNodeImpl;
 import org.neuro4j.studio.core.relation.ActionRelationProcessor;
 
 public class NoteNodeRelationProcessor extends ActionRelationProcessor {
 
-    @Override
-    protected void processOutpuNode(ActionNodeImpl source, WorkflowNode entity, OperatorOutput output, XmlTransition transition) {
-        processOutpuNode(source, null, output);
-    }
+	@Override
+	protected void processOutpuNode(ActionNodeImpl source, NodeXML entity,
+			OperatorOutput output, TransitionXML transition) {
+		processOutpuNode(source, null, output);
+	}
 
-    @Override
-    public boolean processOutpuNode(ActionNode source, ActionNode target,
-            OperatorOutput output) {
+	@Override
+	public boolean processOutpuNode(ActionNode source, ActionNode target,
+			OperatorOutput output) {
 
-        return false;
+		return false;
 
-    }
+	}
 
-    @Override
-    public boolean updateOutpuNode(ActionNode source, ActionNode target,
-            OperatorOutput output, String oldValue, String newValue) {
-        CallNodeImpl node = (CallNodeImpl) source;
+	@Override
+	public boolean updateOutpuNode(ActionNode source, ActionNode target,
+			OperatorOutput output, String oldValue, String newValue) {
+		CallNodeImpl node = (CallNodeImpl) source;
 
-        if (newValue == null)
-        {
-            node.getUsedOutputNames().remove(output.getName());
-        }
-        return false;
-    }
+		if (newValue == null) {
+			node.getUsedOutputNames().remove(output.getName());
+		}
+		return false;
+	}
 
-    @Override
-    public boolean processOutpuNode(ActionNode source, String sourceAnchor,
-            ActionNode target, String targetAnchor, OperatorOutput output) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+	@Override
+	public boolean processOutpuNode(ActionNode source, String sourceAnchor,
+			ActionNode target, String targetAnchor, OperatorOutput output) {
+		return false;
+	}
 
 }

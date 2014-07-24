@@ -22,38 +22,37 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmf.runtime.notation.datatype.RelativeBendpoint;
-import org.neuro4j.workflow.node.Transition;
-import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.Neuro4jFactory;
 import org.neuro4j.studio.core.OperatorOutput;
-import org.neuro4j.studio.core.XmlTransition;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
+import org.neuro4j.studio.core.format.f4j.TransitionXML;
 import org.neuro4j.studio.core.impl.ActionNodeImpl;
 import org.neuro4j.studio.core.util.FlowUtils;
 
 public abstract class ActionRelationProcessor {
 
-    public void processRelation(ActionNodeImpl source, WorkflowNode entity, Map<String, EObject> map) {
+    public void processRelation(ActionNodeImpl source, NodeXML entity, Map<String, EObject> map) {
 
-        Collection<Transition> relations = entity.getExits();
-        for (Transition rel : relations) {
+        Collection<TransitionXML> relations = entity.getRelations();
+        for (TransitionXML rel : relations) {
 
-            ActionNodeImpl target = (ActionNodeImpl) map.get(rel.getToNode().getUuid());
+            ActionNodeImpl target = (ActionNodeImpl) map.get(rel.toNode());
             //
             OperatorOutput outPut = Neuro4jFactory.eINSTANCE.createOperatorOutput();
-            outPut.setName(rel.getName());
-            outPut.setId(rel.getUuid());
-            List<RelativeBendpoint> coordinates = parseInitialCoordinates((XmlTransition) rel);
+            outPut.setName(rel.name());
+            outPut.setId(rel.uuid());
+            List<RelativeBendpoint> coordinates = parseInitialCoordinates(rel);
             outPut.setCoordinates(coordinates);
             outPut.setTarget(target);
-            processOutpuNode(source, entity, outPut, (XmlTransition) rel);
+            processOutpuNode(source, entity, outPut, rel);
         }
 
     }
 
-    private List<RelativeBendpoint> parseInitialCoordinates(XmlTransition relation)
+    private List<RelativeBendpoint> parseInitialCoordinates(TransitionXML relation)
     {
-        String pointsStr = relation.getCoordinates();
+        String pointsStr = relation.points();
         if (pointsStr != null)
         {
             return FlowUtils.parseCoordinatesToList(pointsStr);
@@ -61,7 +60,7 @@ public abstract class ActionRelationProcessor {
         return new LinkedList<RelativeBendpoint>();
     }
 
-    protected abstract void processOutpuNode(ActionNodeImpl source, WorkflowNode entity, OperatorOutput output, XmlTransition relation);
+    protected abstract void processOutpuNode(ActionNodeImpl source, NodeXML entity, OperatorOutput output, TransitionXML relation);
 
     public abstract boolean processOutpuNode(ActionNode source, ActionNode target, OperatorOutput output);
 

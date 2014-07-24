@@ -17,7 +17,7 @@ package org.neuro4j.studio.core;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.graphics.Color;
-import org.neuro4j.workflow.node.WorkflowNode;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
 
 /**
  * <!-- begin-user-doc -->
@@ -164,17 +164,24 @@ public interface ActionNode extends Node {
      * 
      * @param entity
      */
-    public void setNodeSpecificProperties(WorkflowNode entity);
+    public void setNodeSpecificProperties(NodeXML entity);
 
     /**
      * Read node specific properties from Entity to EClass
      * 
      * @param entity
      */
-    public void getNodeSpecificProperties(WorkflowNode entity);
+    public void getNodeSpecificProperties(NodeXML entity);
 
+    /**
+     * @param count
+     * @return
+     */
     public String getDefaultName(int count);
 
+    /**
+     * @return
+     */
     public String getDefaultName();
 
     /**
@@ -189,6 +196,8 @@ public interface ActionNode extends Node {
     String buildToolTip();
 
     String getLogicImplementationClassName();
+    
+    NodeType getNodeType();
 
     Network getNetwork();
 

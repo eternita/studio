@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2014, Neuro4j.org
+ * Copyright (c) 2013-2014, Neuro4j
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,29 @@
  * limitations under the License.
  */
 
-package org.neuro4j.studio.core;
+package org.neuro4j.studio.core.format.f4j;
 
-import org.neuro4j.workflow.Workflow;
-import org.neuro4j.workflow.node.WorkflowNode;
+public class ConvertationException extends Exception {
 
-public class XmlWorkflowNode extends WorkflowNode {
+    /**
+	 * 
+	 */
+    private static final long serialVersionUID = 8622249445842241152L;
 
-	public XmlWorkflowNode(String name, String uuid, Workflow workflow) {
-		super(name, uuid, workflow);
-	}
+    public ConvertationException() {
+        super();
+    }
+
+    public ConvertationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public ConvertationException(String message) {
+        super(message);
+    }
+
+    public ConvertationException(Throwable cause) {
+        super(cause);
+    }
 
 }

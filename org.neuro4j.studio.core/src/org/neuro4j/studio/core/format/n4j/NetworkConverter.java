@@ -29,16 +29,14 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import org.neuro4j.studio.core.XmlTransition;
-import org.neuro4j.studio.core.XmlWorkflow;
-import org.neuro4j.studio.core.XmlWorkflowNode;
-import org.neuro4j.workflow.Workflow;
+import org.neuro4j.studio.core.format.f4j.FlowXML;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
+import org.neuro4j.studio.core.format.f4j.TransitionXML;
 import org.neuro4j.workflow.common.FlowInitializationException;
-import org.neuro4j.workflow.node.WorkflowNode;
 
 public class NetworkConverter {
 
-	public static String network2xml(Workflow network) {
+	public static String network2xml(FlowXML network) {
 		if (null == network)
 			return null;
 
@@ -58,7 +56,7 @@ public class NetworkConverter {
 		return writer.toString();
 	}
 
-	public static void network2xmlstream(Workflow network, OutputStream out) {
+	public static void network2xmlstream(FlowXML network, OutputStream out) {
 		if (null == network)
 			return;
 
@@ -82,7 +80,7 @@ public class NetworkConverter {
 	// * @param xml
 	// * @return
 	// */
-	public static Workflow xml2network(String xml) throws ConvertationException {
+	public static FlowXML xml2network(String xml) throws ConvertationException {
 		if (null == xml)
 			return null;
 
@@ -109,7 +107,7 @@ public class NetworkConverter {
 	 * @param xml
 	 * @return
 	 */
-	public static XmlWorkflow xml2workflow(InputStream xml, String flow)
+	public static FlowXML xml2workflow(InputStream xml, String flow)
 			throws ConvertationException {
 		if (null == xml)
 			return null;
@@ -140,9 +138,9 @@ public class NetworkConverter {
 		return flowPackage;
 	}
 
-	private static XmlWorkflow netXML2net(NetworkXML net, String flow) {
+	private static FlowXML netXML2net(NetworkXML net, String flow) {
 
-		XmlWorkflow network = new XmlWorkflow(flow, getFlowPackage(flow));
+		FlowXML network = new FlowXML(flow, getFlowPackage(flow));
 
 		for (EntityXML e : net.getEntities()) {
 
@@ -154,10 +152,10 @@ public class NetworkConverter {
 				}
 
 			if (parameters.get(SWFConstants.SWF_BLOCK_CLASS) != null) {
-				WorkflowNode entity;
+				NodeXML entity;
 				try {
 					entity = createNode(network, e, parameters);
-					entity.registerNodeInWorkflow();
+					network.registerNode(entity);
 				} catch (FlowInitializationException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -167,7 +165,7 @@ public class NetworkConverter {
 
 		}
 
-		for (WorkflowNode entity : network.getNodes()) {
+		for (NodeXML entity : network.getXmlNodes()) {
 
 			if (null != entity) {
 				EntityXML e = net.getById(entity.getUuid());
@@ -177,24 +175,25 @@ public class NetworkConverter {
 					if (entityXML == null) {
 						continue;
 					}
-					XmlTransition transition = new XmlTransition(network);
+					TransitionXML transition = new TransitionXML();
 					transition.setUuid(entityXML.getUuid());
 					transition.setName(entityXML.getName());
-					transition.setFromNode(entity);
+					transition.setFromNode(entity.getUuid());
 					List<PropertyXML> representation = entityXML
 							.getRepresentations();
 					for (PropertyXML propertyXML : representation) {
 						if (SWFConstants.EndUUID.equals(propertyXML.getKey())) {
 							String targetUuid = propertyXML.getValue();
-							WorkflowNode toNode = network.getById(targetUuid);
+							NodeXML toNode = network.getById(targetUuid);
 							if (null != toNode)
-								transition.setToNode(toNode);
+								transition.setToNode(toNode.getUuid());
+							    transition.setTargetNode(toNode);
 							entity.registerExit(transition);
 						} else if (SWFConstants.POINTS.equals(propertyXML
 								.getKey())) {
 							String points = propertyXML.getValue();
 							if (points != null) {
-								transition.setCoordinates(points);
+								transition.setPoints(points);
 							}
 
 						}
@@ -207,9 +206,9 @@ public class NetworkConverter {
 		return network;
 	}
 
-	private static WorkflowNode createNode(Workflow workflow, EntityXML e,
+	private static NodeXML createNode(FlowXML workflow, EntityXML e,
 			Map<String, String> parameters) throws FlowInitializationException {
-		WorkflowNode node = null;
+		NodeXML node = null;
 
 		String className = parameters.get("SWF_CUSTOM_CLASS");
 
@@ -222,10 +221,11 @@ public class NetworkConverter {
 		}
 
 		if (node == null) {
-			node = new XmlWorkflowNode(e.getName(), e.getUuid(), workflow);
+			node = new NodeXML(e.getUuid(), e.getName());
 			Set<String> keys = parameters.keySet();
 			for (String key : keys) {
-				node.addParameter(key, parameters.get(key));
+
+					node.addParameter(key, parameters.get(key), true);
 			}
 		}
 

@@ -24,12 +24,13 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.swt.graphics.Color;
-import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jPackage;
 import org.neuro4j.studio.core.OperatorInput;
 import org.neuro4j.studio.core.OperatorOutput;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
+ ;
 
 /**
  * <!-- begin-user-doc -->
@@ -48,7 +49,7 @@ import org.neuro4j.studio.core.OperatorOutput;
  * 
  * @generated
  */
-public class ActionNodeImpl extends NodeImpl implements ActionNode {
+public abstract class ActionNodeImpl extends NodeImpl implements ActionNode {
     /**
      * The cached value of the '{@link #getInput() <em>Input</em>}' containment reference list.
      * <!-- begin-user-doc -->
@@ -393,31 +394,50 @@ public class ActionNodeImpl extends NodeImpl implements ActionNode {
     }
 
     @Override
-    public void setNodeSpecificProperties(WorkflowNode entity) {
+    public void setNodeSpecificProperties(NodeXML entity) {
 
     }
 
-    protected void setNotNullProperty(WorkflowNode entity, String key, String value)
+    protected void setNotNullProperty(NodeXML entity, String key, String value, Boolean isInput)
     {
         if (null != value)
         {
-            entity.addParameter(key, value);
+            entity.addParameter(key, value, isInput);
         }
     }
-
-    protected void setNotNullProperty(WorkflowNode entity, String key, String value, String defaultValue)
+    
+    protected void setNotNullConfig(NodeXML entity, String key, String value)
+    {
+        if (null != value)
+        {
+            entity.addConfig(key, value);
+        }
+    }
+    
+    protected void setNotNullConfig(NodeXML entity, String key, String value, String defaultValue)
     {
         if (value == null || "".equals(value.trim()))
         {
-            setNotNullProperty(entity, key, defaultValue);
+        	setNotNullConfig(entity, key, defaultValue);
         } else {
-            setNotNullProperty(entity, key, value);
+        	setNotNullConfig(entity, key, value);
+        }
+
+    }
+
+    protected void setNotNullProperty(NodeXML entity, String key, String value, String defaultValue, Boolean isInput)
+    {
+        if (value == null || "".equals(value.trim()))
+        {
+            setNotNullProperty(entity, key, defaultValue, isInput);
+        } else {
+            setNotNullProperty(entity, key, value, isInput);
         }
 
     }
 
     @Override
-    public void getNodeSpecificProperties(WorkflowNode entity) {
+    public void getNodeSpecificProperties(NodeXML entity) {
 
     }
 

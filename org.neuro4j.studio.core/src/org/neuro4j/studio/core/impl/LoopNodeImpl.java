@@ -19,16 +19,17 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.neuro4j.workflow.common.SWFParametersConstants;
-import org.neuro4j.workflow.node.WorkflowNode;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.HasFewInOutAnchors;
 import org.neuro4j.studio.core.LoopNode;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jPackage;
+import org.neuro4j.studio.core.NodeType;
 import org.neuro4j.studio.core.OperatorInput;
 import org.neuro4j.studio.core.OperatorOutput;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.util.UUIDMgr;
+import org.neuro4j.workflow.common.SWFParametersConstants;
 
 /**
  * <!-- begin-user-doc -->
@@ -517,15 +518,15 @@ public class LoopNodeImpl extends ActionNodeImpl implements LoopNode, HasFewInOu
     }
 
     @Override
-    public void setNodeSpecificProperties(WorkflowNode entity) {
-        setNotNullProperty(entity, ELEMENT_PROPERTY_KEY, getElementKey());
-        setNotNullProperty(entity, ITERATOR_PROPERTY_KEY, getIteratorKey());
+    public void setNodeSpecificProperties(NodeXML entity) {
+        setNotNullConfig(entity, ELEMENT_PROPERTY_KEY, getElementKey());
+        setNotNullConfig(entity, ITERATOR_PROPERTY_KEY, getIteratorKey());
     }
 
     @Override
-    public void getNodeSpecificProperties(WorkflowNode entity) {
-        setElementKey(entity.getParameter(ELEMENT_PROPERTY_KEY));
-        setIteratorKey(entity.getParameter(ITERATOR_PROPERTY_KEY));
+    public void getNodeSpecificProperties(NodeXML entity) {
+        setElementKey(entity.getConfig(ELEMENT_PROPERTY_KEY));
+        setIteratorKey(entity.getConfig(ITERATOR_PROPERTY_KEY));
     }
 
     public static final String ELEMENT_PROPERTY_KEY = SWFParametersConstants.LOOP_NODE_ELEMENT;
@@ -590,5 +591,10 @@ public class LoopNodeImpl extends ActionNodeImpl implements LoopNode, HasFewInOu
 
         return node;
     }
+    
+	@Override
+	public NodeType getNodeType() {
+		return NodeType.LOOP;
+	}
 
 } // LoopNodeImpl
