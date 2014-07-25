@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.neuro4j.studio.core.NodeType;
 import org.neuro4j.studio.core.format.n4j.EntityXML;
 
 @XmlRootElement(name = "flow")
@@ -42,30 +43,32 @@ public class FlowXML {
 
     Map<String, NodeXML> map;
     
-    Map<String, NodeXML> names = new HashMap<String, NodeXML>();
+    Map<String, NodeXML> names;
 
     public FlowXML()
     {
 
     }
 
-//    public FlowXML(FlowXML n)
-//    {
-//    	visibility = "public";
-//    	
-//        for (NodeXML e : n.getXmlNodes())
-//        {
-//            nodes.add(new NodeXML(e));
-//        }
-//
-//    }
 
     public FlowXML(String flow, String flowPackage) {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public List<NodeXML> getEntities() {
         return nodes;
+    }
+	
+	public List<NodeXML> getNodesByType(NodeType type) {
+		List<NodeXML> list = new ArrayList<NodeXML>();
+		for (NodeXML node: nodes)
+		{
+			if (type.name().equalsIgnoreCase(node.type))
+			{
+				list.add(node);
+			}
+		}
+        return list;
     }
 
     public NodeXML getById(String uuid)

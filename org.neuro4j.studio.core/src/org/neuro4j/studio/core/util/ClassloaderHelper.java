@@ -66,9 +66,14 @@ public class ClassloaderHelper
         List<IJavaProject> javaProjects = new ArrayList<IJavaProject>();
         IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
         for (IProject project : projects) {
-            project.open(null /* IProgressMonitor */);
-            IJavaProject javaProject = JavaCore.create(project);
-            javaProjects.add(javaProject);
+        	try{
+                project.open(null /* IProgressMonitor */);
+                IJavaProject javaProject = JavaCore.create(project);
+                javaProjects.add(javaProject);        		
+        	}catch(Exception ex){
+        		System.err.println(ex.getMessage());
+        	}
+
         }
         return javaProjects;
     }

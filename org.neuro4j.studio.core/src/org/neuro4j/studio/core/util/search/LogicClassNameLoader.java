@@ -94,11 +94,19 @@ public class LogicClassNameLoader {
             classList.add(getClassName(t));
         }
 
-        classes.put(projectName, classList);
+        if (!classList.isEmpty())
+        {
+            classes.put(projectName, classList);        	
+        }
+
 
     }
 
     private IType[] getAllSubtypes(IJavaProject project, IProgressMonitor pm) throws JavaModelException {
+    	if (project == null)
+    	{
+    		return EMPTY_ARRAY;
+    	}
         IType parentType = project.findType(LOGIC_BASE_CLASS);
         if (parentType == null)
         {

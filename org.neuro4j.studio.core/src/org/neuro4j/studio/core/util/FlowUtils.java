@@ -25,6 +25,10 @@ import java.util.Map;
 import org.eclipse.gmf.runtime.notation.datatype.RelativeBendpoint;
 import org.neuro4j.studio.core.InOutParameter;
 import org.neuro4j.studio.core.Neuro4jFactory;
+import org.neuro4j.studio.core.NodeType;
+import org.neuro4j.studio.core.format.f4j.FlowConverter;
+import org.neuro4j.studio.core.format.f4j.FlowXML;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.util.search.CallNodeResolver;
 import org.neuro4j.workflow.Workflow;
 import org.neuro4j.workflow.common.FlowInitializationException;
@@ -39,9 +43,10 @@ public class FlowUtils {
     public static List<String> getStartNodeList(InputStream stream, String flow) {
         List<String> startNodes = new ArrayList<String>();
         try {
-            Workflow wflow = WorkflowLoader.loadFlowFromFS(stream, flow);
+           // Workflow wflow = WorkflowLoader.loadFlowFromFS(stream, flow);
+           FlowXML wflow = FlowConverter.xml2workflow(stream, flow);
 
-            for (StartNode st : wflow.getStartNodes()) {
+            for (NodeXML st : wflow.getNodesByType(NodeType.START)) {
                 startNodes.add(st.getName());
             }
 

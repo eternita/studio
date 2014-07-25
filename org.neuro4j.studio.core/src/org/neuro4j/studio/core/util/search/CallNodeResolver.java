@@ -27,11 +27,11 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.PlatformUI;
+import org.neuro4j.studio.core.NodeType;
 import org.neuro4j.studio.core.format.f4j.FlowConverter;
 import org.neuro4j.studio.core.format.f4j.FlowXML;
 import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.format.f4j.TransitionXML;
-import org.neuro4j.studio.core.format.f4j.ConvertationException;
 import org.neuro4j.studio.core.impl.EndNodeImpl;
 import org.neuro4j.studio.core.util.PropetiesConstants;
 import org.neuro4j.workflow.common.FlowExecutionException;
@@ -80,7 +80,7 @@ public class CallNodeResolver {
         }
         String fileName = fArr[0] + ".n4j";
 
-        List<String> endNodeNames = map.get(fileName);
+        List<String> endNodeNames = map.get(flowName);
 
         if (endNodeNames != null)
         {
@@ -93,27 +93,33 @@ public class CallNodeResolver {
             // IFile file = getCandidate(files);
             for (IFile file : files)
             {
+            	if (!file.getProjectRelativePath().toString().endsWith(fileName))
+            	{
+            		continue;
+            	}
                 try {
                     endNodeNames = getEndNodeListForStartNode(file.getContents(), fArr[0], fArr[1]);
                     if (!endNodeNames.isEmpty())
                     {
-                        List<String> n = map.get(fileName);
+                        List<String> n = map.get(flowName);
                         if (n != null)
                         {
                             n.addAll(endNodeNames);
                         } else {
-                            map.put(fileName, endNodeNames);
+                            map.put(flowName, endNodeNames);
                         }
 
-                        // return endNodeNames;
+                         
+                    } else {
+                    	endNodeNames.add("NEXT");
                     }
-
+                    return endNodeNames;
                 } catch (CoreException e) {
                     e.printStackTrace();
                 }
             }
 
-            return map.get(fileName);
+            return map.get(flowName);
         }
 
         return Collections.emptyList();
@@ -132,17 +138,12 @@ public class CallNodeResolver {
         Set<String> visited = new HashSet<String>();
 
         try {
-           // Workflow wflow = WorkflowLoader.loadFlowFromFS(is, flow);
-        	//FlowXML wflow = NetworkConverter.xml2workflow(is, flow);
+        	
         	FlowXML wflow = FlowConverter.xml2workflow(is, flow);
         	
-        	NodeXML startNode = wflow.getNodeByName(startNodeName);
-        	
-            findEndNodes(startNode, visited, endNodes);
-            return endNodes;
-        } catch (ConvertationException e) {
-
-            e.printStackTrace();
+        	NodeXML startNode = wflow.getNodeByName(startNodeName);        	
+            findEndNodes(startNode, visited, endNodes, wflow);
+            return endNodes;        
         } catch (FlowInitializationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -151,30 +152,31 @@ public class CallNodeResolver {
         return Collections.EMPTY_LIST;
     }
 
-    private void findEndNodes(NodeXML node, Set<String> visited, List<String> endNodes)
+    private void findEndNodes(NodeXML node, Set<String> visited, List<String> endNodes, FlowXML wflow)
     {
 
         for (TransitionXML transition : node.getRelations())
         {
-            NodeXML n = transition.getTargetNode();
-            if (visited.contains(n.getUuid())) {
+            String targetUuid = transition.toNode();
+            if (visited.contains(targetUuid)) {
                 return;
             }
-            visited.add(n.getUuid());
-            if (isEndNode(n))
+            visited.add(targetUuid);
+            NodeXML nodeXml = wflow.getById(targetUuid);
+            if (isEndNode(nodeXml))
             {
-                endNodes.add(n.getName());
+                endNodes.add(nodeXml.getName());
                 continue;
             }
 
-            findEndNodes(n, visited, endNodes);
+            findEndNodes(nodeXml, visited, endNodes, wflow);
         }
 
     }
 
     private boolean isEndNode(NodeXML node)
     {
-        if (EndNodeImpl.IMPL_CLASS.equals(node.getParameter(PropetiesConstants.SWF_BLOCK_CLASS)))
+        if (NodeType.END.name().equalsIgnoreCase(node.type()))
         {
             return true;
         }

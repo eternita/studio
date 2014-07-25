@@ -179,15 +179,12 @@ public class FlowResourceImpl extends GMFResource {
 
     private static FlowXML xml2network(InputStream stream) {
         try {
-			return FlowConverter.xml2workflow(stream, "123");
-		} catch (org.neuro4j.studio.core.format.f4j.ConvertationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return FlowConverter.xml2workflow(stream, "123");		
 		} catch (FlowInitializationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        return null;
+        return new FlowXML();
     }
 
     @Override

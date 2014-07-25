@@ -349,8 +349,8 @@ public class CallNodeImpl extends ActionNodeImpl implements CallNode {
 
     @Override
     public void getNodeSpecificProperties(NodeXML entity) {
-        setFlowName(entity.getParameter(FLOW_NAME_PROPERTY_KEY));
-        setDynamicFlowName(entity.getParameter(DYNAMIC_FLOW_NAME_PROPERTY_KEY));
+        setFlowName(entity.getConfig(FLOW_NAME_PROPERTY_KEY));
+        setDynamicFlowName(entity.getConfig(DYNAMIC_FLOW_NAME_PROPERTY_KEY));
     }
 
     public static final String FLOW_NAME_PROPERTY_KEY = SWFParametersConstants.CAll_NODE_FLOW_NAME;
