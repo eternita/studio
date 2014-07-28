@@ -526,7 +526,7 @@ public class LogicNodeImpl extends ActionNodeImpl implements LogicNode, HasFewIn
     {
         List<ParameterXML> properties = entity.getParameters();
         for (ParameterXML p : properties) {
-                    boolean isOutput = !p.input;
+                    boolean isOutput = (p.input != null && !p.input);
                     InOutParameter parameter = FlowUtils.getInParameter(getClassName(), p.getKey(), p.getValue(), (isOutput) ? "output" : "input");
                     if (parameter.isValid()) {
                         if (isOutput)

@@ -81,28 +81,6 @@ public class NodeXML {
 		this.flow = workflow;
 	}
 
-	// public NodeXML(NodeXML entity) {
-	// super();
-	// this.uuid = entity.getUuid();
-	// this.name = entity.getName();
-	// this.x = entity.getX();
-	// this.y = entity.getY();
-	// this.description = entity.getDescription();
-	// this.type = entity.getType();
-	//
-	// for (String key : entity.getParameters().keySet())
-	// parameters.add(new ParameterXML(key, entity.getParameter(key)));
-	//
-	// for (String key : entity.getConfig().keySet())
-	// config.add(new ParameterXML(key, entity.getConfig(key)));
-	//
-	// for (TransitionXML rid : entity.getXmlExits()){
-	// transitions.add(rid);
-	//
-	// }
-	//
-	//
-	// }
 
 	public String getUuid() {
 		return uuid;

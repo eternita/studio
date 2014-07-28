@@ -19,9 +19,7 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.neuro4j.studio.core.InOutParameter;
-import org.neuro4j.studio.core.KeyValuePair;
 import org.neuro4j.studio.core.impl.LogicNodeImpl;
-import org.neuro4j.studio.core.impl.MapperNodeImpl;
 import org.neuro4j.studio.properties.descriptor.ReadOnlyPropertyDescriptor;
 
 /**
@@ -41,7 +39,7 @@ public class ParameterDefinitionPropertySource implements IPropertySource {
         this.pair = pair;
 
         descriptors = new IPropertyDescriptor[] {
-                new TextPropertyDescriptor(NAME, NAME),
+                new TextPropertyDescriptor(NAME, "Value"),
                 new ReadOnlyPropertyDescriptor(TYPE, TYPE),
                 new ReadOnlyPropertyDescriptor(IS_OPTIONAL, IS_OPTIONAL),
         };
