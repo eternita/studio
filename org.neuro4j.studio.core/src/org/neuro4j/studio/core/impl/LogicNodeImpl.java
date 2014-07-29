@@ -62,8 +62,6 @@ public class LogicNodeImpl extends ActionNodeImpl implements LogicNode, HasFewIn
 
     protected static final String NAME_EDEFAULT = "CustomNode";
 
-    private final static String PARAMETER_MAPPING_NAME = "Parameter";
-    private final static String PARAMETER_MAPPING_DELIMETER = ":";
 
     public final static String PARAMETER_TYPE_IN = "IN";
     public final static String PARAMETER_TYPE_OUT = "OUT";

@@ -80,9 +80,9 @@ public class ClassloaderHelper
 
     public static InputStream loadImage(String name)
     {
-        if (!loaders.containsKey(name))
+        if (!loaders.containsKey(getActiveProjectName()))
         {
-            load(name);
+            load(getActiveProjectName());
         }
 
         for (URLClassLoader loader : loaders.values()) {
@@ -441,7 +441,12 @@ public class ClassloaderHelper
     public static String getActiveProjectName() {
         if (currentJavaProject == null)
         {
-        	System.out.println("currentJavaProject is null");
+        	if (getCurrentResource() != null)
+        	{
+            	currentJavaProject = getCurrentResource().getProject().getName();
+            	System.out.println("currentJavaProject was null set to " + getCurrentResource().getProject().getName() );        		
+        	}
+
         }
     	
         return currentJavaProject;

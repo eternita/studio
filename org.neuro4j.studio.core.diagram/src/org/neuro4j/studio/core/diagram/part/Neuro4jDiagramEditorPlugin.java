@@ -373,7 +373,7 @@ public class Neuro4jDiagramEditorPlugin extends AbstractUIPlugin {
             return null;
         }
 
-        excludeImageRegister.add(name);
+
 
         InputStream is = ClassloaderHelper.loadImage(name);
 
@@ -387,6 +387,8 @@ public class Neuro4jDiagramEditorPlugin extends AbstractUIPlugin {
                 getImageRegistry().put(name, image);
             }
 
+        } else{
+            excludeImageRegister.add(name);
         }
         return image;
     }

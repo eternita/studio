@@ -121,6 +121,10 @@ public class ECore2EnfinityConverterImpl implements ECore2EnfinityConverter {
     private void processCoordinates(OperatorOutput output, TransitionXML relation)
     {
         Edge edge = output.getEdge();
+    	if (edge == null)
+    	{
+    		return;
+    	}
         RelativeBendpointsImpl bendpoints = (RelativeBendpointsImpl) edge.getBendpoints();
         List<RelativeBendpoint> points = bendpoints.getPoints();
 
