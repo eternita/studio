@@ -1,7 +1,8 @@
 Neuro4j Studio
 ======
 
-Neuro4j Studio is an Eclipse-based development tool.
+Neuro4j Studio is open-source visual workflow editor for java applications based on the Eclipse. Studio distributed under the Apache license.
+
 
 Studio includes following plugins:
 
