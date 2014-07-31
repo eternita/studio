@@ -28,19 +28,40 @@
   <properties>
     <tycho.version>0.19.0</tycho.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <juno-repo.url>http://download.eclipse.org/releases/juno</juno-repo.url>
+    <!-- <juno-repo.url>http://download.eclipse.org/releases/juno</juno-repo.url> 
+    <juno-repo.url>http://download.eclipse.org/m2e-wtp/releases/kepler</juno-repo.url> -->
+    <keplerwt-repo.url>http://download.eclipse.org/webtools/repository/kepler</keplerwt-repo.url>
+    <kepler-repo.url>http://download.eclipse.org/releases/kepler</kepler-repo.url> 
+    <pde-repo.url>http://download.eclipse.org/eclipse/pde/visualization/updates</pde-repo.url> 
+      
+
   </properties>
 
   <repositories>
     <repository>
-      <id>juno</id>
-      <url>${juno-repo.url}</url>
+      <id>kepler</id>
+      <url>${kepler-repo.url}</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>keplerwt</id>
+      <url>${keplerwt-repo.url}</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>pde</id>
+      <url>${pde-repo.url}</url>
       <layout>p2</layout>
     </repository>
         <repository>
             <id>neuro4j-maven-milestone</id>
             <name>Neuro4J Maven Repository</name>
             <url>http://static.neuro4j.org/maven2</url>
+        </repository>
+        <repository>
+            <id>m2-maven-milestone</id>
+            <name>Maven Repository</name>
+            <url>http://download.eclipse.org/technology/m2e/releases</url>
         </repository>
   </repositories>
 
