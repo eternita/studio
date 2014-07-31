@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.neuro4j</groupId>
+  <artifactId>studio</artifactId>
+  <version>1.0.1</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>org.neuro4j.studio.workflow</module>
+    <module>org.neuro4j.studio.core</module>
+    <module>org.neuro4j.studio.core.diagram</module>
+    <module>org.neuro4j.studio.core.ext</module>
+    <module>org.neuro4j.studio.core.edit</module>
+    <module>org.neuro4j.studio.core.editor</module>
+<!--    <module>org.neuro4j.studio.core.tests</module> -->
+    <module>org.neuro4j.studio.flow</module>
+    <module>org.neuro4j.studio.properties.ui</module>
+    <module>org.neuro4j.studio.ui</module>
+    <module>org.neuro4j.studio.debug.core</module>
+    <module>org.neuro4j.studio.debug.ui</module>
+    <module>org.neuro4j.studio.ui.debug</module>
+
+    <module>org.neuro4j.studio.update-site</module>
+    <module>product</module>
+ 
+  </modules>
+
+  <properties>
+    <tycho.version>0.19.0</tycho.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <juno-repo.url>http://download.eclipse.org/releases/juno</juno-repo.url>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>juno</id>
+      <url>${juno-repo.url}</url>
+      <layout>p2</layout>
+    </repository>
+        <repository>
+            <id>neuro4j-maven-milestone</id>
+            <name>Neuro4J Maven Repository</name>
+            <url>http://static.neuro4j.org/maven2</url>
+        </repository>
+  </repositories>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <extensions>true</extensions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <configuration>
+          <environments>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>x86_64</arch>
+            </environment>
+          </environments>
+        </configuration>
+      </plugin>
+     </plugins>
+
+  </build>
+
+</project> 

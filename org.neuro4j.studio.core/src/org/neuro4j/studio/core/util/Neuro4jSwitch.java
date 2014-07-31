@@ -18,7 +18,6 @@ package org.neuro4j.studio.core.util;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
-import org.neuro4j.studio.core.*;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.CallNode;
 import org.neuro4j.studio.core.DecisionNode;
@@ -34,8 +33,10 @@ import org.neuro4j.studio.core.MapperNode;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jPackage;
 import org.neuro4j.studio.core.Node;
+import org.neuro4j.studio.core.NoteNode;
 import org.neuro4j.studio.core.OperatorInput;
 import org.neuro4j.studio.core.OperatorOutput;
+import org.neuro4j.studio.core.StandardNode;
 import org.neuro4j.studio.core.StartNode;
 import org.neuro4j.studio.core.ViewNode;
 

@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.neuro4j.studio.core.NodeType;
-import org.neuro4j.studio.core.format.n4j.EntityXML;
 
 @XmlRootElement(name = "flow")
 public class FlowXML {

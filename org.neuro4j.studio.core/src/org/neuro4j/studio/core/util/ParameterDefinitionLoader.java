@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.MethodUtils;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -39,10 +38,10 @@ import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+import org.neuro4j.studio.core.Neuro4jCorePlugin;
 import org.neuro4j.workflow.common.ParameterDefinition;
 import org.neuro4j.workflow.common.ParameterDefinitionImpl;
 import org.neuro4j.workflow.common.ParameterDefinitionList;
-import org.neuro4j.studio.core.Neuro4jCorePlugin;
 
 public class ParameterDefinitionLoader {
 

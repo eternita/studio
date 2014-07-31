@@ -19,7 +19,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.neuro4j.studio.core.*;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.CallNode;
 import org.neuro4j.studio.core.DecisionNode;
@@ -35,8 +34,10 @@ import org.neuro4j.studio.core.MapperNode;
 import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jPackage;
 import org.neuro4j.studio.core.Node;
+import org.neuro4j.studio.core.NoteNode;
 import org.neuro4j.studio.core.OperatorInput;
 import org.neuro4j.studio.core.OperatorOutput;
+import org.neuro4j.studio.core.StandardNode;
 import org.neuro4j.studio.core.StartNode;
 import org.neuro4j.studio.core.ViewNode;
 

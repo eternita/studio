@@ -32,8 +32,6 @@ import org.neuro4j.studio.core.format.f4j.FlowConverter;
 import org.neuro4j.studio.core.format.f4j.FlowXML;
 import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.format.f4j.TransitionXML;
-import org.neuro4j.studio.core.impl.EndNodeImpl;
-import org.neuro4j.studio.core.util.PropetiesConstants;
 import org.neuro4j.workflow.common.FlowExecutionException;
 import org.neuro4j.workflow.common.FlowInitializationException;
 import org.neuro4j.workflow.common.WorkflowEngine;

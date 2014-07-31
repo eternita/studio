@@ -19,10 +19,6 @@ package org.neuro4j.studio.core.format.f4j;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -30,25 +26,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.neuro4j.studio.core.format.n4j.NetworkXML;
-import org.neuro4j.workflow.Workflow;
 import org.neuro4j.workflow.common.FlowInitializationException;
-import org.neuro4j.workflow.common.SWFParametersConstants;
-import org.neuro4j.workflow.enums.DecisionCompTypes;
-import org.neuro4j.workflow.enums.DecisionOperators;
-import org.neuro4j.workflow.enums.FlowVisibility;
-import org.neuro4j.workflow.enums.StartNodeTypes;
-import org.neuro4j.workflow.node.CallNode;
-import org.neuro4j.workflow.node.CustomNode;
-import org.neuro4j.workflow.node.DecisionNode;
-import org.neuro4j.workflow.node.EndNode;
-import org.neuro4j.workflow.node.JoinNode;
-import org.neuro4j.workflow.node.KeyMapper;
-import org.neuro4j.workflow.node.LoopNode;
-import org.neuro4j.workflow.node.StartNode;
-import org.neuro4j.workflow.node.SwitchNode;
-import org.neuro4j.workflow.node.Transition;
-import org.neuro4j.workflow.node.ViewNode;
-import org.neuro4j.workflow.node.WorkflowNode;
 
 public class FlowConverter {
 

@@ -17,7 +17,6 @@ package org.neuro4j.studio.core.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class FileLogger {
 

@@ -17,7 +17,6 @@ package org.neuro4j.studio.core.impl;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
@@ -38,7 +37,6 @@ import org.neuro4j.studio.core.format.f4j.ParameterXML;
 import org.neuro4j.studio.core.util.FlowUtils;
 import org.neuro4j.studio.core.util.UUIDMgr;
 import org.neuro4j.workflow.common.SWFParametersConstants;
-import org.neuro4j.workflow.node.WorkflowNode;
 
 /**
  * <!-- begin-user-doc -->

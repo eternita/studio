@@ -25,8 +25,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.format.f4j.ParameterXML;
 import org.neuro4j.studio.core.format.f4j.TransitionXML;
-import org.neuro4j.workflow.node.Transition;
-import org.neuro4j.workflow.node.WorkflowNode;
 
 public class EntityXML {
 
