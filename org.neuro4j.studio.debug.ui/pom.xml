@@ -11,6 +11,6 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/
 
   <groupId>org.neuro4j</groupId>
   <artifactId>org.neuro4j.studio.debug.ui</artifactId>
-  <version>0.0.3</version>
+  <version>${studio.debug.version}</version>
   <packaging>eclipse-plugin</packaging>
 </project>

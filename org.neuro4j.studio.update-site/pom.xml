@@ -11,7 +11,6 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/
 
   <groupId>org.neuro4j</groupId>
   <artifactId>org.neuro4j.studio.update-site</artifactId>
-  <version>1.0.1</version>
   <packaging>eclipse-repository</packaging>
 
 <build>
@@ -19,6 +18,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/
     <plugin>
       <groupId>org.eclipse.tycho</groupId>
       <artifactId>tycho-packaging-plugin</artifactId>
+      <version>${tycho.version}</version>
       <configuration>
         <archiveSite>true</archiveSite>
       </configuration>

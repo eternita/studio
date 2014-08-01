@@ -10,7 +10,7 @@
 
   <groupId>org.neuro4j</groupId>
   <artifactId>product</artifactId>
-  <version>1.0.1</version>
+  <version>${studio.version}</version>
   <packaging>eclipse-repository</packaging>
 
   <!-- this is the default configuration; only shown here for documentation purposes -->
@@ -21,7 +21,7 @@
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-p2-repository-plugin</artifactId>
-				<version>0.19.0</version>
+				<version>${tycho.version}</version>
 				<configuration>
 					<includeAllDependencies>true</includeAllDependencies>
                                         <installFeatures>true</installFeatures>                               
@@ -30,7 +30,7 @@
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-p2-director-plugin</artifactId>
-				<version>0.19.0</version>
+				<version>${tycho.version}</version>
 				<executions>
 					<execution>
 						<id>materialize-products</id>

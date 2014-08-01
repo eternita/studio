@@ -33,7 +33,9 @@
     <keplerwt-repo.url>http://download.eclipse.org/webtools/repository/kepler</keplerwt-repo.url>
     <kepler-repo.url>http://download.eclipse.org/releases/kepler</kepler-repo.url> 
     <pde-repo.url>http://download.eclipse.org/eclipse/pde/visualization/updates</pde-repo.url> 
-      
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <studio.version>1.0.1</studio.version>
+    <studio.debug.version>0.0.3</studio.debug.version>
 
   </properties>
 
@@ -77,6 +79,7 @@
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho.version}</version>
         <configuration>
           <environments>
             <environment>
