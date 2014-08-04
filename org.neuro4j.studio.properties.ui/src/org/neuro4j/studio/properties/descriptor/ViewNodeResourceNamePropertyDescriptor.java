@@ -61,9 +61,13 @@ public class ViewNodeResourceNamePropertyDescriptor extends PropertyDescriptor {
 
                 String projectName = getProjectName();
 
-                dialog.setTitle("Available resources");
+                dialog.setTitle("Available resources:");
 
                 ViewNodeRenderEngineDefinition renderDefinition = ViewNodeRenderLoader.getInstance().getRenderDefinitionByName(ClassloaderHelper.getActiveProjectName(), viewNode.getRenderType());
+                if (renderDefinition.getFileExt() == null)
+                {
+                	return null;
+                }
                 dialog.setResourceFilter(renderDefinition.getFileExt());
                 dialog.setPathFilter(projectName + renderDefinition.getPathFilter());
                 int result = dialog.open();

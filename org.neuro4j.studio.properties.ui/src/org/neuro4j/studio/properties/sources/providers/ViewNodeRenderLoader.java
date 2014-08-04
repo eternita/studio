@@ -22,27 +22,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
-import org.apache.commons.beanutils.BeanUtils;
 import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
 import org.neuro4j.studio.core.util.ClassloaderHelper;
 import org.neuro4j.studio.core.util.MapWorkspaceUpdater;
+import org.neuro4j.web.logic.render.JspViewNodeRenderEngineDefinition;
 import org.neuro4j.web.logic.render.ViewNodeRenderEngineDefinition;
 
 public class ViewNodeRenderLoader {
 
     private static final IType[] EMPTY_ARRAY = new IType[0];
     private static final String LOGIC_BASE_CLASS = ViewNodeRenderEngineDefinition.class.getCanonicalName();
-    private static List<ViewNodeRenderEngineDefinition> DEFAULT_RENDER_LIST = new LinkedList<ViewNodeRenderEngineDefinition>();
+    private static List<DefaultViewNodeRenderEngineDefinition> DEFAULT_RENDER_LIST = new LinkedList<DefaultViewNodeRenderEngineDefinition>();
 
-    private Map<String, List<ViewNodeRenderEngineDefinition>> renders = new HashMap<String, List<ViewNodeRenderEngineDefinition>>();
+    private Map<String, List<DefaultViewNodeRenderEngineDefinition>> renders = new HashMap<String, List<DefaultViewNodeRenderEngineDefinition>>();
 
-    public static final DefaultViewNodeRenderEngineDefinition DEFAULT_RENDER = new DefaultViewNodeRenderEngineDefinition("jsp", "jsp", "*/WEB-INF/*");
+    public static final DefaultViewNodeRenderEngineDefinition DEFAULT_RENDER = new DefaultViewNodeRenderEngineDefinition("jsp", "jsp", "*/WEB-INF/*", JspViewNodeRenderEngineDefinition.class.getCanonicalName());
 
     private static ViewNodeRenderLoader instance = new ViewNodeRenderLoader();
 
@@ -60,12 +61,12 @@ public class ViewNodeRenderLoader {
     {
         IJavaProject project = ClassloaderHelper.getJavaProject(projectName);
 
-        List<ViewNodeRenderEngineDefinition> list = new LinkedList<ViewNodeRenderEngineDefinition>();
+        List<DefaultViewNodeRenderEngineDefinition> list = new LinkedList<DefaultViewNodeRenderEngineDefinition>();
 
         Set<String> names = getAllClasses(project);
         for (String name : names)
         {
-            ViewNodeRenderEngineDefinition inst = createNewInstance(project, name);
+        	DefaultViewNodeRenderEngineDefinition inst = createNewInstance(project, name);
             if (inst != null)
             {
                 list.add(inst);
@@ -76,7 +77,7 @@ public class ViewNodeRenderLoader {
 
     }
 
-    public List<ViewNodeRenderEngineDefinition> getRender(String project)
+    public List<DefaultViewNodeRenderEngineDefinition> getRender(String project)
     {
         if (renders.get(project) == null)
         {
@@ -102,37 +103,14 @@ public class ViewNodeRenderLoader {
         return classList;
     }
 
-    // private Set<String> getAllClasses() {
-    //
-    //
-    // Set<String> classList = new HashSet<String>();
-    // IWorkspace workspace = ResourcesPlugin.getWorkspace();
-    //
-    //
-    // IWorkspaceRoot root = workspace.getRoot();
-    // IProject[] projects = root.getProjects();
-    // for (IProject project : projects) {
-    // IJavaProject javaProject = JavaCore.create(project);
-    //
-    // IType[] types = null;
-    // try {
-    // types = getAllSubtypes(javaProject, new NullProgressMonitor());
-    // } catch (JavaModelException e) {
-    // System.err.print(e.getMessage());
-    // continue;
-    // }
-    // for (IType t : types) {
-    // classList.add(getClassName(t));
-    // }
-    // }
-    // return classList;
-    // }
 
     private IType[] getAllSubtypes(IJavaProject project, IProgressMonitor pm) throws JavaModelException {
 
         IType parentType = project.findType(LOGIC_BASE_CLASS);
+        
         if (parentType == null)
         {
+        	System.err.print(LOGIC_BASE_CLASS + " not found in classpath. Please add neuro4j-logic-web.jar to your classpath.");
             return EMPTY_ARRAY;
         }
         ITypeHierarchy h = parentType.newTypeHierarchy(project, pm);
@@ -144,9 +122,9 @@ public class ViewNodeRenderLoader {
         return type.getFullyQualifiedName();
     }
 
-    private ViewNodeRenderEngineDefinition createNewInstance(IJavaProject project, String clazzName) {
+    private DefaultViewNodeRenderEngineDefinition createNewInstance(IJavaProject project, String clazzName) {
 
-        ViewNodeRenderEngineDefinition definition = null;
+    	DefaultViewNodeRenderEngineDefinition definition = null;
 
         Object beanInstance = null;
         try {
@@ -162,7 +140,8 @@ public class ViewNodeRenderLoader {
             String fileExt = BeanUtils.getProperty(beanInstance, "fileExt");
             String name = BeanUtils.getProperty(beanInstance, "name");
             String pathFilter = BeanUtils.getProperty(beanInstance, "pathFilter");
-            definition = new DefaultViewNodeRenderEngineDefinition(name, fileExt, pathFilter);
+            String renderImpl = BeanUtils.getProperty(beanInstance, "renderImpl");
+            definition = new DefaultViewNodeRenderEngineDefinition(name, fileExt, pathFilter, renderImpl);
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -192,7 +171,7 @@ public class ViewNodeRenderLoader {
         return names;
     }
 
-    public ViewNodeRenderEngineDefinition getRenderDefinitionByName(String project, String name) {
+    public DefaultViewNodeRenderEngineDefinition getRenderDefinitionByName(String project, String name) {
         if (renders.get(project) == null)
         {
             load(project);
@@ -203,7 +182,7 @@ public class ViewNodeRenderLoader {
             renders.put(project, DEFAULT_RENDER_LIST);
         }
 
-        for (ViewNodeRenderEngineDefinition engine : renders.get(project))
+        for (DefaultViewNodeRenderEngineDefinition engine : renders.get(project))
         {
             if (engine.getName().equals(name)) {
                 return engine;

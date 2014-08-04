@@ -24,11 +24,12 @@ import org.neuro4j.web.logic.render.ViewNodeRenderEngineDefinition;
 public class DefaultViewNodeRenderEngineDefinition extends
         ViewNodeRenderEngineDefinition {
 
-    public DefaultViewNodeRenderEngineDefinition(String name, String fileExt, String pathPrefix) {
+    public DefaultViewNodeRenderEngineDefinition(String name, String fileExt, String pathPrefix, String renderImpl) {
         super();
         this.name = name;
         this.fileExt = fileExt;
         this.pathPrefix = pathPrefix;
+        this.renderImpl = renderImpl;
     }
 
     String name = null;
@@ -36,6 +37,8 @@ public class DefaultViewNodeRenderEngineDefinition extends
     String fileExt = null;
 
     String pathPrefix;
+    
+    String renderImpl = null;
 
     @Override
     public String getFileExt() {
@@ -50,6 +53,10 @@ public class DefaultViewNodeRenderEngineDefinition extends
     @Override
     public String getPathFilter() {
         return pathPrefix;
+    }
+    
+    public String getRenderImpl() {
+        return renderImpl;
     }
 
 }

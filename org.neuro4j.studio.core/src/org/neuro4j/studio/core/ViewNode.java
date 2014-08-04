@@ -66,6 +66,8 @@ public interface ViewNode extends ActionNode {
      * @generated
      */
     void setViewName(String value);
+    
+    void setRenderImpl(String value);
 
     /**
      * Returns the value of the '<em><b>Dynamic View Name</b></em>' attribute.
@@ -85,6 +87,8 @@ public interface ViewNode extends ActionNode {
     String getDynamicViewName();
 
     String getRenderType();
+    
+    String getRenderImpl();
 
     /**
      * Sets the value of the '{@link org.neuro4j.studio.core.ViewNode#getDynamicViewName <em>Dynamic View Name</em>}'

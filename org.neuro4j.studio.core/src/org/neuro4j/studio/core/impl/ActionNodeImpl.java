@@ -408,7 +408,7 @@ public abstract class ActionNodeImpl extends NodeImpl implements ActionNode {
     
     protected void setNotNullConfig(NodeXML entity, String key, String value)
     {
-        if (null != value)
+        if (null != value && !"".equals(value.trim()))
         {
             entity.addConfig(key, value);
         }

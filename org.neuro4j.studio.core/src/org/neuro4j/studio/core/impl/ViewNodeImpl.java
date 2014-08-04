@@ -92,6 +92,8 @@ public class ViewNodeImpl extends ActionNodeImpl implements ViewNode {
     protected String dynamicViewName = DYNAMIC_VIEW_NAME_EDEFAULT;
 
     protected String renderType = RENDER_TYPET_EDEFAULT;
+    
+    protected String renderImpl = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -150,6 +152,10 @@ public class ViewNodeImpl extends ActionNodeImpl implements ViewNode {
     public String getRenderType() {
         return renderType;
     }
+    
+    
+    
+    
 
     /**
      * <!-- begin-user-doc -->
@@ -286,15 +292,17 @@ public class ViewNodeImpl extends ActionNodeImpl implements ViewNode {
     @Override
     public void setNodeSpecificProperties(NodeXML entity) {
         setNotNullConfig(entity, VIEW_TEMPLATE_NAME, getViewName());
-        setNotNullConfig(entity, VIEW_TEMPLATE_DYNAMIC_NAME, getDynamicViewName());
+        setNotNullProperty(entity, VIEW_TEMPLATE_DYNAMIC_NAME, getDynamicViewName(), true);
         setNotNullConfig(entity, VIEW_TEMPLATE_RENDER_TYPE, getRenderType());
+        setNotNullConfig(entity, VIEW_TEMPLATE_RENDER_IMPL, getRenderImpl());
     }
 
     @Override
     public void getNodeSpecificProperties(NodeXML entity) {
         setDynamicViewName(entity.getParameter(VIEW_TEMPLATE_DYNAMIC_NAME));
-        setViewName(entity.getParameter(VIEW_TEMPLATE_NAME));
-        setRenderType(entity.getParameter(VIEW_TEMPLATE_RENDER_TYPE));
+        setViewName(entity.getConfig(VIEW_TEMPLATE_NAME));
+        setRenderType(entity.getConfig(VIEW_TEMPLATE_RENDER_TYPE));
+        setRenderImpl(entity.getConfig(VIEW_TEMPLATE_RENDER_IMPL));
     }
 
     public static final String VIEW_TEMPLATE_NAME = SWFParametersConstants.VIEW_NODE_TEMPLATE_NAME;
@@ -302,6 +310,10 @@ public class ViewNodeImpl extends ActionNodeImpl implements ViewNode {
     public static final String VIEW_TEMPLATE_DYNAMIC_NAME = SWFParametersConstants.VIEW_NODE_TEMPLATE_DYNAMIC_NAME;
 
     public static final String VIEW_TEMPLATE_RENDER_TYPE = SWFParametersConstants.VIEW_NODE_RENDER_TYPE;
+    
+    public static final String VIEW_TEMPLATE_RENDER_IMPL = "RENDER_IMPL";
+    		
+    		//SWFParametersConstants.VIEW_NODE_RENDER_IMPL;
 
     @Override
     public String getLogicImplementationClassName() {
@@ -319,6 +331,7 @@ public class ViewNodeImpl extends ActionNodeImpl implements ViewNode {
         node.setDynamicViewName(this.getDynamicViewName());
         node.setViewName(this.getViewName());
         node.setRenderType(this.getRenderType());
+        node.setRenderImpl(this.getRenderImpl());
         node.setX(this.getX() + 100);
         node.setY(this.getY() + 100);
 
@@ -329,5 +342,17 @@ public class ViewNodeImpl extends ActionNodeImpl implements ViewNode {
 	public NodeType getNodeType() {
 		return NodeType.VIEW;
 	}
+
+	@Override
+	public void setRenderImpl(String value) {
+		this.renderImpl = value;
+	}
+
+	@Override
+	public String getRenderImpl() {
+		return renderImpl;
+	}
+	
+	
 
 } // ViewNodeImpl

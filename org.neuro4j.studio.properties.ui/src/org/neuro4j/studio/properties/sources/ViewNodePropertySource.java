@@ -29,7 +29,9 @@ import org.neuro4j.studio.core.ViewNode;
 import org.neuro4j.studio.core.util.ClassloaderHelper;
 import org.neuro4j.studio.properties.descriptor.ComboPropertyDescriptor;
 import org.neuro4j.studio.properties.descriptor.ViewNodeResourceNamePropertyDescriptor;
+import org.neuro4j.studio.properties.sources.providers.DefaultViewNodeRenderEngineDefinition;
 import org.neuro4j.studio.properties.sources.providers.ViewNodeRenderLoader;
+import org.neuro4j.web.logic.render.ViewNodeRenderEngineDefinition;
 
 public class ViewNodePropertySource extends PropertySource {
 
@@ -67,7 +69,7 @@ public class ViewNodePropertySource extends PropertySource {
 
     @Override
     public void setPropertyValue(Object propertyId, Object value) {
-
+    	ViewNode viewNode =  (ViewNode) object;
         if (propertyId instanceof EAttributeImpl)
         {
             EAttributeImpl attr = (EAttributeImpl) propertyId;
@@ -90,21 +92,28 @@ public class ViewNodePropertySource extends PropertySource {
             }
 
         } else if ("renderType".equals(propertyId)) {
-            Integer index = (Integer) value;
-            String[] names = ViewNodeRenderLoader.getInstance().getRenderNames(ClassloaderHelper.getActiveProjectName());
-            if (index == -1)
-            {
-                value = ViewNodeRenderLoader.DEFAULT_RENDER.getName();
-            }
-            else if (index <= names.length - 1)
-            {
-                value = names[index];
-            } else {
-                value = names[0];
-            }
+        	if (value instanceof Integer){
+                Integer index = (Integer) value;
+                String[] names = ViewNodeRenderLoader.getInstance().getRenderNames(ClassloaderHelper.getActiveProjectName());
+                if (index == -1)
+                {
+                    value = ViewNodeRenderLoader.DEFAULT_RENDER.getName();
+                }
+                else if (index <= names.length - 1)
+                {
+                    value = names[index];
+                } else {
+                    value = names[0];
+                }        		
+        	} 
 
-            itemPropertySource.getPropertyDescriptor(object, "viewName")
-                    .setPropertyValue(object, "");
+
+            itemPropertySource.getPropertyDescriptor(viewNode, "viewName")
+                    .setPropertyValue(viewNode, "");
+            
+            DefaultViewNodeRenderEngineDefinition renderDefinition = ViewNodeRenderLoader.getInstance().getRenderDefinitionByName(ClassloaderHelper.getActiveProjectName(), (String)value);
+            
+            viewNode.setRenderImpl(renderDefinition.getRenderImpl());
 
         }
 

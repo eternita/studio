@@ -17,6 +17,7 @@ package org.neuro4j.studio.properties.descriptor;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.ComboBoxLabelProvider;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
@@ -28,10 +29,11 @@ public class ComboPropertyDescriptor extends ComboBoxPropertyDescriptor {
     public ComboPropertyDescriptor(Object id, String displayName,
             String[] labelsArray) {
         super(id, displayName, labelsArray);
-        setLabelProvider(new ComboBoxLabelProvider(getAllowedValues()));
-
+        labelProvider = new ComboBoxLabelProvider(getAllowedValues());
+        setLabelProvider(labelProvider);
+        
     }
-
+    ILabelProvider labelProvider = null;
     CellEditor editor = null;
 
     public CellEditor createPropertyEditor(Composite parent) {
@@ -45,5 +47,12 @@ public class ComboPropertyDescriptor extends ComboBoxPropertyDescriptor {
     {
         return ViewNodeRenderLoader.getInstance().getRenderNames(ClassloaderHelper.getActiveProjectName());
     }
+
+	@Override
+	public ILabelProvider getLabelProvider() {
+		return super.getLabelProvider();
+	}
+    
+    
 
 }
