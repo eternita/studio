@@ -43,7 +43,7 @@ public class ViewNodeRenderLoader {
 
     private Map<String, List<DefaultViewNodeRenderEngineDefinition>> renders = new HashMap<String, List<DefaultViewNodeRenderEngineDefinition>>();
 
-    public static final DefaultViewNodeRenderEngineDefinition DEFAULT_RENDER = new DefaultViewNodeRenderEngineDefinition("jsp", "jsp", "*/WEB-INF/*", JspViewNodeRenderEngineDefinition.class.getCanonicalName());
+    public static final DefaultViewNodeRenderEngineDefinition DEFAULT_RENDER = new DefaultViewNodeRenderEngineDefinition("jsp", "jsp", "*/WEB-INF/*");
 
     private static ViewNodeRenderLoader instance = new ViewNodeRenderLoader();
 
@@ -140,8 +140,7 @@ public class ViewNodeRenderLoader {
             String fileExt = BeanUtils.getProperty(beanInstance, "fileExt");
             String name = BeanUtils.getProperty(beanInstance, "name");
             String pathFilter = BeanUtils.getProperty(beanInstance, "pathFilter");
-            String renderImpl = BeanUtils.getProperty(beanInstance, "renderImpl");
-            definition = new DefaultViewNodeRenderEngineDefinition(name, fileExt, pathFilter, renderImpl);
+            definition = new DefaultViewNodeRenderEngineDefinition(name, fileExt, pathFilter);
 
         } catch (Exception e) {
             System.err.println(e.getMessage());

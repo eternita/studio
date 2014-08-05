@@ -294,7 +294,6 @@ public class ViewNodeImpl extends ActionNodeImpl implements ViewNode {
         setNotNullConfig(entity, VIEW_TEMPLATE_NAME, getViewName());
         setNotNullProperty(entity, VIEW_TEMPLATE_DYNAMIC_NAME, getDynamicViewName(), true);
         setNotNullConfig(entity, VIEW_TEMPLATE_RENDER_TYPE, getRenderType());
-        setNotNullConfig(entity, VIEW_TEMPLATE_RENDER_IMPL, getRenderImpl());
     }
 
     @Override
@@ -302,7 +301,6 @@ public class ViewNodeImpl extends ActionNodeImpl implements ViewNode {
         setDynamicViewName(entity.getParameter(VIEW_TEMPLATE_DYNAMIC_NAME));
         setViewName(entity.getConfig(VIEW_TEMPLATE_NAME));
         setRenderType(entity.getConfig(VIEW_TEMPLATE_RENDER_TYPE));
-        setRenderImpl(entity.getConfig(VIEW_TEMPLATE_RENDER_IMPL));
     }
 
     public static final String VIEW_TEMPLATE_NAME = SWFParametersConstants.VIEW_NODE_TEMPLATE_NAME;
@@ -311,9 +309,8 @@ public class ViewNodeImpl extends ActionNodeImpl implements ViewNode {
 
     public static final String VIEW_TEMPLATE_RENDER_TYPE = SWFParametersConstants.VIEW_NODE_RENDER_TYPE;
     
-    public static final String VIEW_TEMPLATE_RENDER_IMPL = "RENDER_IMPL";
     		
-    		//SWFParametersConstants.VIEW_NODE_RENDER_IMPL;
+
 
     @Override
     public String getLogicImplementationClassName() {
@@ -331,7 +328,6 @@ public class ViewNodeImpl extends ActionNodeImpl implements ViewNode {
         node.setDynamicViewName(this.getDynamicViewName());
         node.setViewName(this.getViewName());
         node.setRenderType(this.getRenderType());
-        node.setRenderImpl(this.getRenderImpl());
         node.setX(this.getX() + 100);
         node.setY(this.getY() + 100);
 
@@ -343,16 +339,6 @@ public class ViewNodeImpl extends ActionNodeImpl implements ViewNode {
 		return NodeType.VIEW;
 	}
 
-	@Override
-	public void setRenderImpl(String value) {
-		this.renderImpl = value;
-	}
-
-	@Override
-	public String getRenderImpl() {
-		return renderImpl;
-	}
-	
 	
 
 } // ViewNodeImpl

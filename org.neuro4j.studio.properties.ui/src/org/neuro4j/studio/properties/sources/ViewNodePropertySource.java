@@ -111,9 +111,9 @@ public class ViewNodePropertySource extends PropertySource {
             itemPropertySource.getPropertyDescriptor(viewNode, "viewName")
                     .setPropertyValue(viewNode, "");
             
-            DefaultViewNodeRenderEngineDefinition renderDefinition = ViewNodeRenderLoader.getInstance().getRenderDefinitionByName(ClassloaderHelper.getActiveProjectName(), (String)value);
-            
-            viewNode.setRenderImpl(renderDefinition.getRenderImpl());
+//            DefaultViewNodeRenderEngineDefinition renderDefinition = ViewNodeRenderLoader.getInstance().getRenderDefinitionByName(ClassloaderHelper.getActiveProjectName(), (String)value);
+//            
+//            viewNode.setRenderImpl(renderDefinition.getRenderImpl());
 
         }
 
