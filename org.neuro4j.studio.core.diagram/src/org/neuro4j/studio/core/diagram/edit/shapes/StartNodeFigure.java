@@ -25,6 +25,7 @@ import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
 public class StartNodeFigure extends BaseImageFigure {
 
     public static final Image DEFAULT_IMAGE = Neuro4jDiagramEditorPlugin.imageDescriptorFromPlugin(Neuro4jDiagramEditorPlugin.ID, "icons/images/StartNode.png").createImage();
+    public static final Image PRIVATE_IMAGE = Neuro4jDiagramEditorPlugin.imageDescriptorFromPlugin(Neuro4jDiagramEditorPlugin.ID, "icons/images/StartNodePrivate.png").createImage();
 
     /**
      * @generated
@@ -83,6 +84,16 @@ public class StartNodeFigure extends BaseImageFigure {
      */
     public WrappingLabel getFigureStartNodeNameLabel() {
         return fFigureStartNodeNameLabel;
+    }
+    
+    public void setPrivateImage()
+    {
+    	setImage(PRIVATE_IMAGE);    	
+    }
+    
+    public void setPublicImage()
+    {
+    	setImage(DEFAULT_IMAGE);    	
     }
 
 }

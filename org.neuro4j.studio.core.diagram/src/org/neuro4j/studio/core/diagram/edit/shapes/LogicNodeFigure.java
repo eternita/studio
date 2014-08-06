@@ -93,5 +93,6 @@ public class LogicNodeFigure extends BaseImageFigure {
     public WrappingLabel getFigureLogicNodeNameFigure() {
         return fFigureLogicNodeNameFigure;
     }
+    
 
 }

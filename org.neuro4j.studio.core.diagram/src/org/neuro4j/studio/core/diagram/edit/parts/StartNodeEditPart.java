@@ -48,6 +48,7 @@ import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
 import org.eclipse.gmf.tooling.runtime.edit.policies.reparent.CreationEditPolicyWithCustomReparent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -58,6 +59,9 @@ import org.neuro4j.studio.core.diagram.edit.shapes.BaseImageFigure;
 import org.neuro4j.studio.core.diagram.edit.shapes.anchors.DefaultSizeNodeFigureWithFixedAnchors;
 import org.neuro4j.studio.core.diagram.part.Neuro4jVisualIDRegistry;
 import org.neuro4j.studio.core.diagram.providers.Neuro4jElementTypes;
+import org.neuro4j.studio.core.impl.LogicNodeImpl;
+import org.neuro4j.studio.core.impl.StartNodeImpl;
+import org.neuro4j.workflow.enums.StartNodeTypes;
 
 /**
  * @generated
@@ -226,6 +230,12 @@ public class StartNodeEditPart extends NodeBaseEditPart {
         // that the edges will be horizontally oriented
         anchorLocations.put("SOUTH", new PrecisionPoint(0.5d, 1d));
         DefaultSizeNodeFigureWithFixedAnchors result = new DefaultSizeNodeFigureWithFixedAnchors(80, 60, anchorLocations);
+        ShapeImpl shape = (ShapeImpl) getModel();
+        StartNodeImpl node = (StartNodeImpl) shape.getElement();
+        if ("PRIVATE".equals(node.getType()))
+        {
+        	getPrimaryShape().setPrivateImage();
+        }
         return result;
     }
 
@@ -238,10 +248,11 @@ public class StartNodeEditPart extends NodeBaseEditPart {
      * @generated NOT
      */
     protected NodeFigure createNodeFigure() {
+    	 IFigure shape = createNodeShape();
         NodeFigure figure = createNodePlate();
 
         figure.setLayoutManager(new BorderLayout());
-        IFigure shape = createNodeShape();
+       
         WrappingLabel label = ((org.neuro4j.studio.core.diagram.edit.shapes.StartNodeFigure) primaryShape)
                 .getFigureStartNodeNameLabel();
 
@@ -589,83 +600,20 @@ public class StartNodeEditPart extends NodeBaseEditPart {
         ConnectionAnchor ca = super.getTargetConnectionAnchor(connEditPart);
         return ca;
     }
+    
+    public void setImage(StartNodeTypes type){
+    	
+    	switch (type) {
+		case PRIVATE:
+			getPrimaryShape().setPrivateImage();
+			break;
 
-    /**
-     * @generated
-     */
-    // public class StartNodeFigure extends RectangleFigure {
-    //
-    // /**
-    // * @generated
-    // */
-    // private WrappingLabel fFigureStartNodeTypeFigure;
-    // /**
-    // * @generated
-    // */
-    // private Ellipse fFigureStartNodeMainOutput;
-    // /**
-    // * @generated
-    // */
-    // private WrappingLabel fFigureStartNodeNameLabel;
-    //
-    // /**
-    // * @generated
-    // */
-    // public StartNodeFigure() {
-    //
-    // BorderLayout layoutThis = new BorderLayout();
-    // this.setLayoutManager(layoutThis);
-    //
-    // createContents();
-    // }
-    //
-    // /**
-    // * @generated
-    // */
-    // private void createContents() {
-    //
-    // fFigureStartNodeTypeFigure = new WrappingLabel();
-    //
-    // fFigureStartNodeTypeFigure.setText("<...>");
-    //
-    // this.add(fFigureStartNodeTypeFigure);
-    //
-    // fFigureStartNodeMainOutput = new Ellipse();
-    //
-    // fFigureStartNodeMainOutput.setLineWidth(0);
-    // fFigureStartNodeMainOutput.setLineStyle(Graphics.LINE_DOT);
-    //
-    // this.add(fFigureStartNodeMainOutput, BorderLayout.CENTER);
-    //
-    // fFigureStartNodeNameLabel = new WrappingLabel();
-    //
-    // fFigureStartNodeNameLabel.setText("Start");
-    //
-    // this.add(fFigureStartNodeNameLabel);
-    //
-    // }
-    //
-    // /**
-    // * @generated
-    // */
-    // public WrappingLabel getFigureStartNodeTypeFigure() {
-    // return fFigureStartNodeTypeFigure;
-    // }
-    //
-    // /**
-    // * @generated
-    // */
-    // public Ellipse getFigureStartNodeMainOutput() {
-    // return fFigureStartNodeMainOutput;
-    // }
-    //
-    // /**
-    // * @generated
-    // */
-    // public WrappingLabel getFigureStartNodeNameLabel() {
-    // return fFigureStartNodeNameLabel;
-    // }
-    //
-    // }
+		default:
+			getPrimaryShape().setPublicImage();
+			break;
+		}
+    	
+    }
 
+ 
 }

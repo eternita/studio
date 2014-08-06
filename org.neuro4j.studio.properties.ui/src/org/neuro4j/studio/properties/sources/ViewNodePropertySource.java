@@ -15,23 +15,35 @@
  */
 package org.neuro4j.studio.properties.sources;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EAttributeImpl;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor.PropertyValueWrapper;
 import org.eclipse.emf.edit.ui.provider.PropertySource;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramWorkbenchPart;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.neuro4j.studio.core.Neuro4jPackage;
 import org.neuro4j.studio.core.ViewNode;
+import org.neuro4j.studio.core.diagram.edit.parts.StartNodeEditPart;
+import org.neuro4j.studio.core.diagram.edit.parts.ViewNodeEditPart;
+import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorUtil;
+import org.neuro4j.studio.core.impl.ViewNodeImpl;
 import org.neuro4j.studio.core.util.ClassloaderHelper;
 import org.neuro4j.studio.properties.descriptor.ComboPropertyDescriptor;
 import org.neuro4j.studio.properties.descriptor.ViewNodeResourceNamePropertyDescriptor;
 import org.neuro4j.studio.properties.sources.providers.DefaultViewNodeRenderEngineDefinition;
 import org.neuro4j.studio.properties.sources.providers.ViewNodeRenderLoader;
 import org.neuro4j.web.logic.render.ViewNodeRenderEngineDefinition;
+import org.neuro4j.workflow.enums.StartNodeTypes;
 
 public class ViewNodePropertySource extends PropertySource {
 
@@ -69,7 +81,7 @@ public class ViewNodePropertySource extends PropertySource {
 
     @Override
     public void setPropertyValue(Object propertyId, Object value) {
-    	ViewNode viewNode =  (ViewNode) object;
+    	ViewNodeImpl viewNode =  (ViewNodeImpl) object;
         if (propertyId instanceof EAttributeImpl)
         {
             EAttributeImpl attr = (EAttributeImpl) propertyId;
@@ -111,9 +123,7 @@ public class ViewNodePropertySource extends PropertySource {
             itemPropertySource.getPropertyDescriptor(viewNode, "viewName")
                     .setPropertyValue(viewNode, "");
             
-//            DefaultViewNodeRenderEngineDefinition renderDefinition = ViewNodeRenderLoader.getInstance().getRenderDefinitionByName(ClassloaderHelper.getActiveProjectName(), (String)value);
-//            
-//            viewNode.setRenderImpl(renderDefinition.getRenderImpl());
+            updateIcon(viewNode, value.toString());
 
         }
 
@@ -163,6 +173,29 @@ public class ViewNodePropertySource extends PropertySource {
         }
 
         return -1;
+    }
+    
+    private void updateIcon(EObject element, String type)
+    {
+
+        IEditorPart editorPart = PlatformUI.getWorkbench()
+                .getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+        if (editorPart instanceof IDiagramWorkbenchPart) {
+
+            DiagramEditPart diagramPart = ((IDiagramWorkbenchPart) editorPart).getDiagramEditPart();
+            List<EditPart> editPartCollector = new ArrayList<EditPart>();
+
+            Neuro4jDiagramEditorUtil.findElementsInDiagramByID(diagramPart, element, editPartCollector);
+
+            if (editPartCollector.size() > 0)
+            {
+                ViewNodeEditPart editpart = (ViewNodeEditPart) editPartCollector.get(0);
+
+                editpart.setImage(type);
+
+            }
+
+        }
     }
 
 }

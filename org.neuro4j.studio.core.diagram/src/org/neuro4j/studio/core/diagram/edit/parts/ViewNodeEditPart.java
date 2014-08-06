@@ -41,13 +41,19 @@ import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.neuro4j.studio.core.diagram.edit.policies.MyGraphicalNodeEditPolicy;
 import org.neuro4j.studio.core.diagram.edit.policies.ViewNodeItemSemanticEditPolicy;
 import org.neuro4j.studio.core.diagram.edit.shapes.BaseImageFigure;
+import org.neuro4j.studio.core.diagram.edit.shapes.ViewNodeFigure;
 import org.neuro4j.studio.core.diagram.edit.shapes.anchors.DefaultSizeNodeFigureWithFixedAnchors;
+import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
 import org.neuro4j.studio.core.diagram.part.Neuro4jVisualIDRegistry;
 import org.neuro4j.studio.core.diagram.providers.Neuro4jElementTypes;
+import org.neuro4j.studio.core.impl.StartNodeImpl;
+import org.neuro4j.studio.core.impl.ViewNodeImpl;
 
 /**
  * @generated
@@ -231,7 +237,11 @@ public class ViewNodeEditPart extends NodeBaseEditPart {
         figure.add(panel, BorderLayout.TOP);
         figure.add(shape, BorderLayout.CENTER);
         figure.add(label, BorderLayout.BOTTOM);
-
+        ShapeImpl shapeImpl = (ShapeImpl) getModel();
+        ViewNodeImpl node = (ViewNodeImpl) shapeImpl.getElement();
+        
+        setImage(node.getRenderType());
+        
         contentPane = setupContentPane(shape);
         return figure;
     }
@@ -442,55 +452,28 @@ public class ViewNodeEditPart extends NodeBaseEditPart {
         return types;
     }
 
-    /**
-     * @generated
-     */
-    public class ViewNodeFigure extends RectangleFigure {
 
-        /**
-         * @generated
-         */
-        private WrappingLabel fFigureViewNodeViewNameFigure;
+	/**
+	 * Sets custom Icon for ViewNode. 
+	 * @param type
+	 */
+	public void setImage(String type) {
 
-        /**
-         * @generated
-         */
-        public ViewNodeFigure() {
-
-            FlowLayout layoutThis = new FlowLayout();
-            layoutThis.setStretchMinorAxis(false);
-            layoutThis.setMinorAlignment(FlowLayout.ALIGN_LEFTTOP);
-
-            layoutThis.setMajorAlignment(FlowLayout.ALIGN_LEFTTOP);
-            layoutThis.setMajorSpacing(5);
-            layoutThis.setMinorSpacing(5);
-            layoutThis.setHorizontal(true);
-
-            this.setLayoutManager(layoutThis);
-
-            createContents();
+        if (type == null) {
+            return;
         }
+        String image = type + "ViewNode.png";
 
-        /**
-         * @generated
-         */
-        private void createContents() {
+        Image img = Neuro4jDiagramEditorPlugin.getInstance()
+                .getImageFromLocalRegister(image);
 
-            fFigureViewNodeViewNameFigure = new WrappingLabel();
-
-            fFigureViewNodeViewNameFigure.setText("<..>");
-
-            this.add(fFigureViewNodeViewNameFigure);
-
+        if (img != null) {
+            getPrimaryShape().setImage(img);
+        } else if (getPrimaryShape().getImage() == ViewNodeFigure.DEFAULT_IMAGE) {
+        } else {
+            getPrimaryShape().setImage(ViewNodeFigure.DEFAULT_IMAGE);
         }
-
-        /**
-         * @generated
-         */
-        public WrappingLabel getFigureViewNodeViewNameFigure() {
-            return fFigureViewNodeViewNameFigure;
-        }
-
-    }
+		
+	}
 
 }
