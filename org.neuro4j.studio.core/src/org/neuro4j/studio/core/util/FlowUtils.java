@@ -40,7 +40,6 @@ public class FlowUtils {
     public static List<String> getStartNodeList(InputStream stream, String flow) {
         List<String> startNodes = new ArrayList<String>();
         try {
-           // Workflow wflow = WorkflowLoader.loadFlowFromFS(stream, flow);
            FlowXML wflow = FlowConverter.xml2workflow(stream, flow);
 
             for (NodeXML st : wflow.getNodesByType(NodeType.START)) {
