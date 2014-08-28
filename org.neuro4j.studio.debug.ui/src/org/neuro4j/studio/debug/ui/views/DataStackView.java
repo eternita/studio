@@ -39,13 +39,17 @@ public class DataStackView extends VariablesView {
     @Override
     protected TreeModelViewer createTreeViewer(Composite parent) {
         // TODO Auto-generated method stub
-        return super.createTreeViewer(parent);
+    	TreeModelViewer tree =  super.createTreeViewer(parent);
+
+    	return tree;
     }
 
     @Override
     public Viewer createViewer(Composite parent) {
         // TODO Auto-generated method stub
-        return super.createViewer(parent);
+    	Viewer viewer =  super.createViewer(parent);
+    	
+    	return viewer;
     }
 
     // @Override
@@ -88,6 +92,9 @@ public class DataStackView extends VariablesView {
         if (context instanceof JDIStackFrame)
         {
             JDIStackFrameAdapter adapter = new JDIStackFrameAdapter((JDIStackFrame) context);
+        	
+        	//BreakpointContainer adapter  = new BreakpointContainer();
+        	
             getViewer().setInput(adapter);
         } else {
             getViewer().setInput(context);
@@ -96,23 +103,6 @@ public class DataStackView extends VariablesView {
         updateObjects();
     }
 
-    // @Override
-    // protected void contextActivated(ISelection selection)
-    // {
-    // // if ((!isAvailable()) || (!isVisible())) {
-    // // return;
-    // // }
-    // if ((selection instanceof IStructuredSelection)) {
-    // Object source = ((IStructuredSelection)selection).getFirstElement();
-    // if (source instanceof JDIStackFrame)
-    // {
-    // JDIStackFrameAdapter adapter = new JDIStackFrameAdapter((JDIStackFrame) source);
-    // super.contextActivated(new ISelectionAdapter(adapter));
-    // return;
-    // }
-    // }
-    //
-    // super.contextActivated(selection);
-    // }
+    
 
 }

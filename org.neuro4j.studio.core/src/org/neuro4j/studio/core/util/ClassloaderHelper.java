@@ -392,7 +392,7 @@ public class ClassloaderHelper
     {
         if (currentJavaProject == null)
         {
-            return null;
+        	currentJavaProject = getActiveProjectName();          
         }
 
         return getJavaProject(currentJavaProject);
@@ -434,62 +434,6 @@ public class ClassloaderHelper
     	
         return currentJavaProject;
 
-        // ISelectionService selectionService = iSelectionService;
-        //
-        // if (iSelectionService == null)
-        // {
-        //
-        // selectionService = Workbench.getInstance().getActiveWorkbenchWindow().getSelectionService();
-        // }
-        //
-        //
-        //
-        // // // iworkbench.get
-        // // @SuppressWarnings("restriction")
-        // // ISelectionService selectionService = v.getInstance().getActiveWorkbenchWindow().getSelectionService();
-        //
-        // ISelection selection = selectionService.getSelection();
-        // if(selection instanceof IStructuredSelection) {
-        // Object element = ((IStructuredSelection)selection).getFirstElement();
-        //
-        // IProject project;
-        // if (element instanceof IResource) {
-        // project= ((IResource)element).getProject();
-        // return project.getName();
-        // }
-        // // else if (element instanceof PackageFragmentRootContainer) {
-        // // IJavaProject jProject =
-        // // ((PackageFragmentRootContainer)element).getJavaProject();
-        // // project = jProject.getProject();
-        // // }
-        // else if (element instanceof IJavaElement) {
-        // IJavaProject jProject= ((IJavaElement)element).getJavaProject();
-        // project = jProject.getProject();
-        // return project.getName();
-        // }
-        // }
-        // // else if (selection instanceof ITextSelection) {
-        // // if(sourcePart instanceof JavaEditor) {
-        // // IJavaElement element = SelectionConverter.resolveEnclosingElement(sourcePart, selection);
-        // // project = element.getJavaProject().getProject();
-        // // }
-        // // }
-        // // this can be null if the workbench part hasn't set one, better safe than sorry
-        // IWorkbench iworkbench = PlatformUI.getWorkbench();
-        // if (iworkbench != null) {
-        // IWorkbenchWindow iworkbenchwindow = iworkbench.getActiveWorkbenchWindow();
-        // if (iworkbenchwindow != null) {
-        // IWorkbenchPage iworkbenchpage = iworkbenchwindow.getActivePage();
-        // if (iworkbenchpage != null) {
-        // IEditorPart ieditorpart = iworkbenchpage.getActiveEditor();
-        // IFileEditorInput input = (IFileEditorInput)ieditorpart.getEditorInput() ;
-        // IFile file = input.getFile();
-        // IProject activeProject = file.getProject();
-        // return activeProject.getName();
-        // }
-        // }
-        // }
-        // return null;
     }
 
     public static void setCurrentJavaProject(String jProject) {

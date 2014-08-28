@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceProxy;
 import org.eclipse.core.resources.IResourceProxyVisitor;
@@ -39,7 +40,7 @@ public class ResourceFinder {
 
     private static final String NAME_PATERN = "name=\"";
 
-    Map<String, String> resources = new HashMap<String, String>();
+    Map<String, IFile> resources = new HashMap<String, IFile>();
 
     // keeps nodeName and uuid relation
     Map<String, String> nodes = new HashMap<String, String>();
@@ -55,18 +56,18 @@ public class ResourceFinder {
 
     public String getFlowNameByUuid(String uuid)
     {
-        String file = findFileWithUUID(uuid);
+        IFile file = findFileWithUUID(uuid);
 
         if (file != null)
         {
-            String flowName = file.substring(file.lastIndexOf("/") + 1).replace(".n4j", "");
+            String flowName = file.getName().replace(".n4j", "");
             return flowName;
         }
 
         return UNKNOWN;
     }
 
-    public String findFileWithUUID(final String uuid)
+    public IFile findFileWithUUID(final String uuid)
     {
         if (resources.containsKey(uuid))
         {
@@ -89,7 +90,7 @@ public class ResourceFinder {
         {
             if (visitor.getFile() != null)
             {
-                registerFileWithUUId(visitor.getFile().getProjectRelativePath().toPortableString(), uuid);
+                registerFileWithUUId(visitor.getFile(), uuid);
 
             }
         }
@@ -110,12 +111,12 @@ public class ResourceFinder {
 
     }
 
-    public void registerFileWithUUId(String resourcePath, String uuid)
+    public void registerFileWithUUId(IFile resourcePath, String uuid)
     {
         resources.put(uuid, resourcePath);
     }
 
-    public void registerNode(String resource, ActionNode node)
+    public void registerNode(IFile resource, ActionNode node)
     {
         registerFileWithUUId(resource, node.getId());
         registerNodeName(node.getName(), node.getId());

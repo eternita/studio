@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IMarkerDelta;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.IBreakpointsListener;
 import org.eclipse.debug.core.model.IBreakpoint;
+import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.neuro4j.studio.core.diagram.markers.MarkerMng;
 import org.neuro4j.studio.debug.core.BreakpoinMng;
@@ -48,7 +49,10 @@ public class Activator extends AbstractUIPlugin {
      */
     public void start(BundleContext context) throws Exception {
         super.start(context);
-
+        
+        JavaPlugin.getImageDescriptorRegistry();
+        
+        
         DebugPlugin.getDefault().getBreakpointManager().addBreakpointListener(new IBreakpointsListener() {
 
             @Override

@@ -24,7 +24,7 @@ import org.neuro4j.studio.core.util.ClassloaderHelper;
 
 public class MarkerManager {
 
-    public static IResource getBeehiveElementMarkerResource(ActionNode beehiveElement)
+    public static IResource getBeehiveElementMarkerResource(String beehiveElement)
     {
 
         IResource resource = null;
@@ -42,8 +42,8 @@ public class MarkerManager {
         return resource;
     }
 
-    private static IType getIType(ActionNode beehiveElement) throws JavaModelException {
-        IType parentType = ClassloaderHelper.getActiveJavaProject().findType(beehiveElement.getLogicImplementationClassName());
+    private static IType getIType(String beehiveElement) throws JavaModelException {
+        IType parentType = ClassloaderHelper.getActiveJavaProject().findType(beehiveElement);
         return parentType;
     }
 

@@ -1182,7 +1182,14 @@ public class TreeModelContentProvider implements ITreeModelContentProvider, ICon
         } else if (element instanceof DefaultBreakpointsViewInput)
         {
             contentAdapter = breakpointManagerContentProvider;
-        } else {
+        } else if (element instanceof FlowLineBreakpointAdapter)
+        {
+            contentAdapter = breakpointManagerContentProvider;
+        } 
+        else if (element instanceof FlowDebugTarget)
+        {
+            contentAdapter = breakpointManagerContentProvider;
+        }else {
             contentAdapter = ViewerAdapterService.getContentProvider(element);
         }
         if (contentAdapter != null) {
@@ -1327,6 +1334,7 @@ public class TreeModelContentProvider implements ITreeModelContentProvider, ICon
         TreePath parentPath = getViewerTreePath(parentDelta);
         Object element = delta.getElement();
         int count = parentDelta.getChildCount();
+        count = 1;
         if (count > 0) {
             setModelChildCount(parentPath, count);
             int modelIndex = count - 1;

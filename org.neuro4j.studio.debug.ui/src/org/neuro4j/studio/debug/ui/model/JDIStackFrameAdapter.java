@@ -19,6 +19,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.IAdapterManager;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.ILaunch;
@@ -381,7 +383,8 @@ public class JDIStackFrameAdapter extends JDIStackFrame implements org.eclipse.d
 
                         }
                     }
-
+                    IAdapterManager manager= Platform.getAdapterManager();                   
+                    
                     return list.toArray(new IVariable[list.size()]);
 
                 }

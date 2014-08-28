@@ -51,12 +51,13 @@
             <adapter
                   type="org.eclipse.debug.ui.contexts.ISuspendTrigger">
             </adapter>
-         </factory>      
+         </factory> 
+            
    </extension>
    <extension
          point="org.eclipse.ui.views">
       <view
-            name="Context View"
+            name="Flow Context View"
             icon="icons/sample.gif"
             category="org.eclipse.debug.ui"
             class="org.neuro4j.studio.debug.ui.views.DataStackView"
@@ -73,26 +74,11 @@
             name="Flow Breakpoints"
             icon="icons/sample.gif"
             category="org.eclipse.debug.ui"
-            class="org.neuro4j.studio.debug.ui.views.breakpoints.FlowBreakpointsView"
+            class="org.neuro4j.studio.debug.ui.views.flowbreakpoints.NewFlowBreakpoinsView"
             allowMultiple="true"
             id="org.neuro4j.studio.debug.ui.BreakpointView">
       </view>
-      
-   </extension>
-   <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="org.neuro4j.studio.debug.ui.model.DebugPerspective">
-         <view
-               relative="org.eclipse.debug.ui.VariableView"
-               visible="false"
-               relationship="stack"
-               id="org.neuro4j.studio.debug.ui.DataStackView">
-         </view>
-         <viewShortcut
-               id="org.neuro4j.studio.debug.ui.DataStackView">
-         </viewShortcut>
-      </perspectiveExtension>
+   
    </extension>
    <extension
          point="org.eclipse.ui.contexts">
@@ -110,41 +96,15 @@
      </context>
          
    </extension>
-   <!--
-    <extension
-         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
-      <launchConfigurationTabGroup
-            type="org.neuro4j.studio.debug.core.launchConfigurationType.pda"
-            helpContextId="org.eclipse.jdt.debug.ui.launchConfigHelpContext.local_java_application"
-            class="org.eclipse.jdt.internal.debug.ui.launcher.LocalJavaApplicationTabGroup"
-            id="org.neuro4j.studio.debug.core.launchConfigurationTabGroup.localJavaApplication">
-            <launchMode 
-                  mode="debug"
-                  perspective="org.neuro4j.studio.debug.ui.model.DebugPerspective"
-                  description="Flow debug description">
-            </launchMode>
-      </launchConfigurationTabGroup>
-
-   </extension>
-   -->
-   <!--
-   <extension
-         point="org.eclipse.debug.ui.debugModelContextBindings">
-      <modelContextBinding
-            debugModelId="org.neuro4j.studio.debug.ui.pda"
-            contextId="org.neuro4j.studio.debug.ui.debugging">
-      </modelContextBinding>
-   </extension>
-   -->
    <extension
          point="org.eclipse.debug.ui.contextViewBindings">
       <contextViewBinding
             viewId="org.neuro4j.studio.debug.ui.DataStackView"
-            contextId="org.neuro4j.studio.debug.ui.debugging"
+            contextId="org.eclipse.debug.ui.debugging"
             autoClose="true"
             autoOpen="true">
       </contextViewBinding>
-           <contextViewBinding           
+      <contextViewBinding           
             viewId="org.neuro4j.studio.debug.ui.DebugView"
             contextId="org.neuro4j.studio.debug.ui.debugging"
             autoOpen="true">
@@ -197,6 +157,7 @@
          </action>
       </objectContribution>                     
 </extension>
+<!--
   <extension
         point="org.eclipse.ui.contexts">
       <context
@@ -206,7 +167,7 @@
             parentId="org.eclipse.ui.contexts.window">
       </context>     
 </extension>
-
+-->
    <extension
          point="org.eclipse.ui.popupMenus">
 

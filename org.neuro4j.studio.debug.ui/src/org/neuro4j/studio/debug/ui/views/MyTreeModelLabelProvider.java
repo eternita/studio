@@ -302,10 +302,7 @@ public class MyTreeModelLabelProvider extends ColumnLabelProvider
         if (presentation instanceof JavaStackFrameLabelProvider)
         {
             presentation = new FlowJavaStackFrameLabelProvider();
-        } else if (element instanceof FlowLineBreakpointAdapter)
-        {
-            presentation = new FlowBreakpointLabelProvider();
-        }
+        } 
         if (presentation != null) {
             List updates = (List) fPendingUpdates.get(presentation);
             if (updates == null) {

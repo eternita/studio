@@ -46,37 +46,13 @@ public class FlowJavaThreadContentProvider extends JavaThreadContentProvider {
                 }
             }
             IStackFrame[] frames = thread.getStackFrames();
-            if (!isDisplayMonitors()) {
+            if (!isDisplayMonitors()) {            	  
                 return frames;
             }
-
-            // Object[] children= new Object[]{new CallNodeStackFrame((JDIDebugTarget) thread.getDebugTarget(),
-            // frames[0]), new CallNodeStackFrame((JDIDebugTarget) thread.getDebugTarget(), frames[1])};
             List<IStackFrame> list = new ArrayList<IStackFrame>();
             list.add(thread.getTopStackFrame());
             Object[] children = getCallNodeFrames(frames, list);
-            // int length = frames.length;
-            // if (((IJavaDebugTarget) thread.getDebugTarget()).supportsMonitorInformation()) {
-            // IDebugElement[] ownedMonitors = JavaDebugUtils.getOwnedMonitors(thread);
-            // IDebugElement contendedMonitor = JavaDebugUtils.getContendedMonitor(thread);
-            // length += ownedMonitors.length;
-            // if (contendedMonitor != null) {
-            // length++;
-            // }
-            // children = new Object[length];
-            // if (ownedMonitors.length > 0) {
-            // System.arraycopy(ownedMonitors, 0, children, 0, ownedMonitors.length);
-            // }
-            // if (contendedMonitor != null) {
-            // // Insert the contended monitor after the owned monitors
-            // children[ownedMonitors.length] = contendedMonitor;
-            // }
-            // } else {
-            // children = new Object[length + 1];
-            // children[0] = new NoMonitorInformationElement(thread.getDebugTarget());
-            // }
-            // int offset = children.length - frames.length;
-            // System.arraycopy(frames, 0, children, offset, frames.length);
+
             return children;
         } catch (DebugException e) {
             return EMPTY;
@@ -103,7 +79,6 @@ public class FlowJavaThreadContentProvider extends JavaThreadContentProvider {
 
     @Override
     protected void retrieveChildCount(IChildrenCountUpdate update) {
-        // TODO Auto-generated method stub
         if (!update.isCanceled())
         {
             IStatus status = Status.OK_STATUS;
@@ -111,6 +86,7 @@ public class FlowJavaThreadContentProvider extends JavaThreadContentProvider {
             {
                 IPresentationContext context = update.getPresentationContext();
                 if (supportsContext(context))
+               // if (1==1)
                 {
                     int childCount = getChildCount(update.getElement(), context, update);
                     if (!update.isCanceled())
@@ -134,7 +110,6 @@ public class FlowJavaThreadContentProvider extends JavaThreadContentProvider {
         if (!thread.isSuspended()) {
             return 0;
         }
-        // int childCount = thread.getFrameCount();
         List<IStackFrame> list = new ArrayList<IStackFrame>();
         list.add(thread.getTopStackFrame());
         Object[] objects = getCallNodeFrames(thread.getStackFrames(), list);

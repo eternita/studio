@@ -17,6 +17,7 @@ Export-Package: org.apache.commons.beanutils,
  org.neuro4j.web.logic.render,
  org.neuro4j.workflow,
  org.neuro4j.workflow.common,
+ org.neuro4j.workflow.debug,
  org.neuro4j.workflow.enums,
  org.neuro4j.workflow.loader,
  org.neuro4j.workflow.node

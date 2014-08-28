@@ -25,26 +25,27 @@ public class FlowDebugPerspectiveFactory
 
     public void createInitialLayout(IPageLayout layout)
     {
-        IFolderLayout consoleFolder = layout.createFolder("org.eclipse.debug.internal.ui.ConsoleFolderView", 4, 0.75F, layout.getEditorArea());
-        consoleFolder.addView("org.eclipse.ui.console.ConsoleView");
-        consoleFolder.addView("org.eclipse.ui.views.TaskList");
-        consoleFolder.addPlaceholder("org.eclipse.ui.views.BookmarkView");
-        consoleFolder.addPlaceholder("org.eclipse.ui.views.PropertySheet");
+//        IFolderLayout consoleFolder = layout.createFolder("org.eclipse.debug.internal.ui.ConsoleFolderView", 4, 0.75F, layout.getEditorArea());
+//        consoleFolder.addView("org.eclipse.ui.console.ConsoleView");
+//        consoleFolder.addView("org.eclipse.ui.views.TaskList");
+//        consoleFolder.addPlaceholder("org.eclipse.ui.views.BookmarkView");
+//        consoleFolder.addPlaceholder("org.eclipse.ui.views.PropertySheet");
 
-        IFolderLayout navFolder = layout.createFolder("org.eclipse.debug.internal.ui.NavigatorFolderView", 3, 0.45F, layout.getEditorArea());
+        IFolderLayout navFolder = layout.createFolder("org.eclipse.debug.internal.ui.NavigatorFolderView", 3, 0.25F, layout.getEditorArea());
         navFolder.addView("org.neuro4j.studio.debug.ui.DebugView");
-        navFolder.addView("org.eclipse.debug.ui.DebugView");
+    //    navFolder.addView("org.eclipse.debug.ui.DebugView");
         navFolder.addPlaceholder("org.eclipse.ui.views.ResourceNavigator");
 
         IFolderLayout toolsFolder = layout.createFolder("org.eclipse.debug.internal.ui.ToolsFolderView", 2, 0.5F, "org.eclipse.debug.internal.ui.NavigatorFolderView");
 
-        toolsFolder.addView("org.neuro4j.studio.debug.ui.DataStackView");
         toolsFolder.addView("org.neuro4j.studio.debug.ui.BreakpointView");
+        toolsFolder.addView("org.neuro4j.studio.debug.ui.DataStackView");
 
-        toolsFolder.addView("org.eclipse.debug.ui.VariableView");
-        toolsFolder.addView("org.eclipse.debug.ui.BreakpointView");
-        toolsFolder.addPlaceholder("org.eclipse.debug.ui.ExpressionView");
-        toolsFolder.addPlaceholder("org.eclipse.debug.ui.RegisterView");
+
+     //   toolsFolder.addView("org.eclipse.debug.ui.VariableView");
+     //   toolsFolder.addView("org.eclipse.debug.ui.BreakpointView");
+//        toolsFolder.addPlaceholder("org.eclipse.debug.ui.ExpressionView");
+//        toolsFolder.addPlaceholder("org.eclipse.debug.ui.RegisterView");
 
         IFolderLayout outlineFolder = layout.createFolder("org.eclipse.debug.internal.ui.OutlineFolderView", 2, 0.75F, layout.getEditorArea());
         outlineFolder.addView("org.eclipse.ui.views.ContentOutline");
@@ -57,12 +58,12 @@ public class FlowDebugPerspectiveFactory
 
     protected void setContentsOfShowViewMenu(IPageLayout layout)
     {
-        layout.addShowViewShortcut("org.eclipse.debug.ui.DebugView");
-        layout.addShowViewShortcut("org.eclipse.debug.ui.VariableView");
-        layout.addShowViewShortcut("org.eclipse.debug.ui.BreakpointView");
-        layout.addShowViewShortcut("org.eclipse.debug.ui.ExpressionView");
-        layout.addShowViewShortcut("org.eclipse.ui.views.ContentOutline");
-        layout.addShowViewShortcut("org.eclipse.ui.console.ConsoleView");
-        layout.addShowViewShortcut("org.eclipse.ui.views.TaskList");
+      //  layout.addShowViewShortcut("org.eclipse.debug.ui.DebugView");
+     //   layout.addShowViewShortcut("org.eclipse.debug.ui.VariableView");
+     //   layout.addShowViewShortcut("org.eclipse.debug.ui.BreakpointView");
+     //   layout.addShowViewShortcut("org.eclipse.debug.ui.ExpressionView");
+//        layout.addShowViewShortcut("org.eclipse.ui.views.ContentOutline");
+//        layout.addShowViewShortcut("org.eclipse.ui.console.ConsoleView");
+//        layout.addShowViewShortcut("org.eclipse.ui.views.TaskList");
     }
 }

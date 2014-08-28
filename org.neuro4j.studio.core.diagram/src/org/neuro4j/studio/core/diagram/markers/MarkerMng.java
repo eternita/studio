@@ -36,7 +36,7 @@ public class MarkerMng {
 
     String stopWithUUID = "";
 
-    Map<String, Set<String>> nodesWithDebugMarkers = new HashMap<String, Set<String>>();
+    Set<String> nodesWithDebugMarkers = new HashSet<String>();
     Map<String, ShapeNodeEditPart> editparts = new HashMap<String, ShapeNodeEditPart>();
 
     private static MarkerMng instance = new MarkerMng();
@@ -53,12 +53,7 @@ public class MarkerMng {
 
     public boolean isUUIDHasMarket(ActionNode node)
     {
-        Set<String> set = nodesWithDebugMarkers.get(node.getLogicImplementationClassName());
-        if (set == null)
-        {
-            return false;
-        }
-        return set.contains(node.getId());
+        return nodesWithDebugMarkers.contains(node.getId());
     }
 
     public void loadResourceMarkers(IResource res)
@@ -98,17 +93,9 @@ public class MarkerMng {
             {
                 return;
             }
-            String implClass = getImplClass(marker);
             for (String uuid : uuids.split(" "))
             {
-                Set<String> set = nodesWithDebugMarkers.get(implClass);
-                if (set == null)
-                {
-                    set = new HashSet<String>();
-                    nodesWithDebugMarkers.put(implClass, set);
-                }
-                set.add(uuid);
-
+                nodesWithDebugMarkers.add(uuid);
             }
         } catch (CoreException e) {
             // TODO Auto-generated catch block
@@ -119,36 +106,15 @@ public class MarkerMng {
 
     public void removeMarker(IMarker marker)
     {
-        String implClass = getImplClass(marker);
-        Set<String> set = nodesWithDebugMarkers.get(implClass);
-        if (set != null)
-        {
-            for (String uuid : set)
-            {
-                NodeBaseEditPart ep = (NodeBaseEditPart) editparts.remove(uuid);
-                if (ep != null)
-                {
-                    ep.resumeFigureOnStop();
-                    ep.hideDebugElement();
-                }
-                if (uuid.equals(stopWithUUID))
-                {
-                    resentstopWithUUID();
-                }
-            }
-        }
-        nodesWithDebugMarkers.remove(implClass);
+        nodesWithDebugMarkers.clear();
     }
 
     public void removeMarkerInfoForNode(ActionNode node)
     {
-        String implClass = node.getLogicImplementationClassName();
-        Set<String> set = nodesWithDebugMarkers.get(implClass);
-        if (set != null)
-        {
-            set.remove(node.getId());
-        }
-        editparts.remove(node.getId());
+
+     nodesWithDebugMarkers.remove(node.getId());
+
+     editparts.remove(node.getId());
     }
 
     public void resentstopWithUUID()
@@ -156,28 +122,16 @@ public class MarkerMng {
         stopWithUUID = "";
     }
 
-    private static String getImplClass(IMarker marker)
-    {
-        return marker.getAttribute("flowType", "");
-    }
 
     public void updateMarker(IMarker marker)
-    {
-        String implClass = getImplClass(marker);
+    {      
 
         try {
             String uuids = (String) marker.getAttribute("uuids");
 
-            Set<String> set = nodesWithDebugMarkers.get(implClass);
-            if (set == null)
-            {
-                set = new HashSet<String>();
-                nodesWithDebugMarkers.put(implClass, set);
-            }
-            set.clear();
             for (String uuid : uuids.split(" "))
             {
-                set.add(uuid);
+            	nodesWithDebugMarkers.add(uuid);
             }
         } catch (CoreException e) {
             // TODO Auto-generated catch block

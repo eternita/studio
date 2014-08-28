@@ -24,15 +24,23 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.model.IBreakpoint;
+import org.eclipse.debug.core.model.ISourceLocator;
+import org.eclipse.debug.core.sourcelookup.ISourceLookupDirector;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.debug.core.IJavaObject;
+import org.eclipse.jdt.debug.core.IJavaReferenceType;
 import org.eclipse.jdt.debug.core.IJavaStackFrame;
+import org.eclipse.jdt.debug.core.IJavaType;
 import org.eclipse.jdt.internal.debug.core.breakpoints.JavaLineBreakpoint;
 import org.eclipse.jdt.internal.debug.core.model.JDIDebugTarget;
 import org.eclipse.jdt.internal.debug.core.model.JDIStackFrame;
@@ -102,21 +110,21 @@ public abstract class FlowLineBreakpoint extends JavaLineBreakpoint
 
     }
 
-    private String getLocationByNode(ActionNode action)
+//    private String getLocationByNode(ActionNode action)
+//    {
+//        return action.getId() + "=" + ClassloaderHelper.getCurrentResource().getProjectRelativePath().toPortableString();
+//    }
+
+    public FlowLineBreakpoint(String clazz) throws DebugException
     {
-        return action.getId() + "=" + ClassloaderHelper.getCurrentResource().getProjectRelativePath().toPortableString();
+        this(MarkerManager.getBeehiveElementMarkerResource(clazz), new Integer(0), true, new HashMap<String, Object>());
     }
 
-    public FlowLineBreakpoint(ActionNode action) throws DebugException
-    {
-        this(MarkerManager.getBeehiveElementMarkerResource(action), new Integer(0), true, new HashMap<String, Object>(), action);
-    }
-
-    public FlowLineBreakpoint(final IResource resource, final int hitCount, final boolean add, final Map<String, Object> attributes, final ActionNode action)
+    public FlowLineBreakpoint(final IResource resource, final int hitCount, final boolean add, final Map<String, Object> attributes)
             throws DebugException
     {
 
-        final BreakPointParamContainer container = BreakPointContainerFactory.getBreakPointContainer(action);
+        final BreakPointParamContainer container = BreakPointContainerFactory.getBreakPointContainer();
 
         IWorkspaceRunnable wr = new IWorkspaceRunnable()
         {
@@ -129,8 +137,8 @@ public abstract class FlowLineBreakpoint extends JavaLineBreakpoint
                 addLineBreakpointAttributes(attributes, getModelIdentifier(),
                         true, container.getLineNumber(), container.getStartChar(), container.getEndChar());
                 addTypeNameAndHitCount(attributes, container.getBaseClassName(), hitCount);
-                attributes.put("locations", getLocationByNode(action));
-                attributes.put("flowType", container.getBaseClassName());
+               // attributes.put("locations", getLocationByNode(action));
+                attributes.put("flowType", BreakpoinMng.DEBUGSERV_STRING);
                 // attributes.put("uuids", action.getId());
                 attributes.put("org.eclipse.jdt.debug.core.suspendPolicy", new Integer(
                         getDefaultSuspendPolicy()));
@@ -233,28 +241,7 @@ public abstract class FlowLineBreakpoint extends JavaLineBreakpoint
             return false;
         }
 
-        // if (suspend)
-        // {
-        // try {
-        // String uuid = BreakpoinMng.getInstance().getCurrentUuid((JDIStackFrame) thread.getTopStackFrame());
-        // NodeBaseEditPart editPart = (NodeBaseEditPart)MarkerMng.getInstance().getEditPartAndMark(uuid);
-        // if (editPart != null)
-        // {
-        // BreakpoinMng.getInstance().suspend(editPart);
-        // } else {
-        // BreakpoinMng.getInstance().resume();
-        // }
-        // System.out.println(uuid);
-        // } catch (DebugException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // } catch (CoreException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
-        // }
 
-        // return suspend;
     }
 
     public String getCondition()
@@ -288,10 +275,53 @@ public abstract class FlowLineBreakpoint extends JavaLineBreakpoint
 
     @Override
     protected IJavaProject getJavaProject(IJavaStackFrame stackFrame) {
-        // TODO Auto-generated method stub
-        return super.getJavaProject(stackFrame);
+    	return computeJavaProject(stackFrame);
+        //return super.getJavaProject(stackFrame);
     }
 
+    private IJavaProject computeJavaProject(IJavaStackFrame stackFrame) {
+        ILaunch launch = stackFrame.getLaunch();
+        if (launch == null) {
+            return null;
+        }
+        ISourceLocator locator= launch.getSourceLocator();
+        if (locator == null)
+            return null;
+        
+        Object sourceElement= null;
+        try {
+            if (locator instanceof ISourceLookupDirector && !stackFrame.isStatic()) {
+                IJavaType thisType = stackFrame.getThis().getJavaType();
+                if (thisType instanceof IJavaReferenceType) {
+                    String[] sourcePaths= ((IJavaReferenceType) thisType).getSourcePaths(null);
+                    if (sourcePaths != null && sourcePaths.length > 0) {
+                        sourceElement= ((ISourceLookupDirector) locator).getSourceElement(sourcePaths[0]);
+                    }
+                }
+            }
+        } catch (DebugException e) {
+            DebugPlugin.log(e);
+        }
+        if (sourceElement == null) {
+            sourceElement = locator.getSourceElement(stackFrame);
+        }
+        if (!(sourceElement instanceof IJavaElement) && sourceElement instanceof IAdaptable) {
+            Object element= ((IAdaptable)sourceElement).getAdapter(IJavaElement.class);
+            if (element != null) {
+                sourceElement= element;
+            }
+        }
+        if (sourceElement instanceof IJavaElement) {
+            return ((IJavaElement) sourceElement).getJavaProject();
+        } else if (sourceElement instanceof IResource) {
+            IJavaProject project = JavaCore.create(((IResource)sourceElement).getProject());
+            if (project.exists()) {
+                return project;
+            }
+        }
+        return null;
+    }
+    
     protected void decrementInstallCount()
             throws CoreException
     {
@@ -351,19 +381,6 @@ public abstract class FlowLineBreakpoint extends JavaLineBreakpoint
         return handleBreakpointEvent(event, thread, suspendVote);
     }
 
-    // public void removeFromTarget(FlowDebugTarget target)
-    // throws CoreException
-    // {
-    // if (isInstalledIn(target))
-    // {
-    // setInstalledIn(target, false);
-    //
-    // if (getMarker().exists())
-    // {
-    // decrementInstallCount();
-    // }
-    // }
-    // }
 
     protected boolean isInstalledIn(FlowDebugTarget target)
     {

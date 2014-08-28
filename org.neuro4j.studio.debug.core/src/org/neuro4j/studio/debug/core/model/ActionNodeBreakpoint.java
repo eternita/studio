@@ -20,22 +20,19 @@ import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.jdt.internal.debug.core.breakpoints.JavaLineBreakpoint;
 import org.neuro4j.studio.core.ActionNode;
 
-public class ActionNodeBreakpoint extends FlowLineBreakpoint implements IBreakpoint
-{
+public class ActionNodeBreakpoint extends FlowLineBreakpoint implements
+		IBreakpoint {
 
-    public ActionNodeBreakpoint()
-    {
-    }
+	public ActionNodeBreakpoint() {
+	}
 
-    public ActionNodeBreakpoint(ActionNode node)
-            throws DebugException
-    {
-        super(node);
-    }
+	public ActionNodeBreakpoint(String node) throws DebugException {
+		super(node);
+	}
 
-    public ActionNodeBreakpoint(JavaLineBreakpoint javaBp) throws DebugException {
-        super(javaBp);
-        // TODO Auto-generated constructor stub
-    }
+	public ActionNodeBreakpoint(JavaLineBreakpoint javaBp)
+			throws DebugException {
+		super(javaBp);
+	}
 
 }

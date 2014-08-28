@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -38,11 +39,9 @@ import org.eclipse.debug.internal.ui.views.breakpoints.BreakpointContainer;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramWorkbenchPart;
-import org.eclipse.jdi.internal.ObjectReferenceImpl;
 import org.eclipse.jdt.debug.core.IJavaVariable;
 import org.eclipse.jdt.internal.debug.core.breakpoints.JavaLineBreakpoint;
 import org.eclipse.jdt.internal.debug.core.model.JDIDebugTarget;
-import org.eclipse.jdt.internal.debug.core.model.JDIFieldVariable;
 import org.eclipse.jdt.internal.debug.core.model.JDIStackFrame;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
@@ -52,13 +51,16 @@ import org.neuro4j.studio.core.diagram.markers.MarkerMng;
 import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorUtil;
 import org.neuro4j.studio.core.util.ClassloaderHelper;
 import org.neuro4j.studio.debug.core.model.ActionNodeBreakpoint;
-import org.neuro4j.studio.debug.core.model.FlowBreakpointFactory;
 import org.neuro4j.studio.debug.core.model.FlowDebugTarget;
-import org.neuro4j.studio.debug.core.model.FlowLineBreakpoint;
 import org.neuro4j.studio.debug.core.model.FlowLineBreakpointAdapter;
 import org.neuro4j.studio.debug.core.model.MarkerManager;
+import org.neuro4j.workflow.debug.DebugService;
 
 public class BreakpoinMng {
+	
+	
+	
+	public static final String DEBUGSERV_STRING = DebugService.class.getCanonicalName();
 
     private boolean isBaseBreakpointLoaded = false;
 
@@ -79,6 +81,8 @@ public class BreakpoinMng {
     List<IBreakpointsListener> listeners = new ArrayList<IBreakpointsListener>();
 
     List<BreakpointContainer> containers = new ArrayList<BreakpointContainer>();
+    
+    private  FlowLineBreakpointAdapter[] activeBreakpoints = null; 
 
     private BreakpoinMng()
     {
@@ -87,11 +91,16 @@ public class BreakpoinMng {
 
     public static BreakpoinMng getInstance()
     {
+    
         return instance;
     }
 
+
+    
     public void removeBreakpointByUUID(String uuid)
     {
+    	activeBreakpoints = null;
+    	
         FlowLineBreakpointAdapter[] javaLineBreakpoints = BreakpoinMng.getInstance().getBreakpoints();
         for (FlowLineBreakpointAdapter adapter : javaLineBreakpoints)
         {
@@ -107,8 +116,7 @@ public class BreakpoinMng {
 
     @SuppressWarnings("restriction")
     public void removeNodeFromBreakpoint(ActionNode node) {
-        JavaLineBreakpoint javaLineBreakpoint = BreakpoinMng.getInstance()
-                .getExistingBreakPoint(node);
+        JavaLineBreakpoint javaLineBreakpoint = BreakpoinMng.getInstance().getExistingBreakPoint();
         if (javaLineBreakpoint != null) {
 
             removeNodeFromBreakpoint(javaLineBreakpoint, node.getId());
@@ -117,7 +125,7 @@ public class BreakpoinMng {
 
     @SuppressWarnings("restriction")
     private void removeNodeFromBreakpoint(JavaLineBreakpoint javaLineBreakpoint, String uuid) {
-
+    	activeBreakpoints = null;
         try {
             removeBreakpoints(new FlowLineBreakpointAdapter[] { new FlowLineBreakpointAdapter(uuid, javaLineBreakpoint) });
         } catch (CoreException e) {
@@ -129,6 +137,9 @@ public class BreakpoinMng {
 
     private void removeFlowBreakpoint(JavaLineBreakpoint javaLineBreakpoint,
             String uuid) {
+    	
+    	activeBreakpoints = null;
+    	
         try {
             // hide debug element
             NodeBaseEditPart part = (NodeBaseEditPart) MarkerMng.getInstance().getEditPartAndMark(uuid);
@@ -184,15 +195,14 @@ public class BreakpoinMng {
     }
 
     @SuppressWarnings("restriction")
-    public JavaLineBreakpoint getExistingBreakPoint(ActionNode node)
+    public JavaLineBreakpoint getExistingBreakPoint()
     {
-        String implClass = node.getLogicImplementationClassName();
         IBreakpoint[] bps = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints();
         for (IBreakpoint bp : bps)
         {
             String flowType = bp.getMarker().getAttribute("flowType", "");
 
-            if (flowType.equals(implClass))
+            if (flowType.equals(DEBUGSERV_STRING))
             {
                 return (JavaLineBreakpoint) bp;
             }
@@ -233,10 +243,10 @@ public class BreakpoinMng {
     }
 
     @SuppressWarnings("restriction")
-    public JavaLineBreakpoint createBreakPoint(ActionNode node)
+    public JavaLineBreakpoint createBreakPoint()
     {
 
-        if (!BreakpoinMng.getInstance().hasClassInClasspath(node))
+        if (!BreakpoinMng.getInstance().hasClassInClasspath(DEBUGSERV_STRING))
         {
 
             return null;
@@ -246,7 +256,7 @@ public class BreakpoinMng {
 
         try {
 
-            lineBreakpoint = new ActionNodeBreakpoint(node);
+            lineBreakpoint = new ActionNodeBreakpoint(DEBUGSERV_STRING);
 
             // lineBreakpoint.setCondition("lba.getUuid().equals(\"" + node.getId() +"\")");
             lineBreakpoint.setCondition("1==1");
@@ -320,7 +330,7 @@ public class BreakpoinMng {
             IVariable[] list = gframe.getVariables();
             if (list.length > 0)
             {
-                IVariable thisV = list[0];
+                IVariable thisV = list[1];
                 IJavaVariable javaV = (IJavaVariable) thisV;
                 // String name = javaV.getName();
 
@@ -349,15 +359,12 @@ public class BreakpoinMng {
             return null;
         }
 
-        // if(!isValidFrame(gframe)){
-        // return null;
-        // }
         if (gframe.hasVariables())
         {
             IVariable[] list = gframe.getVariables();
             if (list.length > 0)
             {
-                IVariable thisV = list[0];
+                IVariable thisV = list[1];
                 IJavaVariable javaV = (IJavaVariable) thisV;
                 // String name = javaV.getName();
 
@@ -378,9 +385,6 @@ public class BreakpoinMng {
             return null;
         }
 
-        // if(!isValidFrame(gframe)){
-        // return null;
-        // }
         if (gframe.hasVariables())
         {
             IVariable[] list = gframe.getVariables();
@@ -395,13 +399,10 @@ public class BreakpoinMng {
                     IVariable[] vars = javaV.getValue().getVariables();
                     for (IVariable v : vars) {
                         if (v.getName().equals("packages")) {
-                            JDIFieldVariable packages = (JDIFieldVariable) v;
-                            JDIFieldVariable data = (JDIFieldVariable) packages.getValue().getVariables()[4];
+                           // JDIFieldVariable packages = (JDIFieldVariable) v;
+                          //  JDIFieldVariable data = (JDIFieldVariable) packages.getValue().getVariables()[4];
                             // data.getValue().getV
-                            ObjectReferenceImpl c = (ObjectReferenceImpl) packages.getObjectReference();
-                            // c.
-                            // .invokeMethod(gframe.getThread(), new Method, arg2, arg3);
-                            // System.out.println("");
+                          //  ObjectReferenceImpl c = (ObjectReferenceImpl) packages.getObjectReference();
                             return v.getName();
                         }
 
@@ -446,10 +447,10 @@ public class BreakpoinMng {
             return null;
         }
 
-        String resource = ResourceFinder.getInstance().findFileWithUUID(uuid);
+        IFile resource = ResourceFinder.getInstance().findFileWithUUID(uuid);
         if (resource != null)
         {
-            return resource;
+            return resource.getProjectRelativePath().toPortableString();
         }
 
         IResource res = ClassloaderHelper.getCurrentResource();
@@ -498,7 +499,6 @@ public class BreakpoinMng {
     }
 
     public boolean isUUIDInBreakpoint(String uuid) {
-
         if (nextStepInProgress)
         {
             return true;
@@ -530,6 +530,10 @@ public class BreakpoinMng {
     }
 
     public FlowLineBreakpointAdapter[] getBreakpoints() {
+    	if (activeBreakpoints != null)
+    	{
+    		return activeBreakpoints;
+    	}
         IBreakpoint[] bps = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints();
         List<FlowLineBreakpointAdapter> list = new ArrayList<FlowLineBreakpointAdapter>();
         for (IBreakpoint bp : bps)
@@ -619,10 +623,10 @@ public class BreakpoinMng {
     }
 
     protected void initializeCoreBreakpoints() {
-
+    	boolean flowBreakpoinLoaded = false;
         unregisterUUIDs();
         IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints();
-        Set<String> allBreakPoints = FlowBreakpointFactory.getInitBreakpoins();
+        
         for (int i = 0; i < breakpoints.length; i++) {
             IBreakpoint bp = breakpoints[i];
             if (bp instanceof JavaLineBreakpoint)
@@ -632,8 +636,8 @@ public class BreakpoinMng {
                     if (jlb.getMarker().getAttribute("flowType") == null) {
                         continue;
                     }
-                    FlowLineBreakpoint b = new ActionNodeBreakpoint(jlb);
-                    allBreakPoints.remove(b.getMarker().getResource().getName());
+                    
+                    flowBreakpoinLoaded = true;
 
                 } catch (CoreException e) {
                     // TODO Auto-generated catch block
@@ -644,27 +648,29 @@ public class BreakpoinMng {
 
         }
 
-        for (String name : allBreakPoints)
+
+        if (!flowBreakpoinLoaded)
         {
-            JavaLineBreakpoint bp = FlowBreakpointFactory.createInitBreakpointByName(name);
+            JavaLineBreakpoint bp = (ActionNodeBreakpoint) BreakpoinMng.getInstance().createBreakPoint();
 
             try {
                 DebugPlugin.getDefault().getBreakpointManager().addBreakpoint(bp);
             } catch (CoreException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
-            }
+            }        	
         }
+
+        
 
     }
 
-    public boolean hasClassInClasspath(ActionNode node)
+    public boolean hasClassInClasspath(String node)
     {
         IResource resource = MarkerManager.getBeehiveElementMarkerResource(node);
 
         if (resource == null)
         {
-            org.neuro4j.studio.core.buildpath.ExceptionHandler.handle("Debug Configuration Error", node.getLogicImplementationClassName() + " not found in classpath. Please add Neuro4j library to classpath.");
+            org.neuro4j.studio.core.buildpath.ExceptionHandler.handle("Debug Configuration Error", node + " not found in classpath. Please add Neuro4j library to classpath.");
             return false;
         } else {
             return true;

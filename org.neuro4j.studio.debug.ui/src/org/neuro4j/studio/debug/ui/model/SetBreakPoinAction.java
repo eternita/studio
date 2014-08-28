@@ -15,6 +15,7 @@
  */
 package org.neuro4j.studio.debug.ui.model;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
 import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
 import org.eclipse.jdt.internal.debug.core.breakpoints.JavaLineBreakpoint;
@@ -43,26 +44,26 @@ public class SetBreakPoinAction implements IObjectActionDelegate {
 
             ActionNode node = (ActionNode) shape.getElement();
 
-            if (!BreakpoinMng.getInstance().hasClassInClasspath(node))
+            if (!BreakpoinMng.getInstance().hasClassInClasspath(BreakpoinMng.DEBUGSERV_STRING))
             {
                 org.neuro4j.studio.core.buildpath.ExceptionHandler.handle("Debug Configuration Error", node.getLogicImplementationClassName() + " not found in classpath. Please add Neuro4j library to classpath.");
                 return;
             } else {
-                BreakpoinMng.getInstance().loadBaseBreakpointsIfNotLoaded();
+              //  BreakpoinMng.getInstance().loadBaseBreakpointsIfNotLoaded();
             }
 
             MarkerMng.getInstance().registerEditPart(node.getId(), selectedElement);
 
-            JavaLineBreakpoint javaLineBreakpoint = BreakpoinMng.getInstance().getExistingBreakPoint(node);
+            JavaLineBreakpoint javaLineBreakpoint = BreakpoinMng.getInstance().getExistingBreakPoint();
             if (javaLineBreakpoint == null)
             {
-                javaLineBreakpoint = BreakpoinMng.getInstance().createBreakPoint(node);
+                javaLineBreakpoint = BreakpoinMng.getInstance().createBreakPoint();
             }
             BreakpoinMng.getInstance().addUuidToBreakpoint(javaLineBreakpoint, node);
             MarkerMng.getInstance().updateMarker(javaLineBreakpoint.getMarker());
             BreakpoinMng.getInstance().updateFigure(node, true);
 
-            ResourceFinder.getInstance().registerNode(ClassloaderHelper.getCurrentResource().getProjectRelativePath().toPortableString(), node);
+            ResourceFinder.getInstance().registerNode((IFile) ClassloaderHelper.getCurrentResource(), node);
 
         }
 

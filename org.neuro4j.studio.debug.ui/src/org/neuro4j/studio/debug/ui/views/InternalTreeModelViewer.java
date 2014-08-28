@@ -43,6 +43,7 @@ import org.eclipse.debug.internal.ui.viewers.model.provisional.ITreeModelViewer;
 import org.eclipse.debug.internal.ui.viewers.model.provisional.IViewerUpdateListener;
 import org.eclipse.debug.internal.ui.viewers.model.provisional.ModelDelta;
 import org.eclipse.debug.internal.ui.viewers.model.provisional.PresentationContext;
+import org.eclipse.jdt.internal.debug.ui.variables.JavaVariableColumnPresentation;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.IBasicPropertyConstants;
@@ -554,6 +555,9 @@ public class InternalTreeModelViewer extends TreeViewer
             if (factory != null) {
                 type = factory.getColumnPresentationId(context, input);
             }
+            
+            fColumnPresentation =  new JavaVariableColumnPresentation();
+            
             if (type != null && factory != null) {
                 if (fColumnPresentation != null) {
                     if (!fColumnPresentation.getId().equals(type)) {
@@ -1754,7 +1758,7 @@ public class InternalTreeModelViewer extends TreeViewer
     }
 
     public void updateViewer(IModelDelta delta) {
-        ((ITreeModelContentProvider) getContentProvider()).updateModel(delta, ITreeModelContentProvider.ALL_MODEL_DELTA_FLAGS);
+        ((ITreeModelContentProvider) getContentProvider()).updateModel(delta, ITreeModelContentProvider.UPDATE_MODEL_DELTA_FLAGS);
     }
 
     /*
