@@ -287,11 +287,10 @@ public class BreakpoinMng {
     {
 
         String uuid = getCurrentUuid(gframe);
-        FlowDebugTarget target = (FlowDebugTarget) gframe.getJavaDebugTarget();
         if (uuid != null)
         {
 
-            String resource = getResourceByUUID(target, uuid);
+            String resource = getResourceByUUID(uuid);
             return resource;
 
         }
@@ -439,7 +438,7 @@ public class BreakpoinMng {
         return null;
     }
 
-    public static String getResourceByUUID(FlowDebugTarget target, String uuid) throws CoreException
+    public static String getResourceByUUID(String uuid) throws CoreException
     {
 
         if (uuid == null)

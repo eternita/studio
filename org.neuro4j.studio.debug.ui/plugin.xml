@@ -28,6 +28,17 @@
                   description="Flow debug description">
             </launchMode>
       </launchConfigurationTabGroup>
+      <launchConfigurationTabGroup
+            type="org.neuro4j.studio.debug.core.launchConfigurationType.local"
+            description="Debug local Neuro4j Flow"
+            class="org.neuro4j.studio.debug.ui.launching.LocalFlowTabGroup"
+            id="org.eclipse.jdt.debug.ui.launchConfigurationTabGroup.localJavaApplication">
+            <launchMode 
+                  mode="debug"
+                  perspective="org.neuro4j.studio.debug.ui.model.DebugPerspective"
+                  description="Local Flow debug">
+            </launchMode>
+      </launchConfigurationTabGroup>      
    </extension>
    <extension
          point="org.eclipse.debug.ui.debugModelPresentations">
@@ -124,8 +135,12 @@
             configTypeID="org.neuro4j.studio.debug.core.launchConfigurationType.pda"
             id="org.neuro4j.studio.debug.ui.launchConfigurationTypeImage">
       </launchConfigurationTypeImage>
+      <launchConfigurationTypeImage
+            icon="icons/launch.png"
+            configTypeID="org.neuro4j.studio.debug.core.launchConfigurationType.local"
+            id="org.neuro4j.studio.debug.ui.localFlowApplication">
+      </launchConfigurationTypeImage>      
    </extension>
-
 
 <extension point="org.eclipse.ui.popupMenus">
       <objectContribution

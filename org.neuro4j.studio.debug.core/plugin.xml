@@ -25,6 +25,17 @@
             modes="debug"
             id="org.neuro4j.studio.debug.core.launchConfigurationType.pda">
       </launchConfigurationType>
+      <launchConfigurationType
+            delegate="org.neuro4j.studio.debug.core.launching.LocalFlowLaunchDelegate"
+            delegateDescription="%localJavaApplicationDelegate.description"
+            delegateName="%eclipseJDTLauncher.name"
+            id="org.neuro4j.studio.debug.core.launchConfigurationType.local"
+            migrationDelegate="org.eclipse.jdt.internal.launching.JavaMigrationDelegate"
+            modes="debug"
+             name="Local Neuro4j Flows"
+            sourceLocatorId="org.neuro4j.studio.debug.core.sourceLookupDirector.pda"
+            sourcePathComputerId="org.neuro4j.studio.debug.core.sourcePathComputer.pda">
+      </launchConfigurationType>      
    </extension>
    <extension
          point="org.eclipse.debug.core.sourceLocators">
