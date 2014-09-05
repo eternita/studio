@@ -171,7 +171,10 @@ public class NewFlowBreakpoinsView extends ViewPart implements IBreakpointsListe
 
 	@Override
 	public void breakpointsAdded(IBreakpoint[] arg0) {
-		this.viewer.setInput(BreakpoinMng.getInstance().getBreakpoints());
+		if(!this.viewer.getControl().isDisposed())
+		{
+			this.viewer.setInput(BreakpoinMng.getInstance().getBreakpoints());				
+		}
 		
 	}
 
@@ -183,7 +186,11 @@ public class NewFlowBreakpoinsView extends ViewPart implements IBreakpointsListe
 
 	@Override
 	public void breakpointsRemoved(IBreakpoint[] arg0, IMarkerDelta[] arg1) {
-		this.viewer.setInput(BreakpoinMng.getInstance().getBreakpoints());
+		if(!this.viewer.getControl().isDisposed())
+		{
+			this.viewer.setInput(BreakpoinMng.getInstance().getBreakpoints());				
+		}
+
 		
 	}
 
