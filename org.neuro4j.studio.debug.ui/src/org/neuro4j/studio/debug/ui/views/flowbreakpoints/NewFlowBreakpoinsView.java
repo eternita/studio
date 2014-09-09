@@ -1,9 +1,13 @@
 package org.neuro4j.studio.debug.ui.views.flowbreakpoints;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarkerDelta;
 import org.eclipse.debug.core.IBreakpointsListener;
 import org.eclipse.debug.core.model.IBreakpoint;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IContentProvider;
@@ -13,6 +17,9 @@ import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -39,6 +46,8 @@ public class NewFlowBreakpoinsView extends ViewPart implements IBreakpointsListe
 	private boolean treePainted = false;
 	private IMemento memento;
 	IContentProvider contentProvider = null;
+	public static final String REMOVE_ACTION = "Remove_BPActionId"; //$NON-NLS-1$
+	private Map<String, IAction> fActionMap = new HashMap<String, IAction>();
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -64,6 +73,7 @@ public class NewFlowBreakpoinsView extends ViewPart implements IBreakpointsListe
 		
 		getSite().setSelectionProvider(this.viewer);
 
+		fActionMap.put(REMOVE_ACTION, new DeleteBreakPointAction(this.viewer));
 
 		startView();
 	}
@@ -137,6 +147,26 @@ public class NewFlowBreakpoinsView extends ViewPart implements IBreakpointsListe
 						.removePaintListener(this);
 			}
 		});
+		
+		getViewer().getControl().addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				handleKeyPressed(e);
+			}
+
+			private void handleKeyPressed(KeyEvent event) {
+				if (event.character == SWT.DEL && event.stateMask == 0) {
+					IAction action = getAction(REMOVE_ACTION);
+					if (action != null && action.isEnabled()) {
+						action.run();
+					}
+				}
+				
+			}
+		});
+	}
+
+	protected IAction getAction(String action) {
+		return fActionMap.get(action);
 	}
 
 	private IContentProvider getContentProvider() {
