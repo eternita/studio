@@ -34,9 +34,7 @@ import org.eclipse.debug.internal.ui.commands.actions.ExecuteActionRequest;
 import org.eclipse.debug.internal.ui.commands.actions.ICommandParticipant;
 import org.eclipse.jdt.internal.debug.core.breakpoints.JavaLineBreakpoint;
 import org.eclipse.jdt.internal.debug.core.model.JDIDebugTarget;
-import org.neuro4j.studio.debug.adapter.JavaFlowDebugger;
 import org.neuro4j.studio.debug.core.BreakpoinMng;
-import org.neuro4j.workflow.debug.DebugService;
 
 import com.sun.jdi.VirtualMachine;
 
@@ -49,7 +47,7 @@ public class FlowDebugTarget extends JDIDebugTarget {
 			IProcess process, boolean resume) {
 		super(launch, jvm, name, supportTerminate, supportDisconnect, process,
 				resume);
-		DebugService.getInstance().setTarget(new JavaFlowDebugger(this));
+		//DebugService.getInstance().setTarget(new JavaFlowDebugger(this));
 	}
 
 	@SuppressWarnings("restriction")

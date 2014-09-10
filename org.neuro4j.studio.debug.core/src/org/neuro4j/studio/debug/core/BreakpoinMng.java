@@ -49,6 +49,7 @@ import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.diagram.edit.parts.NodeBaseEditPart;
 import org.neuro4j.studio.core.diagram.markers.MarkerMng;
 import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorUtil;
+import org.neuro4j.studio.core.impl.CallNodeImpl;
 import org.neuro4j.studio.core.util.ClassloaderHelper;
 import org.neuro4j.studio.debug.core.model.ActionNodeBreakpoint;
 import org.neuro4j.studio.debug.core.model.FlowDebugTarget;
@@ -363,7 +364,14 @@ public class BreakpoinMng {
             IVariable[] list = gframe.getVariables();
             if (list.length > 0)
             {
-                IVariable thisV = list[1];
+            	IVariable thisV = null;
+            	if (gframe.getDeclaringTypeName().equals(CallNodeImpl.IMPL_CLASS))
+            	{
+            		 thisV = list[0];
+            	} else {
+            		 thisV = list[1];	
+            	}
+               
                 IJavaVariable javaV = (IJavaVariable) thisV;
                 // String name = javaV.getName();
 

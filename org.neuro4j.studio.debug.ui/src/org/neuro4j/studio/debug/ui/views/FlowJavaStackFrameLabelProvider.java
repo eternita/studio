@@ -28,15 +28,14 @@ import org.eclipse.jdt.debug.core.IJavaStackFrame;
 import org.eclipse.jdt.internal.debug.core.model.JDIStackFrame;
 import org.eclipse.jdt.internal.debug.core.model.JDIThread;
 import org.eclipse.jface.viewers.TreePath;
+import org.neuro4j.studio.core.impl.CallNodeImpl;
 import org.neuro4j.studio.debug.core.BreakpoinMng;
 import org.neuro4j.studio.debug.core.ResourceFinder;
 import org.neuro4j.studio.debug.core.model.FlowDebugTarget;
 
 public class FlowJavaStackFrameLabelProvider extends DebugElementLabelProvider {
 
-    protected void retrieveLabel(ILabelUpdate update)
-            throws CoreException
-    {
+    protected void retrieveLabel(ILabelUpdate update) throws CoreException {
         Object element = update.getElement();
         if ((element instanceof IJavaStackFrame)) {
             IJavaStackFrame frame = (IJavaStackFrame) element;
@@ -46,38 +45,47 @@ public class FlowJavaStackFrameLabelProvider extends DebugElementLabelProvider {
             }
         }
         String columnIds[] = update.getColumnIds();
-        IPresentationContext presentationContext = update.getPresentationContext();
+        IPresentationContext presentationContext = update
+                .getPresentationContext();
         TreePath elementPath = update.getElementPath();
 
         JDIStackFrame sf = (JDIStackFrame) elementPath.getLastSegment();
-        if (sf == null || !(sf.getDebugTarget() instanceof FlowDebugTarget))
-        {
+        if (sf == null || !(sf.getDebugTarget() instanceof FlowDebugTarget)) {
             return;
         }
 
         int numColumns = 1;
         if (columnIds != null)
             numColumns = columnIds.length;
-        for (int i = 0; i < numColumns; i++)
-        {
+        for (int i = 0; i < numColumns; i++) {
             String columnId = null;
             if (columnIds != null)
                 columnId = columnIds[i];
-            // update.setLabel(getLabel(elementPath, presentationContext, columnId, i), i);
+            // update.setLabel(getLabel(elementPath, presentationContext,
+            // columnId, i), i);
             update.setLabel(getLabel(sf), i);
-            update.setImageDescriptor(getImageDescriptor(elementPath, presentationContext, columnId, i), i);
-            update.setBackground(getBackground(elementPath, presentationContext, columnId), i);
-            update.setForeground(getForeground(elementPath, presentationContext, columnId), i);
-            update.setFontData(getFontData(elementPath, presentationContext, columnId), i);
-            if ((update instanceof ICheckUpdate) && Boolean.TRUE.equals(presentationContext.getProperty("org.eclipse.debug.ui.check")))
-                ((ICheckUpdate) update).setChecked(getChecked(elementPath, presentationContext), getGrayed(elementPath, presentationContext));
+            update.setImageDescriptor(
+                    getImageDescriptor(elementPath, presentationContext,
+                            columnId, i), i);
+            update.setBackground(
+                    getBackground(elementPath, presentationContext, columnId),
+                    i);
+            update.setForeground(
+                    getForeground(elementPath, presentationContext, columnId),
+                    i);
+            update.setFontData(
+                    getFontData(elementPath, presentationContext, columnId), i);
+            if ((update instanceof ICheckUpdate)
+                    && Boolean.TRUE.equals(presentationContext
+                            .getProperty("org.eclipse.debug.ui.check")))
+                ((ICheckUpdate) update).setChecked(
+                        getChecked(elementPath, presentationContext),
+                        getGrayed(elementPath, presentationContext));
         }
     }
 
-    private String getLabel(JDIStackFrame sf)
-    {
-        if (isCallNode(sf))
-        {
+    private String getLabel(JDIStackFrame sf) {
+        if (isCallNode(sf)) {
             return getCallNodeLabel(sf);
         } else {
             return getNodeLabel(sf);
@@ -89,8 +97,9 @@ public class FlowJavaStackFrameLabelProvider extends DebugElementLabelProvider {
         try {
             IVariable[] vars = frame.getVariables();
             IVariable var = vars[0];
-
-            if (var.getValue().getReferenceTypeName().equals("import org.neuro4j.workflow.node.CallNode") && vars.length > 2) {
+            if (var.getValue().getReferenceTypeName()
+                    .equals(CallNodeImpl.IMPL_CLASS)
+                    && vars.length == 9) {
                 return true;
             }
 
@@ -119,45 +128,45 @@ public class FlowJavaStackFrameLabelProvider extends DebugElementLabelProvider {
 
             String[] array = BreakpoinMng.getInstance().getNodeNameAndUuid(sf);
 
-            String flowName = ResourceFinder.getInstance().getFlowNameByUuid(array[1]);
+            String flowName = ResourceFinder.getInstance().getFlowNameByUuid(
+                    array[1]);
 
-            return new StringBuffer(flowName).append(": ").append(array[0]).append(" (").append(array[1]).append(")").toString();
+            return new StringBuffer(flowName).append(": ").append(array[0])
+                    .append(" (").append(array[1]).append(")").toString();
 
         } catch (CoreException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        // TODO Auto-generated method stub
         return "unknownNode";
     }
 
-    private String getCallNodeFlowName(JDIStackFrame frame) throws DebugException
-    {
+    private String getCallNodeFlowName(JDIStackFrame frame)
+            throws DebugException {
         String uuid = null;
         try {
-            uuid = BreakpoinMng.getInstance().getCurrentUuid(frame);
+            uuid = BreakpoinMng.getInstance().getUUIDfromLba(
+                    frame.getVariables()[0]);
 
         } catch (CoreException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return "CallNode";
         }
 
         String flowName = ResourceFinder.getInstance().getFlowNameByUuid(uuid);
 
-        for (IVariable thisObject : frame.getVariables())
-        {
+        for (IVariable thisObject : frame.getVariables()) {
             if (thisObject.getName().equals("flow")) {
-                // return thisObject.getValue().toString();
-                return new StringBuffer(flowName).append(": ").append(thisObject.getValue().toString()).append(" (").append(uuid).append(")").toString();
+                return new StringBuffer(flowName).append(": ")
+                        .append(thisObject.getValue().toString()).append(" (")
+                        .append(uuid).append(")").toString();
             }
         }
 
-        return new StringBuffer(flowName).append(": ").append("CallNode").append(" (").append(uuid).append(")").toString();
+        return new StringBuffer(flowName).append(": ").append("CallNode")
+                .append(" (").append(uuid).append(")").toString();
     }
 
-    protected ISchedulingRule getRule(ILabelUpdate update)
-    {
+    protected ISchedulingRule getRule(ILabelUpdate update) {
         Object element = update.getElement();
         if ((element instanceof IJavaStackFrame)) {
             IJavaStackFrame frame = (IJavaStackFrame) element;
@@ -168,7 +177,6 @@ public class FlowJavaStackFrameLabelProvider extends DebugElementLabelProvider {
 
     @Override
     public synchronized void update(ILabelUpdate[] updates) {
-        // TODO Auto-generated method stub
         super.update(updates);
     }
 
