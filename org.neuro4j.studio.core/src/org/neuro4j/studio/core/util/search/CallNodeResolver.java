@@ -26,7 +26,6 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.ui.PlatformUI;
 import org.neuro4j.studio.core.NodeType;
 import org.neuro4j.studio.core.format.f4j.FlowConverter;
 import org.neuro4j.studio.core.format.f4j.FlowXML;
@@ -39,7 +38,7 @@ import org.neuro4j.workflow.common.WorkflowEngine;
 
 public class CallNodeResolver {
 
-    ResourceSearchEngine dialog = new ResourceSearchEngine(PlatformUI.getWorkbench().getDisplay().getActiveShell());
+    ResourceSearchEngine searchEngine = new ResourceSearchEngine();
 
     Map<String, List<String>> map = new HashMap<String, List<String>>();
 
@@ -57,7 +56,7 @@ public class CallNodeResolver {
     public List<IFile> findFileByName(String name) {
 
         try {
-            List<IFile> files = dialog.findFiles(name);
+            List<IFile> files = searchEngine.findFiles(name);
 
             return files;
         } catch (CoreException e) {

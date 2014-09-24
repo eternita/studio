@@ -258,17 +258,6 @@ public class Neuro4jPropertySection extends AbstractModelerPropertySection imple
 
     }
 
-    // /**
-    // * Returns the PropertySource provider. The default implementation returns
-    // * static adapter factory for the properties services. If the extending
-    // * class needs to use a different provider then this method has to be
-    // * overwriten.
-    // *
-    // * @return The PropertySource provider
-    // */
-    // protected IPropertySourceProvider getPropertySourceProvider() {
-    // return propertiesProvider;
-    // }
 
     /**
      * Returns the label for the table. The default implementation returns null,
@@ -280,38 +269,6 @@ public class Neuro4jPropertySection extends AbstractModelerPropertySection imple
         return null;
     }
 
-    // /* (non-Javadoc)
-    // * @see org.eclipse.ui.views.properties.tabbed.ISection#setInput(org.eclipse.ui.IWorkbenchPart,
-    // org.eclipse.jface.viewers.ISelection)
-    // */
-    // public void setInput(IWorkbenchPart part, ISelection selection) {
-    // IEditingDomainProvider provider = (IEditingDomainProvider) part
-    // .getAdapter(IEditingDomainProvider.class);
-    // if (provider != null) {
-    // EditingDomain theEditingDomain = provider.getEditingDomain();
-    // if (theEditingDomain instanceof TransactionalEditingDomain) {
-    // setEditingDomain((TransactionalEditingDomain) theEditingDomain);
-    // }
-    // }
-    //
-    // // Set the eObject for the section, too. The workbench part may not
-    // // adapt to IEditingDomainProvider, in which case the selected EObject
-    // // will be used to derive the editing domain.
-    // if (!selection.isEmpty() && selection instanceof IStructuredSelection) {
-    // Object firstElement = ((IStructuredSelection) selection)
-    // .getFirstElement();
-    //
-    // if (firstElement != null) {
-    // EObject adapted = unwrap(firstElement);
-    //
-    // if (adapted != null) {
-    // setEObject(adapted);
-    // }
-    // }
-    // }
-    //
-    // page.selectionChanged(part, selection);
-    // }
 
     /*
      * (non-Javadoc)

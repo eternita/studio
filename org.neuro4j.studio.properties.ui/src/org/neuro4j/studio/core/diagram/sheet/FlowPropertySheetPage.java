@@ -15,7 +15,22 @@
  */
 package org.neuro4j.studio.core.diagram.sheet;
 
+import org.eclipse.jface.text.TextViewer;
+import org.eclipse.jface.viewers.CellEditor.LayoutData;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ViewForm;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.views.properties.PropertySheetPage;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 
 public class FlowPropertySheetPage extends PropertySheetPage
 {
@@ -24,4 +39,6 @@ public class FlowPropertySheetPage extends PropertySheetPage
         super();
         setSorter(new FlowPropertySheetSorter());
     }
+
+
 }

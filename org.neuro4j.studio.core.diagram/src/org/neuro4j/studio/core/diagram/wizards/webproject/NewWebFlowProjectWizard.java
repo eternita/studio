@@ -193,7 +193,7 @@ public class NewWebFlowProjectWizard extends WebProjectWizard {
 
     private IFile getwebXml()
     {
-        ResourceSearchEngine resourceSearchEngine = new ResourceSearchEngine(PlatformUI.getWorkbench().getDisplay().getActiveShell());
+        ResourceSearchEngine resourceSearchEngine = new ResourceSearchEngine();
         List<IFile> files = Collections.emptyList();
         IFile webXml = null;
         try {

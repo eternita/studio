@@ -13,6 +13,7 @@ Require-Bundle: org.eclipse.jdt.core;bundle-version="3.8.3",
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.eclipse.emf.ecore,
+ org.eclipse.ui.forms.widgets,
  org.eclipse.emf.transaction,
  org.eclipse.emf.transaction.util,
  org.eclipse.gef,

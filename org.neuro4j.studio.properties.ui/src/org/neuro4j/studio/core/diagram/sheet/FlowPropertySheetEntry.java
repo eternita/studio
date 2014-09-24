@@ -79,23 +79,6 @@ public class FlowPropertySheetEntry extends UndoableModelPropertySheetEntry
         // Sort the descriptors
         List descriptors = new ArrayList(intersection.values());
 
-        // //////////////////////////////////////////////////////////////////////
-        // Commented to avoid alphabetically sorting of properties!
-        // Collections.sort(descriptors, new Comparator() {
-        // Collator coll = Collator.getInstance(Locale.getDefault());
-        //
-        // public int compare(Object a, Object b) {
-        // IPropertyDescriptor d1, d2;
-        // String dname1, dname2;
-        // d1 = (IPropertyDescriptor) a;
-        // dname1 = d1.getDisplayName();
-        // d2 = (IPropertyDescriptor) b;
-        // dname2 = d2.getDisplayName();
-        // return coll.compare(dname1, dname2);
-        // }
-        // });
-        // //////////////////////////////////////////////////////////////////////
-
         return descriptors;
     }
 

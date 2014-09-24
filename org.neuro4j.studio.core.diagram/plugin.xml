@@ -7,18 +7,6 @@
       <fileTypes type="text" extension="neuro4j_diagram"/>
    </extension>
 
-<!--
-   <extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor" id="prop-contrib">
-      <?gmfgen generated="true"?>
-      <propertyContributor
-            contributorId="org.neuro4j.studio.core.diagram"
-            labelProvider="org.neuro4j.studio.core.diagram.sheet.Neuro4jSheetLabelProvider">
-         <propertyCategory category="domain"/>
-         <propertyCategory category="visual"/>
-         <propertyCategory category="extra"/>
-      </propertyContributor>
-   </extension>
--->
 <extension point="org.eclipse.gmf.runtime.diagram.ui.paletteProviders"> 
   <paletteProvider class="org.eclipse.gmf.runtime.diagram.ui.providers.DefaultPaletteProvider">
     <Priority name="High"/>
@@ -39,43 +27,17 @@
             nsURI="http://www.eclipse.org/gmf/runtime/1.0.2/notation"
             priority="highest"/>
    </extension>
-<!--
-   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections" id="propsections">
-      <?gmfgen generated="true"?>   
-      <propertySections contributorId="org.neuro4j.studio.core.diagram">
-         <propertySection id="property.section.ConnectorAppearancePropertySection" 
-            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.ConnectionEditPartPropertySectionFilter" 
-            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.appearance.ConnectionAppearancePropertySection" 
-            tab="property.tab.AppearancePropertySection">
-         </propertySection>
-         <propertySection id="property.section.ShapeColorAndFontPropertySection" 
-            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.ShapeEditPartPropertySectionFilter" 
-            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.appearance.ShapeColorsAndFontsPropertySection" 
-            tab="property.tab.AppearancePropertySection">
-         </propertySection> 
-         <propertySection id="property.section.DiagramColorsAndFontsPropertySection" 
-            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.DiagramEditPartPropertySectionFilter" 
-            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.appearance.DiagramColorsAndFontsPropertySection" 
-            tab="property.tab.AppearancePropertySection">
-         </propertySection>     
-         <propertySection id="property.section.RulerGridPropertySection" 
-            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.DiagramEditPartPropertySectionFilter" 
-            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.grid.RulerGridPropertySection" 
-            tab="property.tab.DiagramPropertySection">
-         </propertySection>     
-         <propertySection
-            id="property.section.domain" 
-            tab="property.tab.domain"
-            class="org.neuro4j.studio.core.diagram.sheet.Neuro4jPropertySection">
-            <input type="org.eclipse.gmf.runtime.notation.View"/>
-            <input type="org.eclipse.gef.EditPart"/>
-            <input type="org.neuro4j.studio.core.diagram.navigator.Neuro4jAbstractNavigatorItem"/>
-         </propertySection>       
-      </propertySections>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            name="FlowdocView"
+            icon="$nl$/icons/javadoc.gif"
+            category="org.eclipse.jdt.ui.java"
+            class="org.neuro4j.studio.core.views.FlowdocView"
+            id="org.eclipse.jdt.ui.FlowdocView">
+      </view>
    </extension>
-
- -->  
-
    
    	   <extension point="org.eclipse.core.expressions.propertyTesters" id="navigator-proptest.isURIEditorInput">
       <?gmfgen generated="true"?>
@@ -238,23 +200,7 @@
       </wizard>
      
    </extension>
-<!--
-<extension point="org.eclipse.ui.popupMenus" id="init-diagram-action">
-      <?gmfgen generated="false"?>
-      <objectContribution
-            id="org.neuro4j.studio.core.diagram.InitDiagram"
-            nameFilter="*.n4j"
-            objectClass="org.eclipse.core.resources.IFile">
-         <action
-               label="%initDiagramActionLabel"
-               class="org.neuro4j.studio.core.diagram.part.Neuro4jInitDiagramFileAction"
-               menubarPath="additions"
-               enablesFor="1"
-               id="org.neuro4j.studio.core.diagram.InitDiagramAction">
-         </action>
-      </objectContribution>
-   </extension>
--->
+
 <extension point="org.eclipse.ui.commands">
 	<category name="OpenCommands" description="Open implementations." id="org.neuro4j.studio.core.diagram.nodes"/>
 	<command categoryId="org.neuro4j.studio.core.diagram.nodes" description="Open Implementaion" id="org.neuro4j.studio.core.diagram.nodes.openCallNode" name="Open Flow">

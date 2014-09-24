@@ -47,7 +47,7 @@ import org.eclipse.ui.ide.ResourceUtil;
 
 public class ResourceSearchEngine {
 
-    public ResourceSearchEngine(Shell parent) {
+    public ResourceSearchEngine() {
 
         container = ResourcesPlugin.getWorkspace().getRoot();
         typeMask = IResource.FILE;

@@ -24,12 +24,19 @@ public class FlowPerspectiveFactory implements IPerspectiveFactory {
     @Override
     public void createInitialLayout(IPageLayout layout) {
         String editorArea = layout.getEditorArea();
+        
+        
 
-        IFolderLayout folder = layout.createFolder("left", 1, 0.25F, editorArea);
+        IFolderLayout folder = layout.createFolder("left", IPageLayout.LEFT, 0.25F, editorArea);
         folder.addView("org.eclipse.jdt.ui.PackageExplorer");
         folder.addPlaceholder("org.eclipse.jdt.ui.TypeHierarchy");
         folder.addPlaceholder("org.eclipse.ui.views.ResourceNavigator");
         folder.addPlaceholder("org.eclipse.ui.navigator.ProjectExplorer");
+
+        IFolderLayout letfBottom = layout.createFolder("left", IPageLayout.BOTTOM, 0.75F, "org.eclipse.jdt.ui.PackageExplorer");
+        letfBottom.addView("org.eclipse.jdt.ui.FlowdocView");
+
+        
 
         IFolderLayout outputfolder = layout.createFolder("bottom", 4, 0.75F, editorArea);
         outputfolder.addView("org.eclipse.ui.views.PropertySheet");
