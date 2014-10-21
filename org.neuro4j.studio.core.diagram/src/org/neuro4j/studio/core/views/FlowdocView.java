@@ -36,6 +36,8 @@ public class FlowdocView extends JavadocView {
                     if (files != null && files.size() == 1)
                     {
                         input = getJavaElements(files.get(0));
+                    } else {
+                        
                     }
 
                 } catch (CoreException e) {

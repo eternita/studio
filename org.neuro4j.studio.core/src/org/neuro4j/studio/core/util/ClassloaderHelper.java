@@ -164,6 +164,8 @@ public class ClassloaderHelper
 
         return null;
     }
+    
+    
 
     public static URL[] getClasspathAsURLArray(IJavaProject javaProject)
     {
@@ -268,6 +270,8 @@ public class ClassloaderHelper
                     addJarToList(entry.getPath(), urls);
                     break;
                 case IClasspathEntry.CPE_CONTAINER:
+                case IClasspathEntry.CPE_SOURCE:
+                    break;
                 case IClasspathEntry.CPE_VARIABLE:
 
                     addJarToList(entry.getPath(), urls);

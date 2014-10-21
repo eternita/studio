@@ -17,6 +17,7 @@ package org.neuro4j.studio.core.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -27,13 +28,15 @@ import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
 
 public class FlowFromJarsLoader {
 
     private static FlowFromJarsLoader instance = new FlowFromJarsLoader();
-    private static Map<String, List<String>> itemsFromJars = new HashMap<String, List<String>>();
+    private static Map<String, List<FlowEntry>> itemsFromJars = new HashMap<String, List<FlowEntry>>();
 
     private FlowFromJarsLoader()
     {
@@ -50,7 +53,7 @@ public class FlowFromJarsLoader {
         return new MapWorkspaceUpdater(itemsFromJars);
     }
 
-    public synchronized List<String> getFlows(String project)
+    public synchronized List<FlowEntry> getFlows(String project)
     {
         if (itemsFromJars.containsKey(project))
         {
@@ -62,12 +65,24 @@ public class FlowFromJarsLoader {
         }
 
     }
+    
+    public List<FlowEntry> getAllFlows()
+    {
+        List<FlowEntry> list = new ArrayList<FlowEntry>();
+        IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+        for (IProject project: projects){
+            List<FlowEntry> l =  getFlows(project.getName());
+            list.addAll(l);
+        }
+        
+        return list;
+    }
 
     private synchronized void loadFromJars(IJavaProject project)
     {
 
         List<IPath> urls = ClassloaderHelper.getClasspathAsIPathArray(project);
-        List<String> l = new LinkedList<String>();
+        List<FlowEntry> l = new LinkedList<FlowEntry>();
         for (IPath iPath : urls)
         {
             JarFile file = null;
@@ -77,19 +92,24 @@ public class FlowFromJarsLoader {
                 // e.printStackTrace();
                 continue;
             }
+           
             Enumeration<JarEntry> en = file.entries();
             while (en.hasMoreElements())
             {
                 JarEntry e = en.nextElement();
                 if (e.getName().endsWith(".n4j"))
                 {
-                    List<String> list = null;
+                  Date lastModDate =   new Date(iPath.toFile().lastModified());
                     try {
-                        list = convertToList(file.getInputStream(e), e.getName());
-                        if (list != null && !list.isEmpty())
+                        FlowEntry entry =  convertToList(file.getInputStream(e), e.getName(), lastModDate);
+                        if (entry == null)
                         {
-                            l.addAll(list);
+                            continue;
                         }
+                        entry.setPluginId(iPath.lastSegment());
+                        entry.setfDate(lastModDate);
+                        
+                        l.add(entry);
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
@@ -108,15 +128,23 @@ public class FlowFromJarsLoader {
 
     }
 
-    protected List<String> convertToList(InputStream f, String packageName) {
-        List<String> startNodes = new ArrayList<String>();
-
-        String packageName1 = packageName.replace("/", ".").replace(".n4j", "") + "-";
+    protected FlowEntry convertToList(InputStream f, String packageName, Date lastModDate) {
+        FlowEntry entry = new FlowEntry();
+        
+        String packageName1 = packageName.replace("/", ".").replace(".n4j", "");
+        
+        entry.setMessage(packageName1);
+        
         for (String eid : getNetwork(f, packageName)) {
-            startNodes.add(packageName1 + eid);
+            FlowEntry child = new FlowEntry();
+            child.setMessage(eid);
+            child.setfDate(lastModDate);
+            entry.addChild(child);
         }
-
-        return startNodes;
+        if(!entry.hasChildren()){
+            return null;
+        }
+        return entry;
     }
 
     private List<String> getNetwork(InputStream iResource, String name) {

@@ -12,7 +12,8 @@ Export-Package: org.neuro4j.studio.core.diagram.edit.parts,
  org.neuro4j.studio.core.diagram.navigator,
  org.neuro4j.studio.core.diagram.part,
  org.neuro4j.studio.core.diagram.preferences,
- org.neuro4j.studio.core.diagram.providers
+ org.neuro4j.studio.core.diagram.providers,
+ org.neuro4j.studio.core.views.dialogs
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.core.expressions,

@@ -26,7 +26,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
-import org.neuro4j.studio.properties.ui.celleditor.FlowResourcesSelectionDialog;
+import org.neuro4j.studio.core.views.dialogs.FlowResourcesSelectionDialog;
+
 
 public class CallNodeFlowNamePropertyDescriptor extends PropertyDescriptor {
 

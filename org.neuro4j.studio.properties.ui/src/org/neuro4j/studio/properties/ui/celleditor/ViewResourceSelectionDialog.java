@@ -22,6 +22,7 @@ import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.swt.widgets.Shell;
 import org.neuro4j.studio.core.util.PropetiesConstants;
+import org.neuro4j.studio.core.views.dialogs.FlowResourcesSelectionDialog;
 
 public class ViewResourceSelectionDialog extends FlowResourcesSelectionDialog {
 

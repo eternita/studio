@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.neuro4j.studio.properties.ui.celleditor;
+package org.neuro4j.studio.core.views.dialogs;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -1840,7 +1840,7 @@ public abstract class FilteredItemsSelectionDialog extends
      * Used in ItemsListContentProvider, separates history and non-history
      * items.
      */
-    private class ItemsListSeparator {
+    public class ItemsListSeparator {
 
         private String name;
 
@@ -2568,7 +2568,7 @@ public abstract class FilteredItemsSelectionDialog extends
      * <code>ILazyContentProvider</code> and virtual tables are used. This class is responsible for adding a separator
      * below history items and marking each items as duplicate if its name repeats more than once on the filtered list.
      */
-    class ContentProvider extends AbstractContentProvider implements
+    public class ContentProvider extends AbstractContentProvider implements
             IStructuredContentProvider, ILazyContentProvider {
 
         private SelectionHistory selectionHistory;

@@ -70,21 +70,21 @@
       <view
             name="Flow Context View"
             icon="icons/sample.gif"
-            category="org.eclipse.debug.ui"
+            category="org.neuro4j.workflows"
             class="org.neuro4j.studio.debug.ui.views.DataStackView"
             id="org.neuro4j.studio.debug.ui.DataStackView">
       </view>
       <view
             name="Flow Stack View"
             icon="icons/sample.gif"
-            category="org.eclipse.debug.ui"
+            category="org.neuro4j.workflows"
             class="org.neuro4j.studio.debug.ui.views.FlowLaunchView"
             id="org.neuro4j.studio.debug.ui.DebugView">
       </view>
        <view
             name="Flow Breakpoints"
             icon="icons/sample.gif"
-            category="org.eclipse.debug.ui"
+            category="org.neuro4j.workflows"
             class="org.neuro4j.studio.debug.ui.views.flowbreakpoints.NewFlowBreakpoinsView"
             allowMultiple="true"
             id="org.neuro4j.studio.debug.ui.BreakpointView">

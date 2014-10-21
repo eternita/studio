@@ -29,6 +29,8 @@ public class FlowPerspectiveFactory implements IPerspectiveFactory {
 
         IFolderLayout folder = layout.createFolder("left", IPageLayout.LEFT, 0.25F, editorArea);
         folder.addView("org.eclipse.jdt.ui.PackageExplorer");
+        folder.addView("org.neuro4j.studio.core.views.flows.FlowTreeView");
+        
         folder.addPlaceholder("org.eclipse.jdt.ui.TypeHierarchy");
         folder.addPlaceholder("org.eclipse.ui.views.ResourceNavigator");
         folder.addPlaceholder("org.eclipse.ui.navigator.ProjectExplorer");

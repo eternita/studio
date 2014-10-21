@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.neuro4j.studio.properties.ui.celleditor;
+package org.neuro4j.studio.core.views.dialogs;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -81,6 +81,7 @@ import org.eclipse.ui.internal.ide.model.ResourceFactory;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.statushandlers.StatusManager;
 import org.neuro4j.studio.core.util.ClassloaderHelper;
+import org.neuro4j.studio.core.util.FlowEntry;
 import org.neuro4j.studio.core.util.FlowFromJarsLoader;
 
 public class FlowResourcesSelectionDialog extends FilteredItemsSelectionDialog {
@@ -197,17 +198,26 @@ public class FlowResourcesSelectionDialog extends FilteredItemsSelectionDialog {
         setDetailsLabelProvider(resourceItemDetailsLabelProvider);
     }
 
-    class FlowContentProvider extends ContentProvider
+   public  class FlowContentProvider extends ContentProvider
     {
 
         protected Object[] getSortedItems() {
 
-            List<String> flows = FlowFromJarsLoader.getInstance().getFlows(ClassloaderHelper.getActiveProjectName());
+            List<FlowEntry> flows = FlowFromJarsLoader.getInstance().getFlows(ClassloaderHelper.getActiveProjectName());
             if (lastSortedItems.size() != items.size() + flows.size()) {
                 synchronized (lastSortedItems) {
+                    List<String> list = new ArrayList<String>(flows.size());
+                    for (FlowEntry entry:  flows)
+                    {
+                        FlowEntry[] children = (FlowEntry[])  entry.getChildren(null);
+                        for (FlowEntry child : children)
+                        {
+                            list.add(entry.getMessage() + "-" + child.getMessage());
+                        }
+                    }
                     lastSortedItems.clear();
                     lastSortedItems.addAll(items);
-                    lastSortedItems.addAll(flows);
+                    lastSortedItems.addAll(list);
                     Collections.sort(lastSortedItems, getHistoryComparator());
                 }
             }

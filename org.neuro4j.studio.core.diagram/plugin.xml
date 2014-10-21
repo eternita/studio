@@ -30,13 +30,24 @@
 
    <extension
          point="org.eclipse.ui.views">
+          <category 
+           id="org.neuro4j.workflows"
+           name="Neuro4j Workflows">
+        </category>
       <view
             name="FlowdocView"
-            icon="$nl$/icons/javadoc.gif"
-            category="org.eclipse.jdt.ui.java"
+            icon="/icons/javadoc.gif"
+            category="org.neuro4j.workflows"
             class="org.neuro4j.studio.core.views.FlowdocView"
             id="org.eclipse.jdt.ui.FlowdocView">
       </view>
+      <view
+            name="FlowList View"
+            icon="/icons/javadoc.gif"
+            category="org.neuro4j.workflows"
+            class="org.neuro4j.studio.core.views.flows.FlowsListView"
+            id="org.neuro4j.studio.core.views.flows.FlowTreeView">
+      </view>      
    </extension>
    
    	   <extension point="org.eclipse.core.expressions.propertyTesters" id="navigator-proptest.isURIEditorInput">
