@@ -100,6 +100,9 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
@@ -973,6 +976,7 @@ public class Neuro4jEditor
             resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
         }
         editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);
+       
     }
 
     /**

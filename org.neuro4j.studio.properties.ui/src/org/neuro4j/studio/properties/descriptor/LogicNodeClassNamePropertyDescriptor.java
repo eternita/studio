@@ -36,6 +36,7 @@ import org.neuro4j.studio.core.LogicNode;
 import org.neuro4j.studio.core.diagram.edit.parts.LogicNodeEditPart;
 import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorUtil;
 import org.neuro4j.studio.core.util.ClassloaderHelper;
+import org.neuro4j.studio.core.util.ListEntry;
 import org.neuro4j.studio.core.util.search.LogicClassNameLoader;
 
 public class LogicNodeClassNamePropertyDescriptor extends PropertyDescriptor {
@@ -62,9 +63,9 @@ public class LogicNodeClassNamePropertyDescriptor extends PropertyDescriptor {
                 dialog.setTitle("Available  blocks");
 
                 dialog.setMultipleSelection(false);
-                List<String> list = LogicClassNameLoader.getInstance().getClasses(ClassloaderHelper.getActiveProjectName());
+                List<ListEntry> list = LogicClassNameLoader.getInstance().getClasses(ClassloaderHelper.getActiveProjectName());
 
-                dialog.setElements(list.toArray(new String[list.size()]));
+                dialog.setElements(list.toArray(new ListEntry[list.size()]));
 
                 // Open the dialog and retrieve the user selection
                 int result = dialog.open();
@@ -73,9 +74,14 @@ public class LogicNodeClassNamePropertyDescriptor extends PropertyDescriptor {
                 {
                     updateIcon(node, Arrays.asList(dialog.getResult()));
                 }
-
-                return result == Window.OK ? Arrays.asList(dialog.getResult())
-                        : null;
+                if (result == Window.OK)
+                {
+                    ListEntry entry = (ListEntry) list.get(0); 
+                    List<String> l = new ArrayList<String>(1);
+                    l.add(entry.getMessage());
+                    return l;
+                }
+                return  null;
             }
         };
     }
@@ -85,7 +91,8 @@ public class LogicNodeClassNamePropertyDescriptor extends PropertyDescriptor {
         String className = null;
         if (list.size() == 1)
         {
-            className = (String) list.get(0);
+            ListEntry entry = (ListEntry) list.get(0); 
+            className = entry.getMessage();
         }
         IEditorPart editorPart = PlatformUI.getWorkbench()
                 .getActiveWorkbenchWindow().getActivePage().getActiveEditor();

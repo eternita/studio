@@ -14,6 +14,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
 import org.neuro4j.studio.core.diagram.edit.parts.LogicNodeEditPart;
 import org.neuro4j.studio.core.impl.LogicNodeImpl;
+import org.neuro4j.studio.core.util.ListEntry;
+import org.neuro4j.studio.core.util.ListEntryType;
 import org.neuro4j.studio.core.util.search.ResourceSearchEngine;
 
 @SuppressWarnings("restriction")
@@ -30,23 +32,45 @@ public class FlowdocView extends JavadocView {
             if (ss.getFirstElement() instanceof LogicNodeEditPart) {
                 LogicNodeEditPart node = (LogicNodeEditPart) ss.getFirstElement();
                 LogicNodeImpl actionNode = (LogicNodeImpl) node.getActionNode();
-                actionNode.getClassName();
-                try {
-                    List<IFile> files = searchEngine.findFiles(actionNode.getClassName().replace(".", "/").concat(".java"));
-                    if (files != null && files.size() == 1)
-                    {
-                        input = getJavaElements(files.get(0));
-                    } else {
-                        
-                    }
-
-                } catch (CoreException e) {
-                    e.printStackTrace();
+                String className = actionNode.getClassName();
+                if (className == null)
+                {
+                    return null;
                 }
+                input = getInput(input, actionNode.getClassName());
+            } else if (ss.getFirstElement() instanceof ListEntry)
+            {
+                ListEntry entry = (ListEntry) ss.getFirstElement();
+                if (entry.getType() != ListEntryType.CUSTOM_BLOCK)
+                {
+                    return null;
+                }
+                String className = entry.getMessage();
+                if (className == null)
+                {
+                    return null;
+                }
+                input = getInput(input, className);
             }
 
         }
         return super.computeInput(part, selection, input, monitor);
+    }
+
+    private IJavaElement getInput(IJavaElement input, String actionNode) {
+        try {
+            List<IFile> files = searchEngine.findFiles(actionNode.replace(".", "/").concat(".java"));
+            if (files != null && files.size() == 1)
+            {
+                input = getJavaElements(files.get(0));
+            } else {
+
+            }
+
+        } catch (CoreException e) {
+            e.printStackTrace();
+        }
+        return input;
     }
 
     private IJavaElement getJavaElements(Object object) {

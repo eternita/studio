@@ -9,23 +9,19 @@ import java.util.Locale;
 import org.eclipse.core.resources.IFile;
 
 /**
- * Represents a given entry in the Error view
+ * Represents a given entry in the List view
  */
-public class FlowEntry extends AbstractEntry {
-
-    public static final String SPACE = " "; //$NON-NLS-1$
-    public static final String F_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS"; //$NON-NLS-1$
-    private final DateFormat GREGORIAN_SDF = new SimpleDateFormat(F_DATE_FORMAT, Locale.ENGLISH);
+public class ListEntry extends AbstractEntry {
 
     private String pluginId;
-    private String fDateString;
     private Date fDate;
     private String message;
+    private ListEntryType type;
 
     /**
      * Constructor
      */
-    public FlowEntry() {
+    public ListEntry() {
         // do nothing
     }
 
@@ -35,7 +31,7 @@ public class FlowEntry extends AbstractEntry {
      * @param status
      *        an existing status to create a new entry from
      */
-    public FlowEntry(IFile file) {
+    public ListEntry(IFile file) {
         processStatus(file);
     }
 
@@ -61,17 +57,7 @@ public class FlowEntry extends AbstractEntry {
         return message;
     }
 
-    /**
-     * Returns a pretty-print formatting for the date for this entry
-     * 
-     * @return the formatted date for this entry
-     */
-    public String getFormattedDate() {
-        if (fDateString == null) {
-            fDateString = GREGORIAN_SDF.format(getDate());
-        }
-        return fDateString;
-    }
+
 
     /**
      * Returns the date for this entry or the epoch if the current date value is <code>null</code>
@@ -92,7 +78,6 @@ public class FlowEntry extends AbstractEntry {
     public void processStatus(IFile line) {
         if (fDate == null) {
             fDate = new Date(line.getLocalTimeStamp());
-            fDateString = GREGORIAN_SDF.format(fDate);
         }
     }
 
@@ -116,4 +101,19 @@ public class FlowEntry extends AbstractEntry {
             writer.println(getMessage());
         }
     }
+
+    @Override
+    public String toString() {
+        return message;
+    }
+
+    public ListEntryType getType() {
+        return type;
+    }
+
+    public void setType(ListEntryType type) {
+        this.type = type;
+    }
+    
+    
 }

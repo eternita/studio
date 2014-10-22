@@ -36,11 +36,10 @@ import org.eclipse.jdt.core.IJavaProject;
 public class FlowFromJarsLoader {
 
     private static FlowFromJarsLoader instance = new FlowFromJarsLoader();
-    private static Map<String, List<FlowEntry>> itemsFromJars = new HashMap<String, List<FlowEntry>>();
+    private static Map<String, List<ListEntry>> itemsFromJars = new HashMap<String, List<ListEntry>>();
 
     private FlowFromJarsLoader()
     {
-        // loadFromJars();
     }
 
     public static FlowFromJarsLoader getInstance()
@@ -53,7 +52,7 @@ public class FlowFromJarsLoader {
         return new MapWorkspaceUpdater(itemsFromJars);
     }
 
-    public synchronized List<FlowEntry> getFlows(String project)
+    public synchronized List<ListEntry> getFlows(String project)
     {
         if (itemsFromJars.containsKey(project))
         {
@@ -66,12 +65,12 @@ public class FlowFromJarsLoader {
 
     }
     
-    public List<FlowEntry> getAllFlows()
+    public List<ListEntry> getAllFlows()
     {
-        List<FlowEntry> list = new ArrayList<FlowEntry>();
+        List<ListEntry> list = new ArrayList<ListEntry>();
         IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
         for (IProject project: projects){
-            List<FlowEntry> l =  getFlows(project.getName());
+            List<ListEntry> l =  getFlows(project.getName());
             list.addAll(l);
         }
         
@@ -82,7 +81,7 @@ public class FlowFromJarsLoader {
     {
 
         List<IPath> urls = ClassloaderHelper.getClasspathAsIPathArray(project);
-        List<FlowEntry> l = new LinkedList<FlowEntry>();
+        List<ListEntry> l = new LinkedList<ListEntry>();
         for (IPath iPath : urls)
         {
             JarFile file = null;
@@ -101,7 +100,7 @@ public class FlowFromJarsLoader {
                 {
                   Date lastModDate =   new Date(iPath.toFile().lastModified());
                     try {
-                        FlowEntry entry =  convertToList(file.getInputStream(e), e.getName(), lastModDate);
+                        ListEntry entry =  convertToList(file.getInputStream(e), e.getName(), lastModDate);
                         if (entry == null)
                         {
                             continue;
@@ -128,15 +127,16 @@ public class FlowFromJarsLoader {
 
     }
 
-    protected FlowEntry convertToList(InputStream f, String packageName, Date lastModDate) {
-        FlowEntry entry = new FlowEntry();
-        
+    protected ListEntry convertToList(InputStream f, String packageName, Date lastModDate) {
+        ListEntry entry = new ListEntry();
+        entry.setType(ListEntryType.FLOW);
         String packageName1 = packageName.replace("/", ".").replace(".n4j", "");
         
         entry.setMessage(packageName1);
         
-        for (String eid : getNetwork(f, packageName)) {
-            FlowEntry child = new FlowEntry();
+        for (String eid : getStartNodes(f, packageName)) {
+            ListEntry child = new ListEntry();
+            child.setType(ListEntryType.CHILD);
             child.setMessage(eid);
             child.setfDate(lastModDate);
             entry.addChild(child);
@@ -147,7 +147,7 @@ public class FlowFromJarsLoader {
         return entry;
     }
 
-    private List<String> getNetwork(InputStream iResource, String name) {
+    private List<String> getStartNodes(InputStream iResource, String name) {
         List<String> list = Collections.emptyList();
         if (null != iResource) {
             list = FlowUtils.getStartNodeList(iResource, name);

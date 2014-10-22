@@ -38,6 +38,9 @@ import org.eclipse.gmf.runtime.diagram.ui.editpolicies.NonResizableLabelEditPoli
 import org.eclipse.gmf.runtime.diagram.ui.requests.DropObjectsRequest;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.tooling.runtime.edit.policies.reparent.CreationEditPolicyWithCustomReparent;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DragSource;
+import org.eclipse.swt.dnd.DropTarget;
 import org.neuro4j.studio.core.diagram.edit.policies.NetworkCanonicalEditPolicy;
 import org.neuro4j.studio.core.diagram.edit.policies.NetworkItemSemanticEditPolicy;
 import org.neuro4j.studio.core.diagram.part.Neuro4jVisualIDRegistry;
@@ -75,7 +78,7 @@ public class NetworkEditPart extends DiagramEditPart {
         IFigure graphics = super.createFigure();
         graphics.setBackgroundColor(ColorConstants.white);
         graphics.setOpaque(true);
-
+        
         return graphics;
     }
 
@@ -161,14 +164,14 @@ public class NetworkEditPart extends DiagramEditPart {
 
             @Override
             protected Command getDropCommand(ChangeBoundsRequest request) {
-                // TODO Auto-generated method stub
+                System.out.println("drop");
                 return super.getDropCommand(request);
             }
 
             @Override
             protected Command getDropElementCommand(EObject element,
                     DropObjectsRequest request) {
-                // TODO Auto-generated method stub
+               System.out.println("drop");
                 return super.getDropElementCommand(element, request);
             }
 

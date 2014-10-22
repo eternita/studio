@@ -43,11 +43,18 @@
       </view>
       <view
             name="FlowList View"
-            icon="/icons/javadoc.gif"
+            icon="/icons/flv.gif"
             category="org.neuro4j.workflows"
             class="org.neuro4j.studio.core.views.flows.FlowsListView"
             id="org.neuro4j.studio.core.views.flows.FlowTreeView">
-      </view>      
+      </view>    
+      <view
+            name="CustomBlock View"
+            icon="/icons/blv.gif"
+            category="org.neuro4j.workflows"
+            class="org.neuro4j.studio.core.views.flows.CustomBlocksListView"
+            id="org.neuro4j.studio.core.views.flows.CustomBlocksTreeView">
+      </view> 
    </extension>
    
    	   <extension point="org.eclipse.core.expressions.propertyTesters" id="navigator-proptest.isURIEditorInput">
@@ -284,40 +291,7 @@
       <?gmfgen generated="true"?>
       <initializer class="org.neuro4j.studio.core.diagram.preferences.DiagramPreferenceInitializer"/>
    </extension>
-<!--
-<extension point="org.eclipse.ui.preferencePages" id="prefpages">
-      <?gmfgen generated="true"?>
-      <page
-            id="org.neuro4j.studio.core.diagram.general"
-            name="%prefpage.org.neuro4j.studio.core.diagram.general"
-            class="org.neuro4j.studio.core.diagram.preferences.DiagramGeneralPreferencePage">
-      </page>
-      <page
-            id="org.neuro4j.studio.core.diagram.appearance"
-            name="%prefpage.org.neuro4j.studio.core.diagram.appearance"
-            category="org.neuro4j.studio.core.diagram.general"
-            class="org.neuro4j.studio.core.diagram.preferences.DiagramAppearancePreferencePage">
-      </page>
-      <page
-            id="org.neuro4j.studio.core.diagram.connections"
-            name="%prefpage.org.neuro4j.studio.core.diagram.connections"
-            category="org.neuro4j.studio.core.diagram.general"
-            class="org.neuro4j.studio.core.diagram.preferences.DiagramConnectionsPreferencePage">
-      </page>
-      <page
-            id="org.neuro4j.studio.core.diagram.printing"
-            name="%prefpage.org.neuro4j.studio.core.diagram.printing"
-            category="org.neuro4j.studio.core.diagram.general"
-            class="org.neuro4j.studio.core.diagram.preferences.DiagramPrintingPreferencePage">
-      </page>
-      <page
-            id="org.neuro4j.studio.core.diagram.rulersAndGrid"
-            name="%prefpage.org.neuro4j.studio.core.diagram.rulersAndGrid"
-            category="org.neuro4j.studio.core.diagram.general"
-            class="org.neuro4j.studio.core.diagram.preferences.DiagramRulersAndGridPreferencePage">
-      </page>
-   </extension>
--->
+
 
 <extension point="org.eclipse.emf.ecore.extension_parser" id="resource-factory">
       <?gmfgen generated="true"?>

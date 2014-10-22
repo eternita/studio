@@ -21,10 +21,10 @@ import org.eclipse.jface.viewers.Viewer;
 import org.neuro4j.studio.core.util.AbstractEntry;
 import org.neuro4j.studio.core.util.LogSession;
 
-public class FlowViewContentProvider implements ITreeContentProvider {
-	private FlowsListView logView;
+public class ListViewContentProvider implements ITreeContentProvider {
+	private AbstractListView logView;
 
-	public FlowViewContentProvider(FlowsListView logView) {
+	public ListViewContentProvider(AbstractListView logView) {
 		this.logView = logView;
 	}
 

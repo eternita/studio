@@ -26,7 +26,7 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
-import org.neuro4j.studio.core.util.FlowEntry;
+import org.neuro4j.studio.core.util.ListEntry;
 import org.neuro4j.studio.core.util.Group;
 import org.neuro4j.studio.core.util.LogSession;
 
@@ -43,9 +43,9 @@ public class FlowViewLabelProvider extends LabelProvider implements ITableLabelP
     ArrayList consumers = new ArrayList();
     private DateFormat dateFormat;
 
-    private FlowsListView logView;
+    private AbstractListView logView;
 
-    public FlowViewLabelProvider(FlowsListView logView) {
+    public FlowViewLabelProvider(AbstractListView logView) {
         dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.ENGLISH);
         errorImage = SharedImages.getImage(SharedImages.DESC_ERROR_ST_OBJ);
         warningImage = SharedImages.getImage(SharedImages.DESC_WARNING_ST_OBJ);
@@ -85,8 +85,8 @@ public class FlowViewLabelProvider extends LabelProvider implements ITableLabelP
             return element.toString();
         }
 
-        if (element instanceof FlowEntry) {
-            FlowEntry entry = (FlowEntry) element;
+        if (element instanceof ListEntry) {
+            ListEntry entry = (ListEntry) element;
             switch (columnIndex) {
                 case 0:
                     if (entry.getMessage() != null) {

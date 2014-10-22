@@ -81,7 +81,7 @@ import org.eclipse.ui.internal.ide.model.ResourceFactory;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.statushandlers.StatusManager;
 import org.neuro4j.studio.core.util.ClassloaderHelper;
-import org.neuro4j.studio.core.util.FlowEntry;
+import org.neuro4j.studio.core.util.ListEntry;
 import org.neuro4j.studio.core.util.FlowFromJarsLoader;
 
 public class FlowResourcesSelectionDialog extends FilteredItemsSelectionDialog {
@@ -203,14 +203,14 @@ public class FlowResourcesSelectionDialog extends FilteredItemsSelectionDialog {
 
         protected Object[] getSortedItems() {
 
-            List<FlowEntry> flows = FlowFromJarsLoader.getInstance().getFlows(ClassloaderHelper.getActiveProjectName());
+            List<ListEntry> flows = FlowFromJarsLoader.getInstance().getFlows(ClassloaderHelper.getActiveProjectName());
             if (lastSortedItems.size() != items.size() + flows.size()) {
                 synchronized (lastSortedItems) {
                     List<String> list = new ArrayList<String>(flows.size());
-                    for (FlowEntry entry:  flows)
+                    for (ListEntry entry:  flows)
                     {
-                        FlowEntry[] children = (FlowEntry[])  entry.getChildren(null);
-                        for (FlowEntry child : children)
+                        ListEntry[] children = (ListEntry[])  entry.getChildren(null);
+                        for (ListEntry child : children)
                         {
                             list.add(entry.getMessage() + "-" + child.getMessage());
                         }

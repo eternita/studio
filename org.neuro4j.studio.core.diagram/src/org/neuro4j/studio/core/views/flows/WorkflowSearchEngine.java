@@ -31,14 +31,14 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.neuro4j.studio.core.util.FlowEntry;
+import org.neuro4j.studio.core.util.ListEntry;
 import org.neuro4j.studio.core.util.FlowUtils;
 
 public class WorkflowSearchEngine {
 
     private static final String JDT_NATURE = "org.eclipse.jdt.core.javanature";
 
-    public Object load(final List<FlowEntry> workflows) {
+    public Object load(final List<ListEntry> workflows) {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IWorkspaceRoot root = workspace.getRoot();
         // Get all projects in the workspace
@@ -56,7 +56,7 @@ public class WorkflowSearchEngine {
         return null;
     }
 
-    private void analyzeProject(IProject project, List<FlowEntry> flows) throws JavaModelException {
+    private void analyzeProject(IProject project, List<ListEntry> flows) throws JavaModelException {
         IJavaProject javaProject = JavaCore.create(project);
         javaProject.getNonJavaResources();
         IPackageFragment[] packages = javaProject.getPackageFragments();
@@ -96,19 +96,19 @@ public class WorkflowSearchEngine {
         }
     }
 
-    private void processFile(IFile file, IPackageFragment mypackage, List<FlowEntry> flows)
+    private void processFile(IFile file, IPackageFragment mypackage, List<ListEntry> flows)
     {
 
         if (file.getFileExtension().equals("n4j"))
         {
-            FlowEntry entry = createEntryByFlow(file, mypackage);
+            ListEntry entry = createEntryByFlow(file, mypackage);
             flows.add(entry);
         }
     }
 
-    private FlowEntry createEntryByFlow(IFile file, IPackageFragment mypackage)
+    private ListEntry createEntryByFlow(IFile file, IPackageFragment mypackage)
     {
-        FlowEntry entry = new FlowEntry(file);
+        ListEntry entry = new ListEntry(file);
         StringBuffer str = new StringBuffer();
         if (mypackage != null)
         {
@@ -126,7 +126,7 @@ public class WorkflowSearchEngine {
             List<String> list = FlowUtils.getStartNodeList(file.getContents(), str.toString());
             for (String start : list)
             {
-                FlowEntry e = new FlowEntry(file);
+                ListEntry e = new ListEntry(file);
                 e.setMessage(start);
                 entry.addChild(e);
             }

@@ -24,7 +24,7 @@ import org.eclipse.osgi.util.NLS;
 public class Messages {
 
 	public static String FlowView_AddingBatchedEvents;
-    public static String FlowView_WorkspaceLogFile;
+    public static String FlowView_Title;
     public static String FlowView_GroupByNone;
     public static String FlowView_GroupBy;
     public static String FlowView_GroupByPlugin;
@@ -34,7 +34,9 @@ public class Messages {
 	public static String FlowView_column_plugin;
 	public static String FlowView_column_date;
 	
-
+	
+	public static String CustomBlockView_Title;
+	public static String CustomBlockView_column_message;
 
 
     static {

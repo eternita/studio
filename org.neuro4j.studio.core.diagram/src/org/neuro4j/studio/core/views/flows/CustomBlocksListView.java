@@ -16,34 +16,20 @@
 
 package org.neuro4j.studio.core.views.flows;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.neuro4j.studio.core.util.search.LogicClassNameLoader;
 
-import org.neuro4j.studio.core.util.FlowFromJarsLoader;
-import org.neuro4j.studio.core.util.ListEntry;
+public class CustomBlocksListView extends AbstractListView {
 
-public class FlowsListView extends AbstractListView {
-
-    public FlowsListView() {
+    public CustomBlocksListView() {
         super();
-
     }
 
     void loadElements() {
         elements.clear();
         groups.clear();
 
-        workflowSearchEngine.load(elements);
+        LogicClassNameLoader.getInstance().loadAllBlocksInWorkspace(elements);
 
-        List<ListEntry> flows = FlowFromJarsLoader.getInstance().getAllFlows();
-        List result = new ArrayList(flows.size());
-        for (ListEntry entry : flows)
-        {
-            result.add(entry);
-        }
-
-
-        group(result);
         limitEntriesCount();
 
         if (fDisplay != null) {
@@ -58,12 +44,12 @@ public class FlowsListView extends AbstractListView {
 
     String getTitleSummary()
     {
-        return Messages.FlowView_Title;
+        return Messages.CustomBlockView_Title;
     }
-
+    
     @Override
     String getFirstColumnName() {
-        return Messages.FlowView_column_message;
+        return Messages.CustomBlockView_column_message;
     }
 
 }

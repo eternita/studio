@@ -47,6 +47,10 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorMatchingStrategy;
@@ -83,7 +87,10 @@ public class Neuro4jDiagramEditor extends DiagramDocumentEditor implements
      */
     public Neuro4jDiagramEditor() {
         super(true);
+
     }
+    
+    
 
     /**
      * @generated
@@ -98,7 +105,7 @@ public class Neuro4jDiagramEditor extends DiagramDocumentEditor implements
     protected PaletteRoot createPaletteRoot(PaletteRoot existingPaletteRoot) {
         PaletteRoot root = super.createPaletteRoot(existingPaletteRoot);
         fillPalette(root);
-
+               
         return root;
     }
 
