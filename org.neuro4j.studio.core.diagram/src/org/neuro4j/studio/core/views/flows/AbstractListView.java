@@ -99,6 +99,7 @@ import org.neuro4j.studio.core.util.AbstractEntry;
 import org.neuro4j.studio.core.util.ListEntry;
 import org.neuro4j.studio.core.util.FlowFromJarsLoader;
 import org.neuro4j.studio.core.util.Group;
+import org.neuro4j.studio.core.util.ListEntryType;
 import org.neuro4j.studio.core.util.LogSession;
 import org.neuro4j.studio.core.views.dialogs.FlowResourcesSelectionDialog.FlowContentProvider;
 import org.osgi.service.prefs.BackingStoreException;
@@ -604,12 +605,20 @@ public abstract class AbstractListView extends ViewPart {
     }
 
     private void handleSelectionChanged(ISelection selection) {
-        updateStatus(selection);
-        SelectedConnectionProvider.getInstance().setAvailableForInsert(false);
-        SelectedListEntryProvider.getInstance().setAvailableForInsert(true);
-        AbstractEntry entry = (AbstractEntry) ((TreeSelection) selection).getFirstElement();
-
-        SelectedListEntryProvider.getInstance().setEntry((ListEntry) entry);
+        
+        updateStatus(selection);        
+        
+        ListEntry entry = (ListEntry) ((TreeSelection) selection).getFirstElement();
+        if (entry.getType() == ListEntryType.CUSTOM_BLOCK || (entry.getType() == ListEntryType.CHILD && entry.getParent().getType() == ListEntryType.FLOW))
+        {
+            SelectedConnectionProvider.getInstance().setAvailableForInsert(false);
+            SelectedListEntryProvider.getInstance().setAvailableForInsert(true);
+            SelectedListEntryProvider.getInstance().setEntry(entry);
+         //   updateCursor();
+        } else {
+            SelectedConnectionProvider.getInstance().setAvailableForInsert(false);
+            SelectedListEntryProvider.getInstance().setAvailableForInsert(false);
+        }
 
     }
 
@@ -622,6 +631,8 @@ public abstract class AbstractListView extends ViewPart {
             status.setMessage(((FlowViewLabelProvider) fFilteredTree.getViewer().getLabelProvider()).getColumnText(element, 0));
         }
     }
+    
+
 
 
 

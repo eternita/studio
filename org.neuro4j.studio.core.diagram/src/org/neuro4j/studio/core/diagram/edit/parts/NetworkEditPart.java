@@ -162,54 +162,7 @@ public class NetworkEditPart extends DiagramEditPart {
             }
         });
         
-      
 
-
-//        getViewer().addDropTargetListener(new TransferDropTargetListener() {
-//
-//            @Override
-//            public void dropAccept(DropTargetEvent arg0) {
-//
-//            }
-//
-//            @Override
-//            public void drop(DropTargetEvent arg0) {
-//
-//            }
-//
-//            @Override
-//            public void dragOver(DropTargetEvent arg0) {
-//
-//            }
-//
-//            @Override
-//            public void dragOperationChanged(DropTargetEvent arg0) {
-//
-//            }
-//
-//            @Override
-//            public void dragLeave(DropTargetEvent arg0) {
-//
-//                System.out.println(getContentPane().getClientArea());
-//                SelectedListEntryProvider.getInstance().createObject();
-//            }
-//
-//            @Override
-//            public void dragEnter(DropTargetEvent arg0) {
-//
-//            }
-//
-//            @Override
-//            public boolean isEnabled(DropTargetEvent arg0) {
-//
-//                return SelectedListEntryProvider.getInstance().isAvailableForInsert();
-//            }
-//
-//            @Override
-//            public Transfer getTransfer() {
-//                return TextTransfer.getInstance();
-//            }
-//        });
 
     }
 

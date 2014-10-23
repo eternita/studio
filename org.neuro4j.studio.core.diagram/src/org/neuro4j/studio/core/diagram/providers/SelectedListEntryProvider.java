@@ -39,7 +39,11 @@ import org.eclipse.gmf.runtime.diagram.ui.requests.CreateUnspecifiedTypeRequest;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewAndElementRequest.ViewAndElementDescriptor;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
 import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.neuro4j.studio.core.CallNode;
 import org.neuro4j.studio.core.LogicNode;
@@ -57,7 +61,9 @@ public class SelectedListEntryProvider {
     private boolean availableForInsert = false;
 
     private static SelectedListEntryProvider instance = new SelectedListEntryProvider();
-
+    private Cursor cursorSelected = new Cursor(getSite().getShell().getDisplay(), SWT.CURSOR_HAND);
+    private Cursor cursorARROW = new Cursor(getSite().getShell().getDisplay(), SWT.CURSOR_ARROW);
+    
     private SelectedListEntryProvider() {
         super();
 
@@ -89,13 +95,46 @@ public class SelectedListEntryProvider {
         if (!availableForInsert)
         {
             this.entry = null;
+        } else {
+            updateCursor(true);
         }
+    }
+    
+    private void updateCursor(final boolean selected)
+    {
+        new Thread(new Runnable() {  
+            public void run() {  
+
+                  Display.getDefault().asyncExec(new Runnable() {  
+                     public void run() {           
+                         System.out.println("print");
+                        if (selected)
+                        {
+                            getSite().getShell().setCursor(cursorSelected);      
+                        } else {
+                            getSite().getShell().setCursor(cursorARROW);
+                        }
+                        
+                    
+                     }
+
+  
+                  });  
+        
+            }  
+         }).start(); 
+    }
+
+    private IWorkbenchWindow getSite() {
+
+        return PlatformUI.getWorkbench().getActiveWorkbenchWindow();
     }
 
     public void createObject(int x, int y)
     {
         if (availableForInsert && this.entry != null)
         {
+            updateCursor(false);
             availableForInsert = false;
             switch (this.entry.getType()) {
 
@@ -198,7 +237,7 @@ public class SelectedListEntryProvider {
             OperationHistoryFactory.getOperationHistory().execute(command,
                     new SubProgressMonitor(new NullProgressMonitor(), 1), null);
         } catch (ExecutionException e) {
-            Neuro4jDiagramEditorPlugin.getInstance().logError("Unable to update customBlock", e); //$NON-NLS-1$
+            Neuro4jDiagramEditorPlugin.getInstance().logError("Unable to update call node", e); //$NON-NLS-1$
         }
     }
     
