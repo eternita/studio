@@ -143,8 +143,8 @@ public class LogicClassNameLoader {
             ListEntry outputEntry = new ListEntry();
 
             outputEntry.setMessage("output");
-            entry.setType(ListEntryType.CHILD);
-            outputEntry.setfDate(new Date(0));
+            outputEntry.setType(ListEntryType.CHILD);
+
             processChildEntry(outputEntry, output);
             entry.addChild(outputEntry);
         }
@@ -153,10 +153,9 @@ public class LogicClassNameLoader {
         if (input != null && !input.isEmpty())
         {
             ListEntry inputEntry = new ListEntry();
-            entry.setType(ListEntryType.CHILD);
+            inputEntry.setType(ListEntryType.CHILD);
             inputEntry.setMessage("input");
-
-            inputEntry.setfDate(new Date(0));
+          
             processChildEntry(inputEntry, input);
             entry.addChild(inputEntry);
         }
