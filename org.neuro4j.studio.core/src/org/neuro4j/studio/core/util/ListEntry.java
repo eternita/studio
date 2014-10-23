@@ -1,10 +1,7 @@
 package org.neuro4j.studio.core.util;
 
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import org.eclipse.core.resources.IFile;
 
@@ -57,7 +54,9 @@ public class ListEntry extends AbstractEntry {
         return message;
     }
 
-
+    public ListEntry getParent() {
+        return (ListEntry)parent;
+    }
 
     /**
      * Returns the date for this entry or the epoch if the current date value is <code>null</code>
