@@ -16,14 +16,7 @@
 
 package org.neuro4j.studio.core.views.flows;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -36,16 +29,12 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.util.Policy;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -55,12 +44,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
-import org.eclipse.swt.dnd.DND;
-import org.eclipse.swt.dnd.DragSource;
-import org.eclipse.swt.dnd.DragSourceAdapter;
-import org.eclipse.swt.dnd.DragSourceEvent;
-import org.eclipse.swt.dnd.TextTransfer;
-import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Color;
@@ -87,7 +70,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.XMLMemento;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
@@ -96,13 +78,12 @@ import org.neuro4j.studio.core.Neuro4jCorePlugin;
 import org.neuro4j.studio.core.diagram.providers.SelectedConnectionProvider;
 import org.neuro4j.studio.core.diagram.providers.SelectedListEntryProvider;
 import org.neuro4j.studio.core.util.AbstractEntry;
-import org.neuro4j.studio.core.util.ListEntry;
 import org.neuro4j.studio.core.util.FlowFromJarsLoader;
 import org.neuro4j.studio.core.util.Group;
+import org.neuro4j.studio.core.util.ListEntry;
 import org.neuro4j.studio.core.util.ListEntryType;
 import org.neuro4j.studio.core.util.LogSession;
 import org.neuro4j.studio.core.views.dialogs.FlowResourcesSelectionDialog.FlowContentProvider;
-import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
 public abstract class AbstractListView extends ViewPart {
@@ -237,17 +218,30 @@ public abstract class AbstractListView extends ViewPart {
 
     void createViewer(Composite parent) {
         PatternFilter filter = new PatternFilter() {
-            protected boolean isLeafMatch(Viewer viewer, Object element) {
-                if (element instanceof ListEntry) {
-                    ListEntry logEntry = (ListEntry) element;
-                    String message = logEntry.getMessage();
-                    String plugin = logEntry.getPluginId();
-                    // DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT,
-                    // RWT.getLocale());
-                    // String date = dateFormat.format(logEntry.getDate());
-                    return wordMatches(message) || wordMatches(plugin);
+            private final Object[] empty = new  Object[0];
+            public final Object[] filter(Viewer viewer, Object parent, Object[] elements) {
+                ArrayList out = null;
+                for (Object obj : elements)
+                {
+                    ListEntry entry = (ListEntry) obj;
+                    
+                    if (entry.getType() == ListEntryType.CHILD)
+                    {
+                        return elements;
+                    } else if (out == null){
+                        out = new ArrayList(elements.length);
+                    }
+                    if (wordMatches(entry.getMessage()))
+                    {
+
+                        out.add(entry);
+                    }
                 }
-                return false;
+                if (out == null)
+                {
+                    return empty;
+                }
+                return out.toArray();
             }
         };
         filter.setIncludeLeadingWildcard(true);
@@ -266,21 +260,21 @@ public abstract class AbstractListView extends ViewPart {
         fTree = fFilteredTree.getViewer().getTree();
         fTree.setLinesVisible(true);
         createColumns(fTree);
-        // fFilteredTree.getViewer().setAutoExpandLevel(2);
         fFilteredTree.getViewer().setContentProvider(new ListViewContentProvider(this));
         fFilteredTree.getViewer().setLabelProvider(fLabelProvider = new FlowViewLabelProvider(this));
         fLabelProvider.connect(this);
+        fFilteredTree.getViewer().setAutoExpandLevel(0);
         fFilteredTree.getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
             public void selectionChanged(SelectionChangedEvent e) {
                 handleSelectionChanged(e.getSelection());
             }
         });
-        // fFilteredTree.getViewer().addDoubleClickListener(new IDoubleClickListener() {
-        // public void doubleClick(DoubleClickEvent event) {
-        // ((EventDetailsDialogAction) fPropertiesAction).setComparator(fComparator);
-        // fPropertiesAction.run();
-        // }
-        // });
+        
+        fFilteredTree.getViewer().addDoubleClickListener(new IDoubleClickListener() {
+            public void doubleClick(DoubleClickEvent event) {
+             
+            }
+        });
         fFilteredTree.getViewer().setInput(this);
         addMouseListeners();
 
@@ -605,16 +599,18 @@ public abstract class AbstractListView extends ViewPart {
     }
 
     private void handleSelectionChanged(ISelection selection) {
-        
-        updateStatus(selection);        
-        
+
+        updateStatus(selection);
+
         ListEntry entry = (ListEntry) ((TreeSelection) selection).getFirstElement();
-        if (entry.getType() == ListEntryType.CUSTOM_BLOCK || (entry.getType() == ListEntryType.CHILD && entry.getParent().getType() == ListEntryType.FLOW))
+        if (entry == null)
+            return;
+        if (entry.getType() == ListEntryType.CUSTOM_BLOCK || (entry.getType() == ListEntryType.CHILD && entry.getParent() != null && entry.getParent().getType() == ListEntryType.FLOW))
         {
             SelectedConnectionProvider.getInstance().setAvailableForInsert(false);
             SelectedListEntryProvider.getInstance().setAvailableForInsert(true);
             SelectedListEntryProvider.getInstance().setEntry(entry);
-         //   updateCursor();
+            // updateCursor();
         } else {
             SelectedConnectionProvider.getInstance().setAvailableForInsert(false);
             SelectedListEntryProvider.getInstance().setAvailableForInsert(false);
@@ -631,10 +627,6 @@ public abstract class AbstractListView extends ViewPart {
             status.setMessage(((FlowViewLabelProvider) fFilteredTree.getViewer().getLabelProvider()).getColumnText(element, 0));
         }
     }
-    
-
-
-
 
     public void init(IViewSite site, IMemento memento) throws PartInitException {
         super.init(site, memento);
@@ -744,45 +736,6 @@ public abstract class AbstractListView extends ViewPart {
             fTree.addListener(tableEvents[i], tableListener);
         }
     }
-
-    // /**
-    // *
-    // */
-    // protected void addDragSource() {
-    // DragSource source = new DragSource(fTree, DND.DROP_COPY);
-    // Transfer[] types = new Transfer[] {TextTransfer.getInstance()};
-    // source.setTransfer(types);
-    //
-    // source.addDragListener(new DragSourceAdapter() {
-    //
-    // public void dragStart(DragSourceEvent event) {
-    // ISelection selection = fFilteredTree.getViewer().getSelection();
-    // if (selection.isEmpty()) {
-    // event.doit = false;
-    // return;
-    // }
-    // SelectedConnectionProvider.getInstance().setAvailableForInsert(false);
-    // SelectedListEntryProvider.getInstance().setAvailableForInsert(true);
-    // AbstractEntry entry = (AbstractEntry) ((TreeSelection) selection).getFirstElement();
-    // if (!(entry instanceof ListEntry)) {
-    // event.doit = false;
-    // return;
-    // }
-    // SelectedListEntryProvider.getInstance().setEntry((ListEntry)entry);
-    //
-    // }
-    //
-    // public void dragSetData(DragSourceEvent event) {
-    // if (!TextTransfer.getInstance().isSupportedType(event.dataType)) {
-    // return;
-    // }
-    //
-    // ISelection selection = fFilteredTree.getViewer().getSelection();
-    // String textVersion = selectionToString(selection);
-    // event.data = textVersion;
-    // }
-    // });
-    // }
 
     private void makeHoverShell() {
         // parent it off the workbench window's shell so it will be valid regardless of whether the view is a detached
@@ -1088,27 +1041,6 @@ public abstract class AbstractListView extends ViewPart {
         int width = preferences.getInt(key, defaultwidth);
         return width < 1 ? defaultwidth : width;
     }
-
-    // private void writeViewSettings() {
-    // Preferences preferences = getLogPreferences();
-    // preferences.putInt(P_COLUMN_1, fMemento.getInteger(P_COLUMN_1).intValue());
-    // preferences.putInt(P_COLUMN_2, fMemento.getInteger(P_COLUMN_2).intValue());
-    // preferences.putInt(P_COLUMN_3, fMemento.getInteger(P_COLUMN_3).intValue());
-    // preferences.putBoolean(P_ACTIVATE, fMemento.getBoolean(P_ACTIVATE).booleanValue());
-    // preferences.putInt(P_ORDER_VALUE, fMemento.getInteger(P_ORDER_VALUE).intValue());
-    // preferences.putInt(P_ORDER_TYPE, fMemento.getInteger(P_ORDER_TYPE).intValue());
-    // preferences.putBoolean(P_SHOW_FILTER_TEXT, fMemento.getBoolean(P_SHOW_FILTER_TEXT).booleanValue());
-    // preferences.putInt(P_GROUP_BY, fMemento.getInteger(P_GROUP_BY).intValue());
-    // try {
-    // preferences.flush();
-    // } catch (BackingStoreException e) {
-    // // empty
-    // }
-    // }
-    //
-    // public void sortByDateDescending() {
-    // setColumnSorting(fColumn3, DESCENDING);
-    // }
 
     /**
      * Returns whether given session equals to currently displayed in LogView.

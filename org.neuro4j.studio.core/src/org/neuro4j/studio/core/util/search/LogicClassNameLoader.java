@@ -129,8 +129,7 @@ public class LogicClassNameLoader {
 
     private ListEntry getEntry(IType type, String project)
     {
-        ListEntry entry = new ListEntry();
-        entry.setType(ListEntryType.CUSTOM_BLOCK);
+        ListEntry entry = new ListEntry(ListEntryType.CUSTOM_BLOCK);
         String className = getClassName(type);
         entry.setMessage(className);
         entry.setPluginId(project);
@@ -140,10 +139,9 @@ public class LogicClassNameLoader {
 
         if (output != null && !output.isEmpty())
         {
-            ListEntry outputEntry = new ListEntry();
+            ListEntry outputEntry = new ListEntry(ListEntryType.CHILD);
 
             outputEntry.setMessage("output");
-            outputEntry.setType(ListEntryType.CHILD);
 
             processChildEntry(outputEntry, output);
             entry.addChild(outputEntry);
@@ -152,8 +150,7 @@ public class LogicClassNameLoader {
         Map<String, ParameterDefinition> input = ParameterDefinitionLoader.getInstance().getParameterDefinition(className, "input");
         if (input != null && !input.isEmpty())
         {
-            ListEntry inputEntry = new ListEntry();
-            inputEntry.setType(ListEntryType.CHILD);
+            ListEntry inputEntry = new ListEntry(ListEntryType.CHILD);
             inputEntry.setMessage("input");
           
             processChildEntry(inputEntry, input);
@@ -167,8 +164,7 @@ public class LogicClassNameLoader {
     {
         for (ParameterDefinition paramDef : map.values())
         {
-            ListEntry e = new ListEntry();
-            e.setType(ListEntryType.CHILD);
+            ListEntry e = new ListEntry(ListEntryType.CHILD);
             e.setMessage(paramDef.name() + " : " + paramDef.type());
             entry.addChild(e);
         }

@@ -17,9 +17,12 @@ public class ListEntry extends AbstractEntry {
 
     /**
      * Constructor
+     * @param flow 
+     * @param file 
      */
-    public ListEntry() {
-        // do nothing
+
+    public ListEntry(ListEntryType type) {
+       this.type = type;
     }
 
     /**
@@ -28,7 +31,8 @@ public class ListEntry extends AbstractEntry {
      * @param status
      *        an existing status to create a new entry from
      */
-    public ListEntry(IFile file) {
+    public ListEntry(IFile file, ListEntryType flow) {
+        this(flow);
         processStatus(file);
     }
 
@@ -110,9 +114,9 @@ public class ListEntry extends AbstractEntry {
         return type;
     }
 
-    public void setType(ListEntryType type) {
-        this.type = type;
-    }
+//    public void setType(ListEntryType type) {
+//        this.type = type;
+//    }
     
     
 }

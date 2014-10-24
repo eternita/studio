@@ -128,15 +128,13 @@ public class FlowFromJarsLoader {
     }
 
     protected ListEntry convertToList(InputStream f, String packageName, Date lastModDate) {
-        ListEntry entry = new ListEntry();
-        entry.setType(ListEntryType.FLOW);
+        ListEntry entry = new ListEntry(ListEntryType.FLOW);
         String packageName1 = packageName.replace("/", ".").replace(".n4j", "");
         
         entry.setMessage(packageName1);
         
         for (String eid : getStartNodes(f, packageName)) {
-            ListEntry child = new ListEntry();
-            child.setType(ListEntryType.CHILD);
+            ListEntry child = new ListEntry(ListEntryType.CHILD);
             child.setMessage(eid);
             child.setfDate(lastModDate);
             entry.addChild(child);

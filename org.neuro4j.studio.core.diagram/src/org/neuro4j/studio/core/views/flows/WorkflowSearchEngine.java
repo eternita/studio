@@ -33,6 +33,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.neuro4j.studio.core.util.ListEntry;
 import org.neuro4j.studio.core.util.FlowUtils;
+import org.neuro4j.studio.core.util.ListEntryType;
 
 public class WorkflowSearchEngine {
 
@@ -108,7 +109,8 @@ public class WorkflowSearchEngine {
 
     private ListEntry createEntryByFlow(IFile file, IPackageFragment mypackage)
     {
-        ListEntry entry = new ListEntry(file);
+        ListEntry entry = new ListEntry(file, ListEntryType.FLOW);
+        
         StringBuffer str = new StringBuffer();
         if (mypackage != null)
         {
@@ -126,7 +128,7 @@ public class WorkflowSearchEngine {
             List<String> list = FlowUtils.getStartNodeList(file.getContents(), str.toString());
             for (String start : list)
             {
-                ListEntry e = new ListEntry(file);
+                ListEntry e = new ListEntry(file, ListEntryType.CHILD);
                 e.setMessage(start);
                 entry.addChild(e);
             }
