@@ -3,6 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Neuro4j Workflow Processor Bundle
 Bundle-SymbolicName: org.neuro4j.studio.workflow
 Bundle-Version: 1.0.1
+Eclipse-BundleShape: dir
 Bundle-ClassPath: neuro4j-workflow-core.jar,
  commons-logging-1.1.3.jar,
  slf4j-api-1.6.1.jar,

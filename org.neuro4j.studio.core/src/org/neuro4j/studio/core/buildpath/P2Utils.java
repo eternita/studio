@@ -15,8 +15,11 @@
  */
 package org.neuro4j.studio.core.buildpath;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.URLDecoder;
 
 import org.eclipse.core.runtime.Assert;
@@ -26,10 +29,13 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.equinox.frameworkadmin.BundleInfo;
 import org.eclipse.equinox.simpleconfigurator.manipulator.SimpleConfiguratorManipulator;
+import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.osgi.service.resolver.VersionRange;
 import org.neuro4j.studio.core.Neuro4jCorePlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Version;
+import org.eclipse.equinox.internal.simpleconfigurator.SimpleConfiguratorImpl;
+import org.eclipse.equinox.internal.simpleconfigurator.utils.EquinoxUtils;
 
 class P2Utils
 {
@@ -43,6 +49,7 @@ class P2Utils
 
     public static BundleInfo findBundle(String symbolicName, VersionRange versionRange, boolean isSourceBundle)
     {
+        Neuro4jCorePlugin.logMessage("symbolicName::" + symbolicName + "  " + versionRange.toString() + " " + isSourceBundle);
         Assert.isLegal(symbolicName != null);
         Assert.isLegal(versionRange != null);
 
@@ -59,8 +66,10 @@ class P2Utils
         }
         BundleContext context = Neuro4jCorePlugin.getDefault().getBundle().getBundleContext();
         BundleInfo[] bundles = null;
+        Neuro4jCorePlugin.logMessage("context::" + context.toString());
         try {
-            bundles = manipulator.loadConfiguration(context, bundleInfoPath);
+            bundles = loadConfiguration(context, bundleInfoPath, manipulator);
+            Neuro4jCorePlugin.logMessage("founded all :" + bundles.length);
         } catch (IOException e) {
             Neuro4jCorePlugin.log(e);
         }
@@ -69,8 +78,11 @@ class P2Utils
             for (int j = 0; j < bundles.length; j++) {
                 BundleInfo bundleInfo = bundles[j];
                 if (symbolicName.equals(bundleInfo.getSymbolicName())) {
+                    Neuro4jCorePlugin.logMessage("founded:" + bundleInfo.toString());
                     Version version = new Version(bundleInfo.getVersion());
+                    Neuro4jCorePlugin.logMessage("version:" + version.toString());
                     if (versionRange.isIncluded(version)) {
+                        Neuro4jCorePlugin.logMessage("version included:");
                         IPath path = getBundleLocationPath(bundleInfo);
                         if ((path.toFile().exists()) && (
                                 (bestMatch == null) || (bestVersion.compareTo(version) < 0))) {
@@ -86,12 +98,55 @@ class P2Utils
         return bestMatch;
     }
 
+    static public BundleInfo[] loadConfiguration(BundleContext context, String infoPath, SimpleConfiguratorManipulator manipulator) throws IOException {
+        URI installArea = EquinoxUtils.getInstallLocationURI(context);
+
+        URL configURL = null;
+        InputStream stream = null;
+
+        if (infoPath == null) {
+          SimpleConfiguratorImpl simpleImpl = new SimpleConfiguratorImpl(context, null);
+          configURL = simpleImpl.getConfigurationURL();
+        }
+        else {
+          boolean defaultSource = infoPath == new String("source.info");
+          if (defaultSource) {
+            infoPath = "org.eclipse.equinox.source/source.info";
+          }
+          Location configLocation = EquinoxUtils.getConfigLocation(context);
+          configURL = configLocation.getDataArea(infoPath);
+          try {
+            stream = configURL.openStream();
+          } catch (FileNotFoundException localFileNotFoundException1) {
+            if ((defaultSource) && (configLocation.getParentLocation() != null))
+              configURL = configLocation.getParentLocation().getDataArea(infoPath);
+            else {
+              return new org.eclipse.equinox.frameworkadmin.BundleInfo[0];
+            }
+          }
+        }
+        if (configURL == null)
+          return new org.eclipse.equinox.frameworkadmin.BundleInfo[0];
+        if (stream == null) {
+          try {
+            stream = configURL.openStream();
+          } catch (FileNotFoundException localFileNotFoundException2) {
+            return new org.eclipse.equinox.frameworkadmin.BundleInfo[0];
+          }
+
+        }
+
+        return manipulator.loadConfiguration(stream, installArea);
+}
+    
     public static IPath getBundleLocationPath(BundleInfo bundleInfo)
     {
         if (bundleInfo == null) {
             return null;
         }
+        Neuro4jCorePlugin.logMessage("Bundle Info:" + bundleInfo.toString());
         URI bundleLocation = bundleInfo.getLocation();
+        Neuro4jCorePlugin.logMessage(bundleLocation.toString());
         if (bundleLocation == null)
             return null;
         try

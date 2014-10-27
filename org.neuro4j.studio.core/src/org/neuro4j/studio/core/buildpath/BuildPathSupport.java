@@ -27,6 +27,7 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.osgi.service.resolver.VersionRange;
 import org.neuro4j.studio.core.Neuro4jCore;
+import org.neuro4j.studio.core.Neuro4jCorePlugin;
 import org.osgi.framework.Version;
 
 /**
@@ -35,10 +36,10 @@ import org.osgi.framework.Version;
  */
 public class BuildPathSupport {
     public static final Neuro4jStudioCorePluginDescription NEURO4j_CORE_PLUGIN = new Neuro4jStudioCorePluginDescription(
-            "org.neuro4j.studio.workflow", new VersionRange("[1.0.1,1.0.8)"), "neuro4j-workflow-core.jar", "neuro4j-workflow-core.jar", "org.neuro4j.workflow.source", "source-bundle/", "org.neuro4j.workflow.javadoclocation");
+            "org.neuro4j.studio.workflow", new VersionRange("[1.0.0,1.0.8)"), "neuro4j-workflow-core.jar", "neuro4j-workflow-core.jar", "org.neuro4j.workflow.source", "source-bundle/", "org.neuro4j.workflow.javadoclocation");
 
     public static final Neuro4jStudioCorePluginDescription NEURO4j_WORKFLOW_COMMON_PLUGIN = new Neuro4jStudioCorePluginDescription(
-            "org.neuro4j.studio.workflow", new VersionRange("[1.0.1,1.0.8)"), "neuro4j-workflow-common.jar", "neuro4j-workflow-common.jar", "org.neuro4j.workflow.core.source", "source-bundle/", "org.neuro4j.workflow.common.javadoclocation");
+            "org.neuro4j.studio.workflow", new VersionRange("[1.0.0,1.0.8)"), "neuro4j-workflow-common.jar", "neuro4j-workflow-common.jar", "org.neuro4j.workflow.core.source", "source-bundle/", "org.neuro4j.workflow.common.javadoclocation");
 
     public static IClasspathEntry getNeuro4j1ClasspathEntry()
     {
@@ -86,6 +87,7 @@ public class BuildPathSupport {
 
         public IClasspathEntry getLibraryEntry(String name) {
             BundleInfo bundleInfo = P2Utils.findBundle(this.bundleId, this.versionRange, false);
+            Neuro4jCorePlugin.logMessage("Find bundle:" + bundleInfo.toString());
             IPath bundleLocation = P2Utils.getBundleLocationPath(bundleInfo);
             if (bundleLocation != null)
             {
@@ -109,6 +111,7 @@ public class BuildPathSupport {
 
         private IPath getLibraryLocation(BundleInfo bundleInfo, IPath bundleLocation) {
             IPath bundleRootLocation = null;
+            Neuro4jCorePlugin.logMessage("getLibraryLocation: + bundleRoot:" + this.bundleRoot);
             if (this.bundleRoot != null) {
                 bundleRootLocation = getLocationIfExists(bundleInfo, this.bundleRoot);
             }

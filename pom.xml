@@ -36,7 +36,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <studio.version>1.0.1</studio.version>
     <studio.debug.version>0.0.3</studio.debug.version>
-
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
   </properties>
 
   <repositories>

@@ -89,6 +89,8 @@
          id="org.neuro4j.studio.workflow"
          download-size="0"
          install-size="0"
-         version="1.0.1"/>
+         version="1.0.1"
+         unpack="true"
+/>
 
 </feature>

@@ -11,7 +11,8 @@ Require-Bundle: org.neuro4j.studio.workflow;bundle-version="1.0.1",
  org.eclipse.emf.ecore;bundle-version="2.8.3";visibility:=reexport,
  org.eclipse.emf.ecore.xmi;bundle-version="2.8.1";visibility:=reexport,
  org.eclipse.draw2d;bundle-version="3.9.0";visibility:=reexport,
- org.eclipse.ui.ide;bundle-version="3.8.1"
+ org.eclipse.ui.ide;bundle-version="3.8.1",
+ org.eclipse.equinox.simpleconfigurator;bundle-version="1.0.400"
 Bundle-Activator: org.neuro4j.studio.core.Neuro4jCorePlugin
 Bundle-ActivationPolicy: lazy
 Export-Package: org.neuro4j.studio.core,

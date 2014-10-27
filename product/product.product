@@ -3,6 +3,7 @@
 
 <product name="Neuro4j Studio" uid="Neuro4jStudio" id="org.eclipse.platform.ide" version="1.0.1" useFeatures="true" includeLaunchers="true">
 
+
    <configIni use="default">
    </configIni>
 
@@ -33,8 +34,10 @@ org.eclipse.platform
       </win>
    </launcher>
 
+
    <vm>
    </vm>
+
 
    <plugins>
       <plugin id="ch.qos.logback.classic"/>
@@ -1083,6 +1086,7 @@ org.eclipse.platform
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="3" />
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="3" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="2" />
    </configurations>
 
 </product>

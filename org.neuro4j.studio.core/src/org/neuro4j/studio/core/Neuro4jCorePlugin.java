@@ -64,11 +64,14 @@ public class Neuro4jCorePlugin extends AbstractUIPlugin {
     }
 
     public static void logErrorMessage(String message, Throwable exception) {
-        getDefault().getLog()
-                .log(new Status(IStatus.ERROR, getPluginId(), 1, message,
+        getDefault().getLog().log(new Status(IStatus.ERROR, getPluginId(), 1, message,
                         exception));
     }
 
+    public static void logMessage(String message) {
+        getDefault().getLog().log(new Status(IStatus.INFO, getPluginId(), message));
+    }
+    
     public static void log(Throwable e) {
         log(new Status(4, getPluginId(), 4, "Error", e));
     }

@@ -11,5 +11,18 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/
 
   <groupId>org.neuro4j</groupId>
   <artifactId>org.neuro4j.studio.workflow</artifactId>
+   <build>
+  <finalName>org.neuro4j.studio.workflow</finalName>
+<plugins>
+<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.2</version>
+                  <configuration>
+                      <finalName>org.neuro4j.studio.workflow</finalName>                   
+                 </configuration>
+   </plugin> 
+</plugins>
+   </build>
   <packaging>eclipse-plugin</packaging>
-</project>
+ </project>
