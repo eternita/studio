@@ -76,10 +76,15 @@ public class LogicNodeClassNamePropertyDescriptor extends PropertyDescriptor {
                 }
                 if (result == Window.OK)
                 {
-                    ListEntry entry = (ListEntry) list.get(0); 
-                    List<String> l = new ArrayList<String>(1);
-                    l.add(entry.getMessage());
-                    return l;
+                    Object[] array = (Object[]) dialog.getResult();
+                    if (array != null && array.length > 0)
+                    {
+                        ListEntry selectedEntry =  (ListEntry)array[0];
+                        List<String> l = new ArrayList<String>(1);
+                        l.add(selectedEntry.getMessage());
+                        return l;                        
+                    }
+
                 }
                 return  null;
             }

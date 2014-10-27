@@ -87,7 +87,6 @@ public class BuildPathSupport {
 
         public IClasspathEntry getLibraryEntry(String name) {
             BundleInfo bundleInfo = P2Utils.findBundle(this.bundleId, this.versionRange, false);
-            Neuro4jCorePlugin.logMessage("Find bundle:" + bundleInfo.toString());
             IPath bundleLocation = P2Utils.getBundleLocationPath(bundleInfo);
             if (bundleLocation != null)
             {
@@ -111,7 +110,7 @@ public class BuildPathSupport {
 
         private IPath getLibraryLocation(BundleInfo bundleInfo, IPath bundleLocation) {
             IPath bundleRootLocation = null;
-            Neuro4jCorePlugin.logMessage("getLibraryLocation: + bundleRoot:" + this.bundleRoot);
+
             if (this.bundleRoot != null) {
                 bundleRootLocation = getLocationIfExists(bundleInfo, this.bundleRoot);
             }

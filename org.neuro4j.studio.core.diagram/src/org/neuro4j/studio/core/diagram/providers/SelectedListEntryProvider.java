@@ -106,8 +106,7 @@ public class SelectedListEntryProvider {
             public void run() {  
 
                   Display.getDefault().asyncExec(new Runnable() {  
-                     public void run() {           
-                         System.out.println("print");
+                     public void run() {
                         if (selected)
                         {
                             getSite().getShell().setCursor(cursorSelected);      
