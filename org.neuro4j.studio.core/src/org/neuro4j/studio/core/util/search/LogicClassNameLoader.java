@@ -101,10 +101,8 @@ public class LogicClassNameLoader {
             classList.add(getEntry(t, projectName));
         }
 
-        if (!classList.isEmpty())
-        {
-            classes.put(projectName, classList);
-        }
+         classes.put(projectName, classList);
+
 
     }
 
@@ -196,7 +194,8 @@ public class LogicClassNameLoader {
     private void analyzeProject(IProject project, List<ListEntry> blocks) {
 
         List<ListEntry> list = getClasses(project.getName());
-        blocks.addAll(list);
+        blocks.addAll(list);            
+
     }
 
 }
