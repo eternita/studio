@@ -345,6 +345,10 @@ public class JDIStackFrameAdapter extends JDIStackFrame implements org.eclipse.d
             }
             IVariable[] topVars = jDIStackFrame.getVariables();
             IVariable r = findVariableByName(topVars, "request");
+            if (r == null)
+            {
+                return null;
+            }
             for (IVariable var : r.getValue().getVariables()) {
                 if (var.getName().equals("context")
                         || var.getName().equals("logicContext")) {

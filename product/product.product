@@ -3,7 +3,6 @@
 
 <product name="Neuro4j Studio" uid="Neuro4jStudio" id="org.eclipse.platform.ide" version="1.0.1" useFeatures="true" includeLaunchers="true">
 
-
    <configIni use="default">
    </configIni>
 
@@ -34,10 +33,8 @@ org.eclipse.platform
       </win>
    </launcher>
 
-
    <vm>
    </vm>
-
 
    <plugins>
       <plugin id="ch.qos.logback.classic"/>
@@ -1080,6 +1077,16 @@ org.eclipse.platform
       <feature id="org.eclipse.wst.ws_ui.feature"/>
       <feature id="org.eclipse.wst.ws_userdoc.feature"/>
       <feature id="org.eclipse.wst.ws_wsdl15.feature"/>
+      <feature id="org.eclipse.jst.server_ui.feature"/>
+      <feature id="org.eclipse.jst.enterprise_core.feature"/>
+      <feature id="org.eclipse.jst.enterprise_ui.feature"/>
+      <feature id="org.eclipse.jst.web_core.feature"/>
+      <feature id="org.eclipse.jst.web_ui.feature"/>
+      <feature id="org.eclipse.jst.webpageeditor.feature"/>
+      <feature id="org.eclipse.jst.enterprise_userdoc.feature"/>
+      <feature id="org.eclipse.jst.server_userdoc.feature"/>
+      <feature id="org.eclipse.jst.web_userdoc.feature"/>
+      <feature id="org.eclipse.jst.server_core.feature"/>
    </features>
 
    <configurations>
