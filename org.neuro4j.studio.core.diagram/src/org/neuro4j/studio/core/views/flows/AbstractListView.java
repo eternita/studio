@@ -25,10 +25,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.dialogs.IDialogSettings;
@@ -73,6 +75,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.XMLMemento;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 import org.neuro4j.studio.core.Neuro4jCorePlugin;
 import org.neuro4j.studio.core.diagram.providers.SelectedConnectionProvider;
@@ -272,12 +275,39 @@ public abstract class AbstractListView extends ViewPart {
         
         fFilteredTree.getViewer().addDoubleClickListener(new IDoubleClickListener() {
             public void doubleClick(DoubleClickEvent event) {
-             
+                ListEntry entry = (ListEntry) ((TreeSelection) event.getSelection()).getFirstElement();
+                openEntry(entry);
+            }
+
+            private void openEntry(ListEntry entry) {
+                if (entry.getResource() != null)
+                {
+                    openResource(entry.getResource());
+                }
+                
             }
         });
         fFilteredTree.getViewer().setInput(this);
         addMouseListeners();
 
+    }
+    
+    protected void openResource(final IFile resource) {
+        final IWorkbenchPage activePage = JavaPlugin.getActivePage();
+        if (activePage != null) {
+            final Display display = fTextShell.getDisplay();
+            if (display != null) {
+                display.asyncExec(new Runnable() {
+                    public void run() {
+                        try {
+                            IDE.openEditor(activePage, resource, true);
+                        } catch (PartInitException e) {
+                            JavaPlugin.log(e);
+                        }
+                    }
+                });
+            }
+        }
     }
 
     abstract String getFirstColumnName();
@@ -389,39 +419,7 @@ public abstract class AbstractListView extends ViewPart {
     /**
      * Reads the chosen backing log file
      */
-    void loadElements() {
-        elements.clear();
-        groups.clear();
-
-        workflowSearchEngine.load(elements);
-
-        List<ListEntry> flows = FlowFromJarsLoader.getInstance().getAllFlows();
-        List result = new ArrayList(flows.size());
-        for (ListEntry entry : flows)
-        {
-            result.add(entry);
-        }
-        // if (lastSortedItems.size() != items.size() + flows.size()) {
-        // synchronized (lastSortedItems) {
-        // lastSortedItems.clear();
-        // lastSortedItems.addAll(items);
-        // lastSortedItems.addAll(flows);
-        // Collections.sort(lastSortedItems, getHistoryComparator());
-        // }
-        // }
-
-        group(result);
-        limitEntriesCount();
-
-        if (fDisplay != null) {
-            fDisplay.asyncExec(new Runnable() {
-                public void run() {
-                    setContentDescription(getTitleSummary());
-                }
-            });
-        }
-
-    }
+    abstract  void loadElements();
 
     abstract String getTitleSummary();
 

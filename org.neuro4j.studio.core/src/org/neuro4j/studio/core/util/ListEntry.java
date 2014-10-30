@@ -14,6 +14,7 @@ public class ListEntry extends AbstractEntry {
     private Date fDate;
     private String message;
     private ListEntryType type;
+    private IFile resource;
 
     /**
      * Constructor
@@ -33,6 +34,7 @@ public class ListEntry extends AbstractEntry {
      */
     public ListEntry(IFile file, ListEntryType flow) {
         this(flow);
+        this.resource = file;
         processStatus(file);
     }
 
@@ -113,6 +115,16 @@ public class ListEntry extends AbstractEntry {
     public ListEntryType getType() {
         return type;
     }
+
+    public IFile getResource() {
+        return resource;
+    }
+
+    public void setResource(IFile resource) {
+        this.resource = resource;
+    }
+    
+    
 
 //    public void setType(ListEntryType type) {
 //        this.type = type;

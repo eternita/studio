@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -128,6 +129,11 @@ public class LogicClassNameLoader {
     private ListEntry getEntry(IType type, String project)
     {
         ListEntry entry = new ListEntry(ListEntryType.CUSTOM_BLOCK);
+        if (type.getCompilationUnit() != null)
+        {
+            entry.setResource((IFile)type.getCompilationUnit().getResource());            
+        }
+
         String className = getClassName(type);
         entry.setMessage(className);
         entry.setPluginId(project);
