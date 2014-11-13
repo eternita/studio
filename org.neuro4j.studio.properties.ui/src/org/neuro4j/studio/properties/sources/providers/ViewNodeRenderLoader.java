@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
@@ -32,7 +34,6 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
 import org.neuro4j.studio.core.util.ClassloaderHelper;
 import org.neuro4j.studio.core.util.MapWorkspaceUpdater;
-import org.neuro4j.web.logic.render.JspViewNodeRenderEngineDefinition;
 import org.neuro4j.web.logic.render.ViewNodeRenderEngineDefinition;
 
 public class ViewNodeRenderLoader {
@@ -49,7 +50,28 @@ public class ViewNodeRenderLoader {
 
     private ViewNodeRenderLoader()
     {
-        Neuro4jDiagramEditorPlugin.getInstance().addListToObserver(new MapWorkspaceUpdater(renders));
+        Neuro4jDiagramEditorPlugin.getInstance().addListToObserver(new MapWorkspaceUpdater(renders) {
+
+            @Override
+            public void update(IResource iResource, int action) {
+                switch (action) {
+                    case IResourceDelta.CHANGED:
+                        if (iResource != null && (iResource.getFileExtension().equals("classpath") || iResource.getName().equals("pom.xml")))
+                        {
+                            if (iResource != null)
+                            {
+                                renders.remove(iResource.getProject().getName());
+                            }
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+
+            }
+
+        });
         DEFAULT_RENDER_LIST.add(DEFAULT_RENDER);
     }
 
@@ -66,7 +88,7 @@ public class ViewNodeRenderLoader {
         Set<String> names = getAllClasses(project);
         for (String name : names)
         {
-        	DefaultViewNodeRenderEngineDefinition inst = createNewInstance(project, name);
+            DefaultViewNodeRenderEngineDefinition inst = createNewInstance(project, name);
             if (inst != null)
             {
                 list.add(inst);
@@ -103,14 +125,13 @@ public class ViewNodeRenderLoader {
         return classList;
     }
 
-
     private IType[] getAllSubtypes(IJavaProject project, IProgressMonitor pm) throws JavaModelException {
 
         IType parentType = project.findType(LOGIC_BASE_CLASS);
-        
+
         if (parentType == null)
         {
-        	System.err.print(LOGIC_BASE_CLASS + " not found in classpath. Please add neuro4j-logic-web.jar to your classpath.");
+            System.err.print(LOGIC_BASE_CLASS + " not found in classpath. Please add neuro4j-logic-web.jar to your classpath.");
             return EMPTY_ARRAY;
         }
         ITypeHierarchy h = parentType.newTypeHierarchy(project, pm);
@@ -124,7 +145,7 @@ public class ViewNodeRenderLoader {
 
     private DefaultViewNodeRenderEngineDefinition createNewInstance(IJavaProject project, String clazzName) {
 
-    	DefaultViewNodeRenderEngineDefinition definition = null;
+        DefaultViewNodeRenderEngineDefinition definition = null;
 
         Object beanInstance = null;
         try {

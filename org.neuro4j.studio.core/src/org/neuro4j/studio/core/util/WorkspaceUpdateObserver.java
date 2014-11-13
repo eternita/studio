@@ -18,15 +18,18 @@ package org.neuro4j.studio.core.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IResource;
+
 public class WorkspaceUpdateObserver {
 
     List<WorkspaceUpdater> list = new ArrayList<WorkspaceUpdater>();
 
-    public void update()
+    public void update(IResource iResource, int action)
     {
+
         for (WorkspaceUpdater u : list)
         {
-            u.clear();
+            u.update(iResource, action);
         }
     }
 

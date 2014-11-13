@@ -29,6 +29,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
@@ -49,7 +50,17 @@ public class FlowFromJarsLoader {
 
     public static WorkspaceUpdater getUpdater()
     {
-        return new MapWorkspaceUpdater(itemsFromJars);
+        return new MapWorkspaceUpdater(itemsFromJars) {
+
+            public void update(IResource iResource,  int action) {
+                if (iResource != null && (iResource.getFileExtension().equals("classpath")|| iResource.getName().equals("pom.xml")))                
+                {
+                    itemsFromJars.remove(iResource.getProject().getName());    
+                }
+                
+            }
+
+        };
     }
 
     public synchronized List<ListEntry> getFlows(String project)

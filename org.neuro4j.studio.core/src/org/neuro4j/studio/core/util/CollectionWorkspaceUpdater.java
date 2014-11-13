@@ -17,7 +17,9 @@ package org.neuro4j.studio.core.util;
 
 import java.util.Collection;
 
-public class CollectionWorkspaceUpdater extends WorkspaceUpdater {
+import org.eclipse.core.resources.IResource;
+
+public abstract class CollectionWorkspaceUpdater extends WorkspaceUpdater {
 
     Collection<?> object = null;
 
@@ -27,9 +29,6 @@ public class CollectionWorkspaceUpdater extends WorkspaceUpdater {
 
     }
 
-    public void clear()
-    {
-        this.object.clear();
-    }
+    public abstract void update(IResource resource, int action);
 
 }

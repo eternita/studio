@@ -47,8 +47,6 @@ import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
-import org.neuro4j.studio.core.util.WorkspaceUpdateObserver;
-import org.neuro4j.studio.core.util.search.LogicClassNameLoader;
 
 /**
  * This is a sample new wizard. Its role is to create a new file
@@ -67,8 +65,6 @@ public class CustomBlockNewWizard extends Wizard implements INewWizard {
     private CustomBlockNewWizardPage page;
     private CustomBlockParametersWizardPage parameterPage;
 
-    private WorkspaceUpdateObserver workspaceObserver = new WorkspaceUpdateObserver();
-
     private boolean fOpenEditorOnFinish = true;
 
     /**
@@ -77,7 +73,7 @@ public class CustomBlockNewWizard extends Wizard implements INewWizard {
     public CustomBlockNewWizard() {
         super();
         setNeedsProgressMonitor(true);
-        workspaceObserver.addList(LogicClassNameLoader.getUpdater());
+
     }
 
     /**
@@ -106,8 +102,6 @@ public class CustomBlockNewWizard extends Wizard implements INewWizard {
                     public void run() {
                         try {
                             finishPage(monitor);
-
-                            workspaceObserver.update();
 
                         } catch (InterruptedException e) {
                             throw new OperationCanceledException(e.getMessage());

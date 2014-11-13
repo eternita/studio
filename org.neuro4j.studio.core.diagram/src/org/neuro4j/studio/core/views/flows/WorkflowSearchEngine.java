@@ -16,7 +16,10 @@
 
 package org.neuro4j.studio.core.views.flows;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.internal.resources.Folder;
 import org.eclipse.core.resources.IFile;
@@ -31,13 +34,15 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.neuro4j.studio.core.util.ListEntry;
 import org.neuro4j.studio.core.util.FlowUtils;
+import org.neuro4j.studio.core.util.ListEntry;
 import org.neuro4j.studio.core.util.ListEntryType;
 
 public class WorkflowSearchEngine {
 
     private static final String JDT_NATURE = "org.eclipse.jdt.core.javanature";
+    
+    Map<String, List<ListEntry>> cache = new HashMap<String, List<ListEntry>>();
 
     public Object load(final List<ListEntry> workflows) {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
@@ -56,8 +61,20 @@ public class WorkflowSearchEngine {
         }
         return null;
     }
+    
+    public void resetCache(String projectName)
+    {
+        //TODO:
+        cache.remove(projectName);
+    }
 
     private void analyzeProject(IProject project, List<ListEntry> flows) throws JavaModelException {
+        if (cache.containsKey(project.getName()))
+        {
+            flows.addAll(cache.get(project.getName()));
+            return;
+        }
+        List<ListEntry> newlist = new LinkedList<ListEntry>();
         IJavaProject javaProject = JavaCore.create(project);
         javaProject.getNonJavaResources();
         IPackageFragment[] packages = javaProject.getPackageFragments();
@@ -73,7 +90,7 @@ public class WorkflowSearchEngine {
                             if (r instanceof IFile)
                             {
                                 IFile file = (IFile) r;
-                                processFile(file, null, flows);
+                                processFile(file, null, newlist);
                             }
                         }
                     } catch (CoreException e) {
@@ -86,7 +103,7 @@ public class WorkflowSearchEngine {
                         if (unit instanceof IFile)
                         {
                             IFile file = (IFile) unit;
-                            processFile(file, mypackage, flows);
+                            processFile(file, mypackage, newlist);
                         }
 
                     }
@@ -95,6 +112,8 @@ public class WorkflowSearchEngine {
             }
 
         }
+        cache.put(project.getName(), newlist);
+        flows.addAll(newlist);
     }
 
     private void processFile(IFile file, IPackageFragment mypackage, List<ListEntry> flows)

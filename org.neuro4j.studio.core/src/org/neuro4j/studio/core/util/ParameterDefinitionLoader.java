@@ -24,6 +24,8 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.MethodUtils;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -251,79 +253,102 @@ public class ParameterDefinitionLoader {
     private Map<String, ParameterDefinition> getParameterDefinitionFromSource(
             String className, String inOut) {
 
-        Map<String, ParameterDefinition> definitions = null;
+        Map<String, ParameterDefinition> definitions = new HashMap<String, ParameterDefinition>();
 
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IWorkspaceRoot root = workspace.getRoot();
         IProject[] projects = root.getProjects();
         for (IProject project : projects) {
-            IJavaProject javaProject = JavaCore.create(project);
-            IType parentType = null;
-            try {
-                parentType = javaProject.findType(className);
-                if (parentType != null) {
-                    IAnnotation an = parentType
-                            .getAnnotation("ParameterDefinitionList");
-                    IMemberValuePair[] members = an.getMemberValuePairs();
-                    if (members != null && members.length >= 1) {
-                        for (IMemberValuePair para : members) {
-                            if (!para.getMemberName().equals(inOut)) {
-                                continue;
-                            }
-                            Object[] obj = (Object[]) para.getValue();
-                            definitions = new HashMap<String, ParameterDefinition>();
-                            for (Object ob : obj) {
-                                Map<String, String> variableMap = new HashMap<String, String>();
-                                IAnnotation parameterDefinitionAnnotation = (IAnnotation) ob;
-                                IMemberValuePair[] parameterDefinitionPara = parameterDefinitionAnnotation
-                                        .getMemberValuePairs();
-                                String name = null;
-                                String type = null;
-                                Boolean optional = Boolean.TRUE;
-                                parse(parentType.getCompilationUnit()
-                                        .getSource().toCharArray(), variableMap);
-                                for (IMemberValuePair p : parameterDefinitionPara) {
-
-                                    String memberName = p.getMemberName();
-                                    if ("name".equals(memberName)) {
-                                        name = (String) p.getValue();
-                                        String nameFromMap = variableMap
-                                                .get(name);
-                                        if (nameFromMap != null) {
-                                            name = nameFromMap;
-                                        }
-                                    } else if ("type".equals(memberName)) {
-                                        type = (String) p.getValue();
-                                    } else if ("isOptional".equals(memberName)) {
-                                        optional = (Boolean) p.getValue();
-                                    }
-                                }
-                                ParameterDefinition ioParameter = new ParameterDefinitionImpl(
-                                        name, type, optional);
-                                definitions
-                                        .put(ioParameter.name(), ioParameter);
-                            }
-                            return definitions;
-                        }
-
-                    }
-
-                }
-
-            } catch (JavaModelException e1) {
-                Neuro4jCorePlugin.logErrorMessage(e1.toString(), null);
-
-            }
+            
+             processClassInProject(project, className, inOut, definitions);
 
         }
 
         return definitions;
     }
+    
+    private void processClassInProject(IProject project, String className, String inOut, Map<String, ParameterDefinition> definitions)
+    {
+        
+        IJavaProject javaProject = JavaCore.create(project);
+        IType parentType = null;
+        try {
+            parentType = javaProject.findType(className);
+            if (parentType != null) {
+                IAnnotation an = parentType
+                        .getAnnotation("ParameterDefinitionList");
+                IMemberValuePair[] members = an.getMemberValuePairs();
+                if (members != null && members.length >= 1) {
+                    for (IMemberValuePair para : members) {
+                        if (!para.getMemberName().equals(inOut)) {
+                            continue;
+                        }
+                        Object[] obj = (Object[]) para.getValue();
+                       
+                        for (Object ob : obj) {
+                            Map<String, String> variableMap = new HashMap<String, String>();
+                            IAnnotation parameterDefinitionAnnotation = (IAnnotation) ob;
+                            IMemberValuePair[] parameterDefinitionPara = parameterDefinitionAnnotation
+                                    .getMemberValuePairs();
+                            String name = null;
+                            String type = null;
+                            Boolean optional = Boolean.TRUE;
+                            parse(parentType.getCompilationUnit()
+                                    .getSource().toCharArray(), variableMap);
+                            for (IMemberValuePair p : parameterDefinitionPara) {
+
+                                String memberName = p.getMemberName();
+                                if ("name".equals(memberName)) {
+                                    name = (String) p.getValue();
+                                    String nameFromMap = variableMap
+                                            .get(name);
+                                    if (nameFromMap != null) {
+                                        name = nameFromMap;
+                                    }
+                                } else if ("type".equals(memberName)) {
+                                    type = (String) p.getValue();
+                                } else if ("isOptional".equals(memberName)) {
+                                    optional = (Boolean) p.getValue();
+                                }
+                            }
+                            ParameterDefinition ioParameter = new ParameterDefinitionImpl(
+                                    name, type, optional);
+                            definitions
+                                    .put(ioParameter.name(), ioParameter);
+                        }
+                        return;
+                    }
+
+                }
+
+            }
+
+        } catch (JavaModelException e1) {
+            Neuro4jCorePlugin.logErrorMessage(e1.toString(), null);
+
+        }
+        return;
+    }
 
     public WorkspaceUpdater getUpdater()
     {
 
-        return new MapWorkspaceUpdater(map);
+        return new MapWorkspaceUpdater(map){
+            public void update(IResource iResource,  int action) {
+                switch (action) {
+                    case IResourceDelta.REMOVED:
+                        if (iResource != null)
+                        {
+                            map.clear();
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+
+            }  
+        };
     }
 
     public static void parse(char[] str, final Map<String, String> mapping) {

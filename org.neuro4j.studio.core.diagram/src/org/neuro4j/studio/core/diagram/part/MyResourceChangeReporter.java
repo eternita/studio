@@ -36,6 +36,7 @@ public class MyResourceChangeReporter implements IResourceChangeListener {
             case IResourceChangeEvent.PRE_DELETE:
 
                 break;
+                
             case IResourceChangeEvent.POST_CHANGE:
                 break;
             case IResourceChangeEvent.PRE_BUILD:

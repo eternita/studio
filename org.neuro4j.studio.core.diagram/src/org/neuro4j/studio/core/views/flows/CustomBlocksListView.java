@@ -16,6 +16,8 @@
 
 package org.neuro4j.studio.core.views.flows;
 
+import org.eclipse.core.resources.IResource;
+import org.neuro4j.studio.core.util.CollectionWorkspaceUpdater;
 import org.neuro4j.studio.core.util.search.LogicClassNameLoader;
 
 public class CustomBlocksListView extends AbstractListView {
@@ -50,6 +52,19 @@ public class CustomBlocksListView extends AbstractListView {
     @Override
     String getFirstColumnName() {
         return Messages.CustomBlockView_column_message;
+    }
+    
+    public  CollectionWorkspaceUpdater getUpdater()
+    {
+        return new CollectionWorkspaceUpdater(elements){
+            public void update(IResource iResource, int action) {
+                if (iResource != null && (iResource.getFileExtension().equals("classpath") || iResource.getName().equals("pom.xml") || iResource.getFileExtension().equals("class")))                
+                {
+                    loadElements();
+                    asyncRefresh(false);
+                }
+            }
+        };
     }
 
 }

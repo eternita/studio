@@ -21,7 +21,7 @@ import org.neuro4j.studio.core.util.WorkspaceUpdateObserver;
 
 public class DeltaPrinter implements IResourceDeltaVisitor {
 
-    // List<ViewNodeRenderEngineDefinition> renders;
+
     WorkspaceUpdateObserver observer;
 
     public DeltaPrinter(WorkspaceUpdateObserver observer) {
@@ -31,15 +31,18 @@ public class DeltaPrinter implements IResourceDeltaVisitor {
     public boolean visit(IResourceDelta delta) {
         switch (delta.getKind()) {
             case IResourceDelta.ADDED:
+                
+                observer.update(delta.getResource(), IResourceDelta.ADDED);
+
                 break;
             case IResourceDelta.REMOVED:
+                observer.update(delta.getResource(), IResourceDelta.REMOVED);
                 break;
             case IResourceDelta.CHANGED:
-                if (delta.getFullPath().toString().endsWith(".classpath") || delta.getFullPath().toString().endsWith("pom.xml"))
+                if (delta.getFullPath().toString().endsWith(".classpath") || delta.getFullPath().toString().endsWith("pom.xml") || delta.getFullPath().toString().endsWith(".n4j"))
                 {
-                    // this.renders.clear();
-                    observer.update();
-                    System.out.println("this.renders.clear()");
+                    observer.update(delta.getResource(), IResourceDelta.CHANGED);
+
                 }
                 break;
         }

@@ -389,7 +389,16 @@ public class ClassloaderHelper
 
     public static WorkspaceUpdater getUpdater()
     {
-        return new MapWorkspaceUpdater(loaders);
+        return new MapWorkspaceUpdater(loaders) {
+            public void update(IResource iResource, int action) {
+                if (iResource != null && (iResource.getName().equals("pom.xml") || iResource.getFileExtension().equals("classpath")|| iResource.getFileExtension().equals("class")))
+                {
+                    loaders.remove(iResource.getProject().getName());
+                }
+
+            }
+
+        };
     }
 
     public static IJavaProject getActiveJavaProject()

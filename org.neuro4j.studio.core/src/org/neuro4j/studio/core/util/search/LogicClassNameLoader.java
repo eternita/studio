@@ -21,8 +21,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -30,10 +32,15 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IAnnotation;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeHierarchy;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.neuro4j.studio.core.util.ClassloaderHelper;
 import org.neuro4j.studio.core.util.ListEntry;
 import org.neuro4j.studio.core.util.ListEntryType;
@@ -176,8 +183,19 @@ public class LogicClassNameLoader {
 
     public static WorkspaceUpdater getUpdater()
     {
-        return new MapWorkspaceUpdater(instance.classes);
+        return new MapWorkspaceUpdater(instance.classes){
+            public void update(IResource iResource,  int action) {
+                if (iResource != null && (iResource.getFileExtension().equals("classpath")|| iResource.getName().equals("pom.xml") || iResource.getFileExtension().equals("class")))                                
+                {
+                    instance.classes.remove(iResource.getProject().getName());    
+                }
+                
+            }
+
+        };
     }
+    
+
 
     public Object loadAllBlocksInWorkspace(final List<ListEntry> blocks) {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();

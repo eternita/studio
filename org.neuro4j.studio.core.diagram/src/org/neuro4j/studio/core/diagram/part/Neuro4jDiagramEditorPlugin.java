@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -128,7 +129,19 @@ public class Neuro4jDiagramEditorPlugin extends AbstractUIPlugin {
 
         addListToObserver(ParameterDefinitionLoader.getInstance().getUpdater());
         addListToObserver(ClassloaderHelper.getUpdater());
-        addListToObserver(new CollectionWorkspaceUpdater(excludeImageRegister));
+        addListToObserver(new CollectionWorkspaceUpdater(excludeImageRegister){
+
+            @Override
+            public void update(IResource iResource, int action) {                
+                
+                if (iResource != null)                
+                {
+                    excludeImageRegister.clear();
+                }
+                
+            }
+            
+        });
         addListToObserver(LogicClassNameLoader.getUpdater());
         addListToObserver(FlowFromJarsLoader.getUpdater());
 

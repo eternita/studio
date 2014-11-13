@@ -15,8 +15,10 @@
  */
 package org.neuro4j.studio.core.util;
 
+import org.eclipse.core.resources.IResource;
+
 public abstract class WorkspaceUpdater {
 
-    abstract public void clear();
+    abstract public void update(IResource iResource, int action);
 
 }

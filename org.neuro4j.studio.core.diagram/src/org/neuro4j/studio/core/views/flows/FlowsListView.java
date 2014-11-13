@@ -19,6 +19,8 @@ package org.neuro4j.studio.core.views.flows;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IResource;
+import org.neuro4j.studio.core.util.CollectionWorkspaceUpdater;
 import org.neuro4j.studio.core.util.FlowFromJarsLoader;
 import org.neuro4j.studio.core.util.ListEntry;
 
@@ -64,6 +66,20 @@ public class FlowsListView extends AbstractListView {
     @Override
     String getFirstColumnName() {
         return Messages.FlowView_column_message;
+    }
+    
+    public  CollectionWorkspaceUpdater getUpdater()
+    {
+        return new CollectionWorkspaceUpdater(elements){
+            public void update(IResource iResource, int action) {
+                if (iResource != null && (iResource.getFileExtension().equals("classpath") || iResource.getName().equals("pom.xml") || iResource.getFileExtension().equals("n4j")))                
+                {
+                    workflowSearchEngine.resetCache(iResource.getProject().getName());
+                    loadElements();
+                    asyncRefresh(false);
+                }
+            }
+        };
     }
 
 }

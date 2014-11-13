@@ -209,10 +209,11 @@ public class FlowResourcesSelectionDialog extends FilteredItemsSelectionDialog {
                     List<String> list = new ArrayList<String>(flows.size());
                     for (ListEntry entry:  flows)
                     {
-                        ListEntry[] children = (ListEntry[])  entry.getChildren(null);
-                        for (ListEntry child : children)
+                        Object[] children = (Object[])  entry.getChildren(null);
+                        for (Object child : children)
                         {
-                            list.add(entry.getMessage() + "-" + child.getMessage());
+                            ListEntry c = (ListEntry)child;
+                            list.add(entry.getMessage() + "-" + c.getMessage());
                         }
                     }
                     lastSortedItems.clear();

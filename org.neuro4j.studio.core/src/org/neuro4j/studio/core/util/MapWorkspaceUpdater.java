@@ -17,7 +17,9 @@ package org.neuro4j.studio.core.util;
 
 import java.util.Map;
 
-public class MapWorkspaceUpdater extends WorkspaceUpdater {
+import org.eclipse.core.resources.IResource;
+
+public abstract class MapWorkspaceUpdater extends WorkspaceUpdater {
 
     private Map<?, ?> object = null;
 
@@ -27,9 +29,8 @@ public class MapWorkspaceUpdater extends WorkspaceUpdater {
 
     }
 
-    public void clear()
-    {
-        this.object.clear();
-    }
+    public abstract void update(IResource resource, int action);
+
+
 
 }

@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -42,6 +43,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
@@ -78,14 +80,18 @@ import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 import org.neuro4j.studio.core.Neuro4jCorePlugin;
+import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
 import org.neuro4j.studio.core.diagram.providers.SelectedConnectionProvider;
 import org.neuro4j.studio.core.diagram.providers.SelectedListEntryProvider;
 import org.neuro4j.studio.core.util.AbstractEntry;
+import org.neuro4j.studio.core.util.CollectionWorkspaceUpdater;
 import org.neuro4j.studio.core.util.FlowFromJarsLoader;
 import org.neuro4j.studio.core.util.Group;
 import org.neuro4j.studio.core.util.ListEntry;
 import org.neuro4j.studio.core.util.ListEntryType;
 import org.neuro4j.studio.core.util.LogSession;
+import org.neuro4j.studio.core.util.MapWorkspaceUpdater;
+import org.neuro4j.studio.core.util.WorkspaceUpdater;
 import org.neuro4j.studio.core.views.dialogs.FlowResourcesSelectionDialog.FlowContentProvider;
 import org.osgi.service.prefs.Preferences;
 
@@ -159,8 +165,12 @@ public abstract class AbstractListView extends ViewPart {
         groups = new HashMap();
         batchedEntries = new ArrayList();
         workflowSearchEngine = new WorkflowSearchEngine();
+        Neuro4jDiagramEditorPlugin.getInstance().addListToObserver(getUpdater());
     }
 
+    public abstract  CollectionWorkspaceUpdater getUpdater();
+
+    
     /*
      * (non-Javadoc)
      * 
@@ -550,7 +560,7 @@ public abstract class AbstractListView extends ViewPart {
         asyncRefresh(true);
     }
 
-    private void asyncRefresh(final boolean activate) {
+    protected final void asyncRefresh(final boolean activate) {
         if (fTree.isDisposed())
             return;
         Display display = fTree.getDisplay();
@@ -559,8 +569,8 @@ public abstract class AbstractListView extends ViewPart {
             display.asyncExec(new Runnable() {
                 public void run() {
                     if (!fTree.isDisposed()) {
-                        // TreeViewer viewer = fFilteredTree.getViewer();
-                        // viewer.refresh();
+                         TreeViewer viewer = fFilteredTree.getViewer();
+                         viewer.refresh();
                         // viewer.expandToLevel(2);
                         // fDeleteLogAction.setEnabled(fInputFile.exists() &&
                         // fInputFile.equals(Platform.getLogFileLocation().toFile()));
