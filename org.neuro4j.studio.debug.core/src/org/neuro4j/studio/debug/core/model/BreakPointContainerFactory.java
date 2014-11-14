@@ -21,7 +21,7 @@ import org.neuro4j.studio.debug.core.BreakpoinMng;
 public class BreakPointContainerFactory {
 
     
-    private static final BreakPointParamContainer WORKFLOW_NODE = new BreakPointParamContainer(BreakpoinMng.DEBUGSERV_STRING, new Integer(29), -1, -1);
+    private static final BreakPointParamContainer WORKFLOW_NODE = new BreakPointParamContainer(BreakpoinMng.DEBUGSERV_STRING, new Integer(30), -1, -1);
     
 
     public static BreakPointParamContainer getBreakPointContainer()
