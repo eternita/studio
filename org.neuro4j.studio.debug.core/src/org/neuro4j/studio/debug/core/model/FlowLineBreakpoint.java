@@ -109,6 +109,8 @@ public abstract class FlowLineBreakpoint extends JavaLineBreakpoint
         return super.isConditionSuspendOnTrue();
 
     }
+    
+    
 
 //    private String getLocationByNode(ActionNode action)
 //    {
@@ -284,6 +286,21 @@ public abstract class FlowLineBreakpoint extends JavaLineBreakpoint
         if (launch == null) {
             return null;
         }
+        try {
+           String projectName =  launch.getLaunchConfiguration().getAttribute("org.eclipse.jdt.launching.PROJECT_ATTR", "");
+           if (projectName != null)
+           {
+               IJavaProject jProject =  ClassloaderHelper.getJavaProject(projectName);
+               if (jProject != null)
+               {
+                   return jProject;
+               }
+           }
+           
+        } catch (CoreException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
         ISourceLocator locator= launch.getSourceLocator();
         if (locator == null)
             return null;
@@ -319,6 +336,8 @@ public abstract class FlowLineBreakpoint extends JavaLineBreakpoint
                 return project;
             }
         }
+        
+        
         return null;
     }
     

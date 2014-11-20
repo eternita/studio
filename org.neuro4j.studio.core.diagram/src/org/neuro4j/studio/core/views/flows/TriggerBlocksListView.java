@@ -21,10 +21,10 @@ import org.neuro4j.studio.core.util.CollectionWorkspaceUpdater;
 import org.neuro4j.studio.core.util.ListEntryType;
 import org.neuro4j.studio.core.util.search.LogicClassNameLoader;
 
-public class CustomBlocksListView extends AbstractListView {
+public class TriggerBlocksListView extends AbstractListView {
 
-    public CustomBlocksListView() {
-        super(ListEntryType.CUSTOM_BLOCK);
+    public TriggerBlocksListView() {
+        super(ListEntryType.TRIGGER_BLOCK);
     }
 
     void loadElements() {
@@ -47,19 +47,19 @@ public class CustomBlocksListView extends AbstractListView {
 
     String getTitleSummary()
     {
-        return Messages.CustomBlockView_Title;
+        return Messages.TriggerBlockView_Title;
     }
-
+    
     @Override
     String getFirstColumnName() {
-        return Messages.CustomBlockView_column_message;
+        return Messages.TriggerBlockView_column_message;
     }
-
-    public CollectionWorkspaceUpdater getUpdater()
+    
+    public  CollectionWorkspaceUpdater getUpdater()
     {
-        return new CollectionWorkspaceUpdater(elements) {
+        return new CollectionWorkspaceUpdater(elements){
             public void update(IResource iResource, int action) {
-                if (iResource != null && (iResource.getFileExtension().equals("classpath") || iResource.getName().equals("pom.xml") || iResource.getFileExtension().equals("class")))
+                if (iResource != null && (iResource.getFileExtension().equals("classpath") || iResource.getName().equals("pom.xml") || iResource.getFileExtension().equals("class")))                
                 {
                     loadElements();
                     asyncRefresh(false);

@@ -16,10 +16,13 @@
 package org.neuro4j.studio.core.util.search;
 
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IFile;
@@ -29,6 +32,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IAnnotation;
@@ -48,6 +52,8 @@ import org.neuro4j.studio.core.util.MapWorkspaceUpdater;
 import org.neuro4j.studio.core.util.ParameterDefinitionLoader;
 import org.neuro4j.studio.core.util.WorkspaceUpdater;
 import org.neuro4j.workflow.common.ParameterDefinition;
+import org.neuro4j.workflow.common.TriggerBlock;
+import org.neuro4j.workflow.node.CustomBlock;
 
 public class LogicClassNameLoader {
 
@@ -56,7 +62,8 @@ public class LogicClassNameLoader {
     private static LogicClassNameLoader instance = new LogicClassNameLoader();
 
     private static final IType[] EMPTY_ARRAY = new IType[0];
-    private static final String LOGIC_BASE_CLASS = "org.neuro4j.workflow.node.CustomBlock";
+    private static final String LOGIC_BASE_CLASS = CustomBlock.class.getCanonicalName();
+    private static final String TRIGGER_BASE_CLASS = TriggerBlock.class.getCanonicalName();
 
     private Map<String, List<ListEntry>> classes = new HashMap<String, List<ListEntry>>();
 
@@ -76,7 +83,7 @@ public class LogicClassNameLoader {
 
     }
 
-    public List<ListEntry> getClasses(String projectName)
+    public synchronized List<ListEntry> getClasses(String projectName)
     {
         if (!classes.containsKey(projectName))
         {
@@ -93,33 +100,50 @@ public class LogicClassNameLoader {
      */
     private void loadClassses(String projectName) {
 
+        Set<IType> triggers = new HashSet<IType>();
+
         IJavaProject javaProject = ClassloaderHelper.getJavaProject(projectName);
         List<ListEntry> classList = new LinkedList<ListEntry>();
 
         IType[] types = null;
         try {
-            types = getAllSubtypes(javaProject, new NullProgressMonitor());
+            types = getAllSubtypes(javaProject, new NullProgressMonitor(), LOGIC_BASE_CLASS);
         } catch (JavaModelException e) {
             e.printStackTrace();
 
         }
-        for (IType t : types) {
-            t.getPath();
 
-            classList.add(getEntry(t, projectName));
+        try {
+            IType[] triggersClasses = getAllSubtypes(javaProject, new NullProgressMonitor(), TRIGGER_BASE_CLASS);
+            triggers.addAll(Arrays.asList(triggersClasses));
+        } catch (JavaModelException e) {
+            e.printStackTrace();
+
         }
 
-         classes.put(projectName, classList);
+        for (IType t : types) {
+            ListEntry entry = getEntry(t, projectName);
+            if (entry != null)
+            {
+                if (triggers.contains(t))
+                {
+                    entry.setType(ListEntryType.TRIGGER_BLOCK);
+                }
+                classList.add(entry);
+            }
 
+        }
+
+        classes.put(projectName, classList);
 
     }
 
-    private IType[] getAllSubtypes(IJavaProject project, IProgressMonitor pm) throws JavaModelException {
+    private IType[] getAllSubtypes(IJavaProject project, IProgressMonitor pm, String className) throws JavaModelException {
         if (project == null)
         {
             return EMPTY_ARRAY;
         }
-        IType parentType = project.findType(LOGIC_BASE_CLASS);
+        IType parentType = project.findType(className);
         if (parentType == null)
         {
             return EMPTY_ARRAY;
@@ -138,15 +162,30 @@ public class LogicClassNameLoader {
         ListEntry entry = new ListEntry(ListEntryType.CUSTOM_BLOCK);
         if (type.getCompilationUnit() != null)
         {
-            entry.setResource((IFile)type.getCompilationUnit().getResource());            
+            IFile file = (IFile) type.getCompilationUnit().getResource();
+            entry.setResource(file);
+            entry.setfDate(new Date(file.getLocalTimeStamp()));
+
+            entry.setPluginId(project);
+        } else {
+            IPath path = type.getPath();
+            entry.setPluginId(path.lastSegment());
+            entry.setfDate(new Date(path.toFile().lastModified()));
+        }
+
+        // TODO: do not add abstract classes
+        try {
+            if (type.getFlags() >= 1024) {
+                return null;
+            }
+        } catch (JavaModelException e) {
+            e.printStackTrace();
         }
 
         String className = getClassName(type);
         entry.setMessage(className);
-        entry.setPluginId(project);
-        entry.setfDate(new Date(0));
 
-        Map<String, ParameterDefinition> output = ParameterDefinitionLoader.getInstance().getParameterDefinition(className, "output");
+        Map<String, ParameterDefinition> output = ParameterDefinitionLoader.getInstance().getParameterDefinition(project, className, "output");
 
         if (output != null && !output.isEmpty())
         {
@@ -158,12 +197,12 @@ public class LogicClassNameLoader {
             entry.addChild(outputEntry);
         }
 
-        Map<String, ParameterDefinition> input = ParameterDefinitionLoader.getInstance().getParameterDefinition(className, "input");
+        Map<String, ParameterDefinition> input = ParameterDefinitionLoader.getInstance().getParameterDefinition(project, className, "input");
         if (input != null && !input.isEmpty())
         {
             ListEntry inputEntry = new ListEntry(ListEntryType.CHILD);
             inputEntry.setMessage("input");
-          
+
             processChildEntry(inputEntry, input);
             entry.addChild(inputEntry);
         }
@@ -183,19 +222,17 @@ public class LogicClassNameLoader {
 
     public static WorkspaceUpdater getUpdater()
     {
-        return new MapWorkspaceUpdater(instance.classes){
-            public void update(IResource iResource,  int action) {
-                if (iResource != null && (iResource.getFileExtension().equals("classpath")|| iResource.getName().equals("pom.xml") || iResource.getFileExtension().equals("class")))                                
+        return new MapWorkspaceUpdater(instance.classes) {
+            public void update(IResource iResource, int action) {
+                if (iResource != null && (iResource.getFileExtension().equals("classpath") || iResource.getName().equals("pom.xml") || iResource.getFileExtension().equals("class")))
                 {
-                    instance.classes.remove(iResource.getProject().getName());    
+                    instance.classes.remove(iResource.getProject().getName());
                 }
-                
+
             }
 
         };
     }
-    
-
 
     public Object loadAllBlocksInWorkspace(final List<ListEntry> blocks) {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
@@ -218,7 +255,7 @@ public class LogicClassNameLoader {
     private void analyzeProject(IProject project, List<ListEntry> blocks) {
 
         List<ListEntry> list = getClasses(project.getName());
-        blocks.addAll(list);            
+        blocks.addAll(list);
 
     }
 

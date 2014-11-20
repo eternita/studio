@@ -61,9 +61,9 @@ import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 
 public class CustomBlockNewWizard extends Wizard implements INewWizard {
     private IWorkbench fWorkbench;
-    private IStructuredSelection fSelection;
-    private CustomBlockNewWizardPage page;
-    private CustomBlockParametersWizardPage parameterPage;
+    protected IStructuredSelection fSelection;
+    protected CustomBlockNewWizardPage page;
+    protected CustomBlockParametersWizardPage parameterPage;
 
     private boolean fOpenEditorOnFinish = true;
 

@@ -236,7 +236,7 @@ public class CustomBlockNewWizardPage extends NewTypeWizardPage {
         }
     }
 
-    private InputStream openContentStream() {
+    protected InputStream openContentStream() {
         return this.getClass()
                 .getResourceAsStream("templates/customBlockTemplate.resource");
     }

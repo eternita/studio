@@ -33,14 +33,7 @@ public class LogicNodeParametersListPropertySource implements IPropertySource {
     Map<String, InOutParameter> parameters = new HashMap<String, InOutParameter>();
     String type;
 
-    // public LogicNodeInputParametersListPropertySource(LogicNodeImpl object){
-    // node = object;
-    // if (object.getClassName() != null)
-    // {
-    // createMap(FlowUtils.loadInputParameterDefinitions(object.getClassName(), "input"), node.getInParameters());
-    // }
-    //
-    // }
+
 
     public LogicNodeParametersListPropertySource(LogicNodeImpl mapperNodeImpl, String propertyId) {
         node = mapperNodeImpl;

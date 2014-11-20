@@ -23,11 +23,12 @@ import org.eclipse.core.resources.IResource;
 import org.neuro4j.studio.core.util.CollectionWorkspaceUpdater;
 import org.neuro4j.studio.core.util.FlowFromJarsLoader;
 import org.neuro4j.studio.core.util.ListEntry;
+import org.neuro4j.studio.core.util.ListEntryType;
 
 public class FlowsListView extends AbstractListView {
 
     public FlowsListView() {
-        super();
+        super(ListEntryType.FLOW);
 
     }
 
@@ -43,7 +44,6 @@ public class FlowsListView extends AbstractListView {
         {
             result.add(entry);
         }
-
 
         group(result);
         limitEntriesCount();
@@ -67,12 +67,12 @@ public class FlowsListView extends AbstractListView {
     String getFirstColumnName() {
         return Messages.FlowView_column_message;
     }
-    
-    public  CollectionWorkspaceUpdater getUpdater()
+
+    public CollectionWorkspaceUpdater getUpdater()
     {
-        return new CollectionWorkspaceUpdater(elements){
+        return new CollectionWorkspaceUpdater(elements) {
             public void update(IResource iResource, int action) {
-                if (iResource != null && (iResource.getFileExtension().equals("classpath") || iResource.getName().equals("pom.xml") || iResource.getFileExtension().equals("n4j")))                
+                if (iResource != null && (iResource.getFileExtension().equals("classpath") || iResource.getName().equals("pom.xml") || iResource.getFileExtension().equals("n4j")))
                 {
                     workflowSearchEngine.resetCache(iResource.getProject().getName());
                     loadElements();

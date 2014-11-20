@@ -41,7 +41,7 @@ public class FlowdocView extends JavadocView {
             } else if (ss.getFirstElement() instanceof ListEntry)
             {
                 ListEntry entry = (ListEntry) ss.getFirstElement();
-                if (entry.getType() != ListEntryType.CUSTOM_BLOCK)
+                if (entry.getType() != ListEntryType.CUSTOM_BLOCK && entry.getType() != ListEntryType.TRIGGER_BLOCK)
                 {
                     return null;
                 }

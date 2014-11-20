@@ -55,6 +55,13 @@
             class="org.neuro4j.studio.core.views.flows.CustomBlocksListView"
             id="org.neuro4j.studio.core.views.flows.CustomBlocksTreeView">
       </view> 
+      <view
+            name="TriggerBlock View"
+            icon="/icons/blv.gif"
+            category="org.neuro4j.workflows"
+            class="org.neuro4j.studio.core.views.flows.TriggerBlocksListView"
+            id="org.neuro4j.studio.core.views.flows.TriggerBlocksTreeView">
+      </view>      
    </extension>
    
    	   <extension point="org.eclipse.core.expressions.propertyTesters" id="navigator-proptest.isURIEditorInput">
@@ -199,6 +206,15 @@
            id="org.neuro4j.studio.core.diagram.wizards.customblock.CustomBlockNewWizardID"
            name="New Custom Block Wizard">
      </wizard>
+     <wizard
+           canFinishEarly="true"
+           category="org.neuro4j.swf.Wizard.category.ID"
+           class="org.neuro4j.studio.core.diagram.wizards.customblock.TriggerBlockNewWizard"
+           finalPerspective="org.neuro4j.studio.flowPerspective"
+           icon="icons/newTriggerBlock.png"
+           id="org.neuro4j.studio.core.diagram.wizards.customblock.TriggerBlockNewWizardID"
+           name="New Trigger Block Wizard">
+     </wizard>     
       <wizard
             name="%web.neuro4jproject_ui_"
             icon="icons/obj16/web_wiz.gif"

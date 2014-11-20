@@ -18,7 +18,7 @@ public class {fileName} extends CustomBlock {
     {inputBlock1}  
     {outputBlock1}
     
-    @Override
+    
     public int execute(FlowContext ctx) throws FlowExecutionException {
 		
 		{inputBlock2}
@@ -35,7 +35,7 @@ public class {fileName} extends CustomBlock {
 		return NEXT;
 	}
 	
-	@Override
+	
 	public void init() throws FlowInitializationException{
 		super.init();
 	}

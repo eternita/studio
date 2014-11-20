@@ -189,12 +189,13 @@ public class FlowDebugTarget extends JDIDebugTarget {
 			IBreakpoint bp = breakpoints[i];
 			if (bp instanceof JavaLineBreakpoint) {
 				JavaLineBreakpoint jlb = (JavaLineBreakpoint) bp;
+				
 				try {
 					if (jlb.getMarker().getAttribute("flowType") == null) {
 						continue;
 					}
 					FlowLineBreakpoint b = new ActionNodeBreakpoint(jlb);
-					jlb.addToTarget(this);
+					//jlb.addToTarget(this);
 					breakpointAdded(b);
 					flowBreakpoinLoaded = true;
 				} catch (CoreException e) {
@@ -210,12 +211,12 @@ public class FlowDebugTarget extends JDIDebugTarget {
 
 			JavaLineBreakpoint bp = (ActionNodeBreakpoint) BreakpoinMng
 					.getInstance().createBreakPoint();
-			try {
-                bp.addToTarget(this);
-            } catch (CoreException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+//			try {
+//                bp.addToTarget(this);
+//            } catch (CoreException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
 			breakpointAdded(bp);
 		}
 

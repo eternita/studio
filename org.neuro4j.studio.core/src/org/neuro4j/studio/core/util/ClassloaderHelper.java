@@ -36,6 +36,7 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.neuro4j.studio.core.Neuro4jCorePlugin;
 
 public class ClassloaderHelper
 {
@@ -441,7 +442,11 @@ public class ClassloaderHelper
         	{
             	currentJavaProject = getCurrentResource().getProject().getName();
             	System.out.println("currentJavaProject was null set to " + getCurrentResource().getProject().getName() );        		
-        	}
+        	} 
+//        	else {
+//        	   ResourcesPlugin.getWorkspace().get
+//        	}
+        	
 
         }
     	

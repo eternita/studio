@@ -20,7 +20,7 @@ import org.neuro4j.workflow.common.ParameterDefinitionList;
 
 public class WizardParameterBuilder {
     private ParameterDefinitionList list;
-
+    public static final String OUT_PREFIX = "OUT_";
     public WizardParameterBuilder()
     {
         super();
@@ -96,7 +96,7 @@ public class WizardParameterBuilder {
     }
 
     private String getOutConstantName(ParameterDefinition pd) {
-        return "OUT_" + pd.name().toUpperCase();
+        return OUT_PREFIX + pd.name().toUpperCase();
     }
 
     private String getInConstantName(ParameterDefinition pd) {

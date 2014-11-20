@@ -115,6 +115,12 @@ public class ListEntry extends AbstractEntry {
     public ListEntryType getType() {
         return type;
     }
+    
+    
+
+    public void setType(ListEntryType type) {
+        this.type = type;
+    }
 
     public IFile getResource() {
         return resource;

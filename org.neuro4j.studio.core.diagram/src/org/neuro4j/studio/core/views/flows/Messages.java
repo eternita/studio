@@ -18,12 +18,9 @@ package org.neuro4j.studio.core.views.flows;
 
 import org.eclipse.osgi.util.NLS;
 
-
-
-
 public class Messages {
 
-	public static String FlowView_AddingBatchedEvents;
+    public static String FlowView_AddingBatchedEvents;
     public static String FlowView_Title;
     public static String FlowView_GroupByNone;
     public static String FlowView_GroupBy;
@@ -31,18 +28,17 @@ public class Messages {
     public static String FlowView_GroupBySession;
     public static String FlowView_show_filter_initialText;
     public static String FlowView_column_message;
-	public static String FlowView_column_plugin;
-	public static String FlowView_column_date;
-	
-	
-	public static String CustomBlockView_Title;
-	public static String CustomBlockView_column_message;
+    public static String FlowView_column_plugin;
+    public static String FlowView_column_date;
 
+    public static String CustomBlockView_Title;
+    public static String CustomBlockView_column_message;
+
+    public static String TriggerBlockView_Title;
+    public static String TriggerBlockView_column_message;
 
     static {
         NLS.initializeMessages("org.neuro4j.studio.core.views.flows.messages", Messages.class); //$NON-NLS-1$
     }
-    
-
 
 }

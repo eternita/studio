@@ -69,9 +69,12 @@ import org.neuro4j.workflow.common.ParameterDefinition;
 import org.neuro4j.workflow.common.ParameterDefinitionList;
 
 public class CustomBlockParametersWizardPage extends NewContainerWizardPage {
+    
+    
+    
     // private Text text1;
-    private Composite container;
-    private MyStringDialogField fSuperClassDialogField, fSuperClassDialogField1, fSuperClassDialogField2;
+    protected Composite container;
+    protected MyStringDialogField fSuperClassDialogField, fSuperClassDialogField1, fSuperClassDialogField2;
     protected IStatus fSuperClassStatus;
     private StubTypeContext fSuperClassStubTypeContext;
     private IPackageFragment fCurrPackage;
@@ -99,8 +102,10 @@ public class CustomBlockParametersWizardPage extends NewContainerWizardPage {
         parametersClassFields.add(fSuperClassDialogField2);
 
     }
-
-    private MyStringDialogField createSuperClassField(String label, TypeFieldsAdapter adapter)
+    public CustomBlockParametersWizardPage() {
+        super("Parameter definition page");
+    }
+    protected MyStringDialogField createSuperClassField(String label, TypeFieldsAdapter adapter)
     {
         MyStringDialogField fSuperClassDialogField1 = new MyStringDialogField(adapter);
         fSuperClassDialogField1.setDialogFieldListener(adapter);
@@ -255,10 +260,10 @@ public class CustomBlockParametersWizardPage extends NewContainerWizardPage {
         return stubTypeContext;
     }
 
-    private class TypeFieldsAdapter
+    class TypeFieldsAdapter
             implements IStringButtonAdapter, IDialogFieldListener, IListAdapter<CustomBlockParametersWizardPage.InterfaceWrapper>, SelectionListener
     {
-        private TypeFieldsAdapter(Object object)
+        TypeFieldsAdapter(Object object)
         {
         }
 
@@ -424,7 +429,7 @@ public class CustomBlockParametersWizardPage extends NewContainerWizardPage {
         return this.iJavaProject;
     }
 
-    private void createLine(Composite parent, int ncol)
+    protected void createLine(Composite parent, int ncol)
     {
         Label line = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.BOLD);
         GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -447,7 +452,7 @@ public class CustomBlockParametersWizardPage extends NewContainerWizardPage {
         return parametersClassFields.get(index).getText();
     }
 
-    public void processParameters(Map<String, String> parameters) {
+    protected void processParameters(Map<String, String> parameters) {
 
         ParameterDefinitionList list = getParameterDefList();
         WizardParameterBuilder builder = new WizardParameterBuilder(list);
@@ -469,7 +474,7 @@ public class CustomBlockParametersWizardPage extends NewContainerWizardPage {
         parameters.put("{inputBlock2}", intputBlock2);
     }
 
-    private ParameterDefinitionList getParameterDefList()
+    protected ParameterDefinitionList getParameterDefList()
     {
         ParameterDefinitionList list = new ParameterDefinitionList() {
 
@@ -497,7 +502,7 @@ public class CustomBlockParametersWizardPage extends NewContainerWizardPage {
 
     }
 
-    private final ParameterDefinition getParameterDefinition(final int index)
+    protected final ParameterDefinition getParameterDefinition(final int index)
     {
         final String name = getName(index);
         if (name == null || "".equals(name.trim()))

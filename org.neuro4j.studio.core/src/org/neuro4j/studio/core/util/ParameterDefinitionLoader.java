@@ -63,12 +63,18 @@ public class ParameterDefinitionLoader {
 
     public Map<String, ParameterDefinition> getParameterDefinition(
             String className, String type) {
+
+
+        return getParameterDefinition(ClassloaderHelper.getActiveProjectName(), className, type);
+    }
+    
+    public Map<String, ParameterDefinition> getParameterDefinition(String projectName, String className, String type) {
         Map<String, ParameterDefinition> localMap = map.get(type + className);
         if (localMap != null) {
             return localMap;
         }
 
-        localMap = getParameterDefinitionFromClass(className, type);
+        localMap = getParameterDefinitionFromClass(projectName, className, type);
         if (localMap != null) {
             map.put(type + className, localMap);
         }
@@ -81,13 +87,13 @@ public class ParameterDefinitionLoader {
         return localMap;
     }
 
-    private Map<String, ParameterDefinition> getParameterDefinitionFromClass(
+    private Map<String, ParameterDefinition> getParameterDefinitionFromClass(String projectName, 
             String className, String type) {
         Map<String, ParameterDefinition> parameters = null;
 
         Class<?> aClass = null;
         try {
-            aClass = ClassloaderHelper.getClazz(ClassloaderHelper.getActiveProjectName(), className);
+            aClass = ClassloaderHelper.getClazz(projectName, className);
         } catch (Exception e) {
             System.err.println(e.getMessage());
 
