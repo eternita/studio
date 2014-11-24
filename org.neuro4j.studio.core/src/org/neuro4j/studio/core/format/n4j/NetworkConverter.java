@@ -151,7 +151,7 @@ public class NetworkConverter {
 					parameters.put(rep.getKey(), rep.getValue());
 				}
 
-			if (parameters.get(SWFConstants.SWF_BLOCK_CLASS) != null) {
+
 				NodeXML entity;
 				try {
 					entity = createNode(network, e, parameters);
@@ -161,7 +161,7 @@ public class NetworkConverter {
 					e1.printStackTrace();
 				}
 
-			}
+			
 
 		}
 
@@ -210,15 +210,6 @@ public class NetworkConverter {
 			Map<String, String> parameters) throws FlowInitializationException {
 		NodeXML node = null;
 
-		String className = parameters.get("SWF_CUSTOM_CLASS");
-
-		if (className == null) {
-			className = parameters.get(SWFConstants.SWF_BLOCK_CLASS);
-		}
-
-		if (className == null) {
-			throw new FlowInitializationException("Executable node is unknown");
-		}
 
 		if (node == null) {
 			node = new NodeXML(e.getUuid(), e.getName());

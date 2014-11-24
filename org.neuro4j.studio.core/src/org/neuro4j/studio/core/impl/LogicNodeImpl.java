@@ -472,7 +472,6 @@ public class LogicNodeImpl extends ActionNodeImpl implements LogicNode, HasFewIn
 
     @Override
     public void setNodeSpecificProperties(NodeXML entity) {
-        setNotNullConfig(entity, CLASS_NAME_PROPERTY_KEY, getName());
         setNotNullConfig(entity, CUSTOM_CLASS_NAME_PROPERTY_KEY, getClassName());
         saveInOutParameters(entity);
 
@@ -537,7 +536,7 @@ public class LogicNodeImpl extends ActionNodeImpl implements LogicNode, HasFewIn
 
     }
 
-    public static final String CLASS_NAME_PROPERTY_KEY = "SWF_BLOCK_CLASS";
+
     public static final String CUSTOM_CLASS_NAME_PROPERTY_KEY = SWFParametersConstants.LOGIC_NODE_CUSTOM_CLASS_NAME;
 
     public void notifyPropertyChanged(Object oldValue, Object newValue)

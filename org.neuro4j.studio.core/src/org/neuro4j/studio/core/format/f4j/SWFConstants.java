@@ -21,7 +21,6 @@ public class SWFConstants {
     public static final String SWF_PARAM_PREFIX = "SWF_PARAM_";
     public static final String SWF_CTX_PARAM_MAPPING = "SWF_CTX_PARAM_MAPPING";
     public static final String NETWORK_CONFIG_NAME = "networkConfig";
-    public static final String SWF_BLOCK_CLASS = "SWF_BLOCK_CLASS";
     public static final String SWF_BLOCK_PARAM_INFO = "SWF_BLOCK_PARAM_INFO";
     public static final String SWF_BLOCK_DESCRIPTION = "SWF_BLOCK_DESCRIPTION";
 

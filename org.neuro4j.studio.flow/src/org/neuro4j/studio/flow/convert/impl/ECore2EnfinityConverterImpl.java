@@ -59,9 +59,6 @@ public class ECore2EnfinityConverterImpl implements ECore2EnfinityConverter {
 
     	NodeXML entity = new NodeXML(node.getId(),node.getName(), workflow);
     	
-        // setUUID(entity, node);
-        // entity.setName(node.getName());
-//        setEntityJsConsoleNodeType(entity, node);
         setCoordinates(entity, shape);
         setBlockClass(entity, node);
         processRelations(entity, node);
@@ -69,10 +66,6 @@ public class ECore2EnfinityConverterImpl implements ECore2EnfinityConverter {
         return entity;
     }
 
-//    protected void setEntityJsConsoleNodeType(NodeXML entity, ActionNode node)
-//    {
-//        entity.addParameter(PropetiesConstants.N4J_CONSOLE_NODE_TYPE, "N4J_CONSOLE_NODE_TYPE");
-//    }
 
 
     public void setCoordinates(NodeXML node, ShapeImpl shape)
@@ -85,7 +78,6 @@ public class ECore2EnfinityConverterImpl implements ECore2EnfinityConverter {
 
     protected void setBlockClass(NodeXML entity, ActionNode node)
     {
-      //  entity.addParameter(PropetiesConstants.SWF_BLOCK_CLASS, getClassName(node));
         entity.setType(node.getNodeType().toString());
     }
 
