@@ -1087,6 +1087,7 @@ org.eclipse.platform
       <feature id="org.eclipse.jst.server_userdoc.feature"/>
       <feature id="org.eclipse.jst.web_userdoc.feature"/>
       <feature id="org.eclipse.jst.server_core.feature"/>
+      <feature id="org.sonatype.m2e.mavenarchiver.feature"/>
    </features>
 
    <configurations>

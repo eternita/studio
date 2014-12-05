@@ -72,6 +72,8 @@ public class Neuro2XMLSaveImpl extends XMLSaveImpl {
             contents = resource.getContents();
         }
 
+       
+        
         if (contents.size() != 0)
         {
             // TODO: we do not need to use it.
@@ -81,12 +83,14 @@ public class Neuro2XMLSaveImpl extends XMLSaveImpl {
 
             saveNetworkConfiguration(networkImpl);
             saveNotes(diagram);
+          
         }
 
         FlowConverter.flow2xmlstream(network, outputStream);
-
+       
         endSave(contents);
         outputStream.flush();
+
         this.xmlResource = null;
     }
 

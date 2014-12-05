@@ -16,10 +16,10 @@ Require-Bundle: org.neuro4j.studio.workflow;bundle-version="1.0.1",
 Bundle-Activator: org.neuro4j.studio.core.Neuro4jCorePlugin
 Bundle-ActivationPolicy: lazy
 Export-Package: org.neuro4j.studio.core,
- org.neuro4j.studio.core.format.n4j,
- org.neuro4j.studio.core.format.f4j,
  org.neuro4j.studio.core.buildpath,
  org.neuro4j.studio.core.coordinates,
+ org.neuro4j.studio.core.format.f4j,
+ org.neuro4j.studio.core.format.n4j,
  org.neuro4j.studio.core.impl,
  org.neuro4j.studio.core.relation,
  org.neuro4j.studio.core.util,

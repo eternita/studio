@@ -35,6 +35,8 @@ public class FlowXML {
     @XmlAttribute
     public String visibility;
 
+    private String flowName;
+    private String flowPackage;
     
     @XmlElementWrapper(name = "nodes")
     @XmlElement(name = "node")
@@ -51,7 +53,8 @@ public class FlowXML {
 
 
     public FlowXML(String flow, String flowPackage) {
-
+        this.flowName = flow;
+        this.flowPackage = flowPackage;
 	}
 
 	public List<NodeXML> getEntities() {
@@ -109,7 +112,19 @@ public class FlowXML {
 
         return names.get(name);
 	}
+
+
+    public String getFlowPackage() {
+        return flowPackage;
+    }
+
+
+    public String getFlowName() {
+        return flowName;
+    }
     
+	
+	
 
 
 }
