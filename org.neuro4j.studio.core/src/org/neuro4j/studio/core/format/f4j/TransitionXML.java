@@ -29,6 +29,9 @@ public class TransitionXML {
 	@XmlAttribute
 	String name;
 
+    @XmlAttribute
+    String type;
+	
 	@XmlAttribute
 	String toNode;
 	
@@ -104,6 +107,18 @@ public class TransitionXML {
 	public void setTargetNode(NodeXML targetNode) {
 		this.targetNode = targetNode;
 	}
+
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    
+    public String getRoutingType() {
+        return type;
+    }
+    
+	
 	
 	
 

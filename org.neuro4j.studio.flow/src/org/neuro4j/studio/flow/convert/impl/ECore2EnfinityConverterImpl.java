@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.datatype.RelativeBendpoint;
 import org.eclipse.gmf.runtime.notation.impl.BoundsImpl;
+import org.eclipse.gmf.runtime.notation.impl.ConnectorImpl;
 import org.eclipse.gmf.runtime.notation.impl.RelativeBendpointsImpl;
 import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
 import org.neuro4j.studio.core.ActionNode;
@@ -31,7 +32,6 @@ import org.neuro4j.studio.core.OperatorOutput;
 import org.neuro4j.studio.core.format.f4j.FlowXML;
 import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.format.f4j.TransitionXML;
-
 import org.neuro4j.studio.core.util.FlowUtils;
 import org.neuro4j.studio.core.util.PropetiesConstants;
 import org.neuro4j.studio.flow.convert.ECore2EnfinityConverter;
@@ -101,6 +101,12 @@ public class ECore2EnfinityConverterImpl implements ECore2EnfinityConverter {
             if (output.getTarget() == null)
             {
                 continue;
+            }
+            ConnectorImpl connector = (ConnectorImpl) output.getEdge();
+          
+            if ("Manual".equals(connector.getRouting().getName()))
+            {
+                transition.setType("m");
             }
             transition.setToNode(output.getTarget().getId());
             

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmf.runtime.notation.Routing;
 import org.eclipse.gmf.runtime.notation.datatype.RelativeBendpoint;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.Neuro4jFactory;
@@ -42,6 +43,12 @@ public abstract class ActionRelationProcessor {
             OperatorOutput outPut = Neuro4jFactory.eINSTANCE.createOperatorOutput();
             outPut.setName(rel.name());
             outPut.setId(rel.uuid());
+            if("m".equals(rel.getRoutingType()))
+            {
+                outPut.setRouting(Routing.MANUAL_LITERAL);
+            } else {
+                outPut.setRouting(Routing.RECTILINEAR_LITERAL);
+            }
             List<RelativeBendpoint> coordinates = parseInitialCoordinates(rel);
             outPut.setCoordinates(coordinates);
             outPut.setTarget(target);

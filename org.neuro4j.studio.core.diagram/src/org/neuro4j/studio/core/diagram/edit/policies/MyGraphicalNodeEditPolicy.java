@@ -121,7 +121,7 @@ public class MyGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
                 .mapTerminalToConnectionAnchor(scaCommand.getNewSourceTerminal());
 
         OperatorOutput operator = null;
-        List<RelativeBendpoint> coordinates = Collections.EMPTY_LIST;
+        List<RelativeBendpoint> coordinates = null;
 
         PointList pointList = new PointList();
         if (request.getLocation() == null) {

@@ -101,16 +101,6 @@ public class FlowConverter {
 		return net;
 	}
 
-	private static String getFlowPackage(String flow) {
-		String flowPackage = "default";
-		int index = flow.lastIndexOf("/");
-		if (index > 0) {
-			flowPackage = flow.substring(0, index);
-		} else if (flow.contains(".")) {
-			flowPackage = flow;
-		}
-		return flowPackage;
-	}
 
 
 	

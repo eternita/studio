@@ -40,6 +40,7 @@ import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.RelativeBendpoints;
 import org.eclipse.gmf.runtime.notation.Routing;
 import org.eclipse.gmf.runtime.notation.View;
+import org.neuro4j.studio.core.OperatorOutput;
 import org.neuro4j.studio.core.diagram.edit.policies.MyConnectionGraphicalNodeEditPolicy;
 import org.neuro4j.studio.core.diagram.edit.policies.OperatorOutput10ItemSemanticEditPolicy;
 import org.neuro4j.studio.core.diagram.edit.shapes.anchors.MyPolylineConnection;
@@ -208,10 +209,9 @@ public class OperatorOutput10EditPart extends ConnectionNodeEditPart implements
             // ViewUtil.setStructuralFeatureValue(getEdge(),
             // Routing r = new Routing(tolerance, elementGuid, elementGuid);
             // NotationPackage.eINSTANCE.getFontStyle_Bold(), true);
-
-            ViewUtil.setStructuralFeatureValue(getEdge(),
-
-                    NotationPackage.eINSTANCE.getRoutingStyle_Routing(), Routing.RECTILINEAR_LITERAL);
+            OperatorOutput operatorOutput  = (OperatorOutput)getEdge().getElement();
+            
+            ViewUtil.setStructuralFeatureValue(getEdge(), NotationPackage.eINSTANCE.getRoutingStyle_Routing(), operatorOutput.getRouting());
 
             fFigureOperatorOutputSourceNameLabel = new WrappingLabel();
 

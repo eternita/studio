@@ -15,6 +15,7 @@
  */
 package org.neuro4j.studio.core.util.search;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -184,13 +185,21 @@ public class CallNodeResolver {
     public void removeFromCache(org.eclipse.emf.common.util.URI uri)
     {
         String path = uri.devicePath();
+        path = path.substring(0, path.length() - ".n4j".length());
         Set<String> keys = map.keySet();
-
         for (String key : keys)
         {
-            if (path.endsWith(key)) {
-                map.remove(key);
+            String[] fArr = null;
+            try {
+                fArr = WorkflowEngine.parseFlowName(key);
+                if (path.endsWith(fArr[0])) {
+                    map.remove(key);
+                }
+                
+            } catch (FlowExecutionException e1) {
+                 continue;
             }
+            
 
         }
     }

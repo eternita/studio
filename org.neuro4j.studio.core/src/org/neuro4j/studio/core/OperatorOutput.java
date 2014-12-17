@@ -18,6 +18,7 @@ package org.neuro4j.studio.core;
 import java.util.List;
 
 import org.eclipse.gmf.runtime.notation.Edge;
+import org.eclipse.gmf.runtime.notation.Routing;
 import org.eclipse.gmf.runtime.notation.datatype.RelativeBendpoint;
 import org.eclipse.swt.graphics.Color;
 
@@ -146,5 +147,9 @@ public interface OperatorOutput extends Node {
     void setBGColor(Color gray);
 
     OperatorOutput cloneForPast(ActionNode target);
+    
+    Routing getRouting();
+    
+    void setRouting(Routing routing);
 
 } // OperatorOutput

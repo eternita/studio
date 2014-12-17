@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.FigureUtilities;
 import org.eclipse.gmf.runtime.notation.Edge;
+import org.eclipse.gmf.runtime.notation.Routing;
 import org.eclipse.gmf.runtime.notation.datatype.RelativeBendpoint;
 import org.eclipse.gmf.runtime.notation.impl.ConnectorImpl;
 import org.eclipse.swt.graphics.Color;
@@ -96,6 +97,8 @@ public class OperatorOutputImpl extends NodeImpl implements OperatorOutput {
      * @ordered
      */
     protected ActionNode target;
+    
+    protected Routing routing;
 
     private List<RelativeBendpoint> coordinates = new ArrayList<RelativeBendpoint>();
 
@@ -416,5 +419,17 @@ public class OperatorOutputImpl extends NodeImpl implements OperatorOutput {
         eContainer = sourceObj;
 
     }
+
+    @Override
+    public Routing getRouting() {
+        return routing;
+    }
+
+    @Override
+    public void setRouting(Routing routing) {
+        this.routing = routing;
+    }
+    
+    
 
 } // OperatorOutputImpl
