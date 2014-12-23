@@ -22,8 +22,6 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.draw2d.RelativeBendpoint;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -33,7 +31,7 @@ import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.RelativeBendpoints;
 
 public class MySetConnectionBendpointsCommand extends SetConnectionBendpointsCommand {
-    private List relPointList = new ArrayList<>(4);
+    private List relPointList = new ArrayList(4);
 
 
     /**
@@ -57,67 +55,9 @@ public class MySetConnectionBendpointsCommand extends SetConnectionBendpointsCom
         return relPointList;
     }
 
-    // /**
-    // * Returns the sourceRefPoint.
-    // * @return Point
-    // */
-    // public Point getSourceRefPoint() {
-    // return sourceRefPoint;
-    // }
-    //
-    // /**
-    // * Sets the edgeAdaptor.
-    // * @param edgeAdapter The edgeAdaptor to set
-    // */
-    // public void setEdgeAdapter(IAdaptable edgeAdapter) {
-    // this.edgeAdapter = edgeAdapter;
-    // }
-    //
-    // /**
-    // * Method setNewPointList.
-    // * @param newPointList
-    // * @param sourceRefPoint
-    // * @param targetRefPoint
-    // */
-    public void setNewPointList(
-            PointList newPointList,
-            Point sourceRefPoint,
-            Point targetRefPoint) {
-        super.setNewPointList(newPointList, sourceRefPoint, targetRefPoint);
-     //   for (int i = 0; i < newPointList.size(); i++) {
-     //   this.relPointList = new ArrayList(newPointList.size());
-        for (int i = 0; i < newPointList.size(); i++) {
-           // this.relPointList.add(newPointList.getPoint(i));
-        }
-    }
 
-    /**
-     * set a new point list
-     * 
-     * @param newPointList
-     *        the new point list to set
-     * @param sourceAnchor
-     * @param targetAnchor
-     */
-    // public void setNewPointList(
-    // PointList newPointList,
-    // ConnectionAnchor sourceAnchor,
-    // ConnectionAnchor targetAnchor) {
-    //
-    // this.newPointList = new PointList(newPointList.size());
-    // for (int i = 0; i < newPointList.size(); i++) {
-    // this.newPointList.addPoint(newPointList.getPoint(i));
-    // }
-    // if (sourceAnchor != null) {
-    // sourceRefPoint = sourceAnchor.getReferencePoint();
-    // sourceAnchor.getOwner().translateToRelative(sourceRefPoint);
-    // }
-    // if (targetAnchor != null) {
-    // targetRefPoint = targetAnchor.getReferencePoint();
-    // targetAnchor.getOwner().translateToRelative(
-    // targetRefPoint);
-    // }
-    // }
+
+
     public void setNewPointList(
             List newPointList,
             Point sourceRefPoint,
@@ -131,30 +71,7 @@ public class MySetConnectionBendpointsCommand extends SetConnectionBendpointsCom
 
     }
 
-    // protected CommandResult doExecuteWithNewResult(
-    // IProgressMonitor progressMonitor, IAdaptable info)
-    // throws ExecutionException {
-    //
-    // Assert.isNotNull(newPointList);
-    // Assert.isNotNull(sourceRefPoint);
-    // Assert.isNotNull(targetRefPoint);
-    //
-    // Edge edge =
-    // (Edge) getEdgeAdaptor().getAdapter(Edge.class);
-    // Assert.isNotNull(edge);
-    //
-    // List newBendpoints = new ArrayList();
-    // int numOfPoints = newPointList.size();
-    // for (short i = 0; i < numOfPoints; i++) {
-    // Dimension s = newPointList.getPoint(i).getDifference(sourceRefPoint);
-    // Dimension t = newPointList.getPoint(i).getDifference(targetRefPoint);
-    // newBendpoints.add(new RelativeBendpoint(s.width, s.height, t.width, t.height));
-    // }
-    //
-    // RelativeBendpoints points = (RelativeBendpoints) edge.getBendpoints();
-    // points.setPoints(newBendpoints);
-    // return CommandResult.newOKCommandResult();
-    // }
+
 
     protected CommandResult doExecuteWithSavedResult(
             IProgressMonitor progressMonitor, IAdaptable info)
