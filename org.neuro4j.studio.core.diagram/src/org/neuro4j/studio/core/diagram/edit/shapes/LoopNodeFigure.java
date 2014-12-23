@@ -17,6 +17,7 @@ package org.neuro4j.studio.core.diagram.edit.shapes;
 
 import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.Ellipse;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.swt.graphics.Image;
 import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
@@ -27,7 +28,6 @@ import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
 public class LoopNodeFigure extends BaseImageFigure {
 
     private static final Image DEFAULT_IMAGE = Neuro4jDiagramEditorPlugin.imageDescriptorFromPlugin(Neuro4jDiagramEditorPlugin.ID, "icons/images/LoopNode.png").createImage();
-
     /**
      * @generated
      */
@@ -76,35 +76,44 @@ public class LoopNodeFigure extends BaseImageFigure {
 
         fFigureLoopNodeIteratorKeyFigure = new WrappingLabel();
 
-        fFigureLoopNodeIteratorKeyFigure.setText("<...>");
+
 
         this.add(fFigureLoopNodeIteratorKeyFigure);
 
         fFigureLoopNodeElementKeyFigure = new WrappingLabel();
 
-        fFigureLoopNodeElementKeyFigure.setText("<...>");
+
 
         this.add(fFigureLoopNodeElementKeyFigure);
 
         fFigureLoopNodeLoopOuptut = new Ellipse();
-
+        fFigureLoopNodeLoopOuptut.setFill(true);
+        fFigureLoopNodeLoopOuptut.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
+        fFigureLoopNodeLoopOuptut.setBackgroundColor(ellipseBGColor);
         // this.add(fFigureLoopNodeLoopOuptut, BorderLayout.CENTER);
 
         fFigureLoopNodeMainOutput = new Ellipse();
+        fFigureLoopNodeMainOutput.setFill(true);
+        fFigureLoopNodeMainOutput.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
+        fFigureLoopNodeMainOutput.setBackgroundColor(ellipseBGColor);
 
         // this.add(fFigureLoopNodeMainOutput, BorderLayout.CENTER);
 
         fFigureLoopNodeMainInput = new Ellipse();
+        fFigureLoopNodeMainInput.setFill(true);
+        fFigureLoopNodeMainInput.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
+        fFigureLoopNodeMainInput.setBackgroundColor(ellipseBGColor);
 
         // this.add(fFigureLoopNodeMainInput, BorderLayout.CENTER);
 
         fFigureLoopNodeLoopInput = new Ellipse();
-
+        fFigureLoopNodeLoopInput.setFill(true);
+        fFigureLoopNodeLoopInput.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
+        fFigureLoopNodeLoopInput.setBackgroundColor(ellipseBGColor);
         // this.add(fFigureLoopNodeLoopInput, BorderLayout.CENTER);
 
         fFigureLoopNodeLabel = new WrappingLabel();
 
-        fFigureLoopNodeLabel.setText("<Label>");
 
         this.add(fFigureLoopNodeLabel);
 

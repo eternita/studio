@@ -594,7 +594,7 @@ public abstract class AbstractListView extends ViewPart {
                         // }
                         // }
 
-                        // System.out.println("1");
+
                     }
                 }
             });

@@ -22,6 +22,7 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 import org.neuro4j.studio.core.diagram.edit.shapes.FixedConnectionAnchor;
 
@@ -97,6 +98,17 @@ public class DefaultSizeNodeFigureWithFixedAnchors extends
             result = anchors.get(nearestTerminal);
         }
         return result;
+    }
+    
+    @Override
+    public Rectangle getHandleBounds() {
+        Rectangle original = super.getHandleBounds();
+        return new Rectangle(original.x,original.y,50,70);
+    }
+    
+    protected ConnectionAnchor getDefaultSourceAnchor()
+    {
+        return anchors.get("NORTH");
     }
 
 }

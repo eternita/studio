@@ -23,61 +23,24 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.diagram.edit.shapes.FixedConnectionAnchor;
 
-public class NorthEastSouthFixedAnchors extends DefaultSizeNodeFigureWithFixedAnchors {
+public class MapperNodeAnchors extends DefaultSizeNodeFigureWithFixedAnchors {
+    static final HashMap<String, PrecisionPoint> anchorLocations = new HashMap<String, PrecisionPoint>();
 
-    protected ActionNode action;
 
 
-    public NorthEastSouthFixedAnchors(Dimension defSize,
+    public MapperNodeAnchors(Dimension defSize,
             HashMap<String, PrecisionPoint> anchorLocations) {
         super(defSize, anchorLocations);
 
     }
 
-    public NorthEastSouthFixedAnchors(int i, int j, ActionNode action, HashMap<String, PrecisionPoint> anchorLocations) {
-        super(i, j, anchorLocations);
-        this.action = action;
-    }
 
-    public ConnectionAnchor getSourceConnectionAnchorAt(Point p, String connectionName) {
 
-        if (p == null)
-        {
-            if (connectionName == null)
-            {
-                return getDefaultSourceAnchor();
-            }
-            if (connectionName.equals("FALSE") || connectionName.equals("ERROR"))
-            {
-                return anchors.get("EAST");
-            }
-            if (connectionName.equals("TRUE") || connectionName.equals("NEXT"))
-            {
-                return anchors.get("SOUTH");
-            }
-        }
-        
-        double minDistance = Double.MAX_VALUE;
-        String nearestTerminal = null;
-
-        for (String terminal : new String[] { "SOUTH", "EAST" }) {
-
-            FixedConnectionAnchor anchor = anchors.get(terminal);
-            Point anchorPosition = anchor.getLocation();
-            double distance = p.getDistance(anchorPosition);
-            if (distance < minDistance) {
-                minDistance = distance;
-                nearestTerminal = terminal;
-            }
-        }
-        return anchors.get(nearestTerminal);
-
-        // String terminal = getNextFreeTerminal(connectionName);
-        // return getConnectionAnchor(terminal);
-
+    @Override
+    public ConnectionAnchor getSourceConnectionAnchorAt(Point p) {
+        return findNearestAnchorFrom(p, "SOUTH");
     }
 
     @Override
@@ -87,21 +50,12 @@ public class NorthEastSouthFixedAnchors extends DefaultSizeNodeFigureWithFixedAn
 
     @Override
     public ConnectionAnchor getConnectionAnchor(String terminal) {
-        
-        if (terminal == null)
-        {            
-            return getDefaultSourceAnchor();
-        }
         return anchors.get(terminal);
     }
 
-
-    
-    
     @Override
     public String getConnectionAnchorTerminal(ConnectionAnchor c) {
         String selectedTerminal = null;
-
         Iterator<String> terminals = anchors.keySet().iterator();
         while (terminals.hasNext() && selectedTerminal == null) {
             String terminal = terminals.next();
@@ -114,30 +68,16 @@ public class NorthEastSouthFixedAnchors extends DefaultSizeNodeFigureWithFixedAn
     }
 
     private ConnectionAnchor findNearestAnchorFrom(Point point, String string) {
-
         return getConnectionAnchor(string);
 
     }
 
-    public ConnectionAnchor getSourceConnectionAnchorAt(Point p) {
-        return getSourceConnectionAnchorAt(p, null);
-    }
+
     
     @Override
     public Rectangle getHandleBounds() {
         Rectangle original = super.getHandleBounds();
-        return new Rectangle(original.x,original.y,70,70);
-    }
-
-    
-    public ActionNode getActionNode()
-    {
-        return action;
-    }
-    
-    protected ConnectionAnchor getDefaultSourceAnchor()
-    {
-        return anchors.get("SOUTH");
+        return new Rectangle(original.x,original.y, 60, 70);
     }
 
 }

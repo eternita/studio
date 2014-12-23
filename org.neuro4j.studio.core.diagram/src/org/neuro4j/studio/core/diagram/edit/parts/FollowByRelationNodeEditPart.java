@@ -16,6 +16,7 @@
 package org.neuro4j.studio.core.diagram.edit.parts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,6 +25,9 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Shape;
+import org.eclipse.draw2d.XYLayout;
+import org.eclipse.draw2d.geometry.PrecisionPoint;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
@@ -134,6 +138,14 @@ public class FollowByRelationNodeEditPart extends NodeBaseEditPart {
             ((FollowByRelationNodeNameEditPart) childEditPart)
                     .setLabel(getPrimaryShape()
                             .getFigureFollowByRelationNodeRelationNameFigure());
+            
+            IFigure pane = getNodeFigure();
+            
+            IFigure f1 = getPrimaryShape().getFigureSwitchNodeMainInput();
+            pane.add(f1, new Rectangle(31, 3, 8, 8));
+
+            f1 = getPrimaryShape().getFigureSwitchNodeMainOutput();
+            pane.add(f1, new Rectangle(31, 60, 8, 8));            
             return true;
         }
         return false;
@@ -180,7 +192,11 @@ public class FollowByRelationNodeEditPart extends NodeBaseEditPart {
      * @generated
      */
     protected NodeFigure createNodePlate() {
-        DefaultSizeNodeFigure result = new NorthSouthFixedAnchors(40, 40);
+        HashMap<String, PrecisionPoint> anchorLocations = new HashMap<String, PrecisionPoint>();
+
+        anchorLocations.put("NORTH", new PrecisionPoint(0.155d, 0));
+        anchorLocations.put("SOUTH", new PrecisionPoint(0.155d, 1d));
+        DefaultSizeNodeFigure result = new NorthSouthFixedAnchors(70, 70, anchorLocations);
         return result;
     }
 
@@ -194,21 +210,25 @@ public class FollowByRelationNodeEditPart extends NodeBaseEditPart {
      */
     protected NodeFigure createNodeFigure() {
         NodeFigure figure = createNodePlate();
-        figure.setLayoutManager(new BorderLayout());
+        figure.setLayoutManager(new XYLayout());
         IFigure shape = createNodeShape();
         WrappingLabel label = ((org.neuro4j.studio.core.diagram.edit.shapes.FollowByRelationNodeFigure) primaryShape)
                 .getFigureFollowByRelationNodeRelationNameFigure();
 
         org.eclipse.draw2d.Panel panel = new org.eclipse.draw2d.Panel();
         panel.setLayoutManager(new FlowLayout(true));
-        panel.setVisible(true);
 
         addDebugFigure(panel);
+
         registerStopFigure((BaseImageFigure) primaryShape);
-        figure.add(shape, BorderLayout.BOTTOM);
-        figure.add(label, BorderLayout.CENTER);
-        figure.add(panel, BorderLayout.TOP);
+
+        figure.add(panel, new Rectangle(5, 5, 5, 5));
+        figure.add(shape, new Rectangle(10, 10, 50, 50));
+        
+        figure.add(label, new Rectangle(65,10, 150,25));
+        
         contentPane = setupContentPane(shape);
+
         return figure;
     }
 

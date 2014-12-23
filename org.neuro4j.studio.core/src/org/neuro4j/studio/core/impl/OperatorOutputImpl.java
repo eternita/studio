@@ -422,6 +422,10 @@ public class OperatorOutputImpl extends NodeImpl implements OperatorOutput {
 
     @Override
     public Routing getRouting() {
+        if (routing == null)
+        {
+            return Routing.RECTILINEAR_LITERAL;
+        }
         return routing;
     }
 

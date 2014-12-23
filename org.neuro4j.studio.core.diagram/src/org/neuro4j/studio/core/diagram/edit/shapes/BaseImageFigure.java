@@ -24,7 +24,11 @@ import org.eclipse.swt.graphics.Image;
 
 public class BaseImageFigure extends ImageFigure {
 
+    
+    static final int ELLIPSE_SIZE = 8;
+    
     Color borderColor = ColorConstants.white;
+    public static final Color ellipseBGColor = new Color(ColorConstants.white.getDevice(), 161, 196, 224);
 
     public BaseImageFigure(Image defaultImage, int i) {
         super(defaultImage, 2);
@@ -39,16 +43,13 @@ public class BaseImageFigure extends ImageFigure {
     public void paintBorder(Graphics graphics) {
 
         graphics.setForegroundColor(borderColor);
-        // if( extern){
-        // graphics.setLineDash(dashes);
-        // }
         graphics.setLineWidth(1);
 
         graphics.drawRectangle(this.getBounds().x,
                 this.getBounds().y,
                 this.getBounds().width - 1,
                 this.getBounds().height - 1);
-        // draw line separator
+
         Rectangle rect = getBounds();
 
         graphics.drawLine(rect.x,
@@ -56,15 +57,7 @@ public class BaseImageFigure extends ImageFigure {
                 this.getBounds().x + rect.width - 1,
                 this.getBounds().y + rect.height);
 
-        // if (isNameUnderlined) {
-        // graphics.setForegroundColor(ColorConstants.black);
-        // Rectangle rectLabel = getNameLabel().getBounds();
-        // Dimension labelSize=FigureUtilities.getTextExtents(getNameLabel().getText(), getNameLabel().getFont());
-        // graphics.drawLine(this.getBounds().x+rectLabel.width/2-labelSize.width/2,
-        // this.getBounds().y+rectLabel.height-2,
-        // this.getBounds().x+rectLabel.width/2+labelSize.width/2,
-        // this.getBounds().y+rectLabel.height-2);
-        // }
+
     }
 
     public void setBorderColor(Color borderColor) {

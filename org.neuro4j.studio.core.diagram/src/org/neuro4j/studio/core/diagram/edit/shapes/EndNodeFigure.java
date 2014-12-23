@@ -16,6 +16,8 @@
 package org.neuro4j.studio.core.diagram.edit.shapes;
 
 import org.eclipse.draw2d.BorderLayout;
+import org.eclipse.draw2d.Ellipse;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.swt.graphics.Image;
 import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
@@ -25,18 +27,19 @@ import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
  */
 public class EndNodeFigure extends BaseImageFigure {
 
+    
     public static final Image DEFAULT_IMAGE = Neuro4jDiagramEditorPlugin.imageDescriptorFromPlugin(Neuro4jDiagramEditorPlugin.ID, "icons/images/EndNode.png").createImage();
 
-    /**
-     * @generated
-     */
-    private WrappingLabel fFigureEndNodeModeFigure;
+
 
     /**
      * @generated
      */
     private WrappingLabel fFigureEndNodeNameLabel;
 
+    
+    private Ellipse input;
+    
     /**
      * @generated
      */
@@ -53,24 +56,27 @@ public class EndNodeFigure extends BaseImageFigure {
      */
     private void createContents() {
 
-        fFigureEndNodeModeFigure = new WrappingLabel();
-
-        fFigureEndNodeModeFigure.setText("<...>");
 
         fFigureEndNodeNameLabel = new WrappingLabel();
 
-        fFigureEndNodeNameLabel.setText("End");
-
         this.add(fFigureEndNodeNameLabel, BorderLayout.TOP);
 
+        
+        input = new Ellipse();
+        input.setFill(true);
+        input.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
+        input.setBackgroundColor(ellipseBGColor);
+        this.add(input);
+        
+    }
+    
+    
+
+    public Ellipse getInputEllipse() {
+        return input;
     }
 
-    /**
-     * @generated
-     */
-    public WrappingLabel getFigureEndNodeModeFigure() {
-        return fFigureEndNodeModeFigure;
-    }
+
 
     /**
      * @generated

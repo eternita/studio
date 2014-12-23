@@ -25,7 +25,9 @@ import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
+import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -138,6 +140,11 @@ public class EndNodeEditPart extends NodeBaseEditPart {
         if (childEditPart instanceof EndNodeNameEditPart) {
             ((EndNodeNameEditPart) childEditPart).setLabel(getPrimaryShape()
                     .getFigureEndNodeNameLabel());
+
+            IFigure pane = getNodeFigure();
+
+            IFigure f1 = getPrimaryShape().getInputEllipse();
+            pane.add(f1, new Rectangle(21, 5, 8, 8));
             return true;
         }
         return false;
@@ -186,9 +193,9 @@ public class EndNodeEditPart extends NodeBaseEditPart {
     protected NodeFigure createNodePlate() {
         HashMap<String, PrecisionPoint> anchorLocations = new HashMap<String, PrecisionPoint>();
 
-        anchorLocations.put("NORTH", new PrecisionPoint(0.5d, 0));
+        anchorLocations.put("NORTH", new PrecisionPoint(0.17d, 0));
 
-        DefaultSizeNodeFigureWithFixedAnchors result = new DefaultSizeNodeFigureWithFixedAnchors(80, 40, anchorLocations);
+        DefaultSizeNodeFigureWithFixedAnchors result = new DefaultSizeNodeFigureWithFixedAnchors(50, 70, anchorLocations);
         return result;
     }
 
@@ -202,7 +209,7 @@ public class EndNodeEditPart extends NodeBaseEditPart {
      */
     protected NodeFigure createNodeFigure() {
         NodeFigure figure = createNodePlate();
-        figure.setLayoutManager(new BorderLayout());
+        figure.setLayoutManager(new XYLayout());
         IFigure shape = createNodeShape();
         WrappingLabel label = ((org.neuro4j.studio.core.diagram.edit.shapes.EndNodeFigure) primaryShape)
                 .getFigureEndNodeNameLabel();
@@ -216,9 +223,9 @@ public class EndNodeEditPart extends NodeBaseEditPart {
         addDebugFigure(panel);
         registerStopFigure((BaseImageFigure) primaryShape);
 
-        figure.add(panel, BorderLayout.TOP);
-        figure.add(shape, BorderLayout.CENTER);
-        figure.add(label, BorderLayout.BOTTOM);
+        figure.add(panel, new Rectangle(5, 5, 5, 5));
+        figure.add(shape, new Rectangle(0, 13, 50, 50));
+        figure.add(label,  new Rectangle(0, 69, 150, 20));
         contentPane = setupContentPane(shape);
         return figure;
     }

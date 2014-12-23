@@ -30,7 +30,9 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
+import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -163,14 +165,15 @@ public class StartNodeEditPart extends NodeBaseEditPart {
             ((StartNodeNameEditPart) childEditPart).setLabel(l);
             return true;
         }
-        if (childEditPart instanceof StartNodeStartNodeMainOutputCompartmentEditPart) {
-            IFigure pane = getPrimaryShape().getFigureStartNodeMainOutput();
 
-            setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
-            pane.add(((StartNodeStartNodeMainOutputCompartmentEditPart) childEditPart)
-                    .getFigure());
+        if (childEditPart instanceof StartNodeStartNodeMainOutputCompartmentEditPart) {
+            IFigure pane = getNodeFigure();
+
+            IFigure f1 = getPrimaryShape().getFigureStartNodeMainOutput();
+            pane.add(f1, new Rectangle(21, 63, 8, 8));
             return true;
         }
+
         return false;
     }
 
@@ -228,8 +231,8 @@ public class StartNodeEditPart extends NodeBaseEditPart {
         HashMap<String, PrecisionPoint> anchorLocations = new HashMap<String, PrecisionPoint>();
         // The anchor's location is a little bit on the right in order to be sure
         // that the edges will be horizontally oriented
-        anchorLocations.put("SOUTH", new PrecisionPoint(0.5d, 1d));
-        DefaultSizeNodeFigureWithFixedAnchors result = new DefaultSizeNodeFigureWithFixedAnchors(80, 60, anchorLocations);
+        anchorLocations.put("SOUTH", new PrecisionPoint(0.17d, 1d));
+        DefaultSizeNodeFigureWithFixedAnchors result = new DefaultSizeNodeFigureWithFixedAnchors(50, 70, anchorLocations);
         ShapeImpl shape = (ShapeImpl) getModel();
         StartNodeImpl node = (StartNodeImpl) shape.getElement();
         if ("PRIVATE".equals(node.getType()))
@@ -251,7 +254,7 @@ public class StartNodeEditPart extends NodeBaseEditPart {
     	 IFigure shape = createNodeShape();
         NodeFigure figure = createNodePlate();
 
-        figure.setLayoutManager(new BorderLayout());
+        figure.setLayoutManager(new XYLayout());
        
         WrappingLabel label = ((org.neuro4j.studio.core.diagram.edit.shapes.StartNodeFigure) primaryShape)
                 .getFigureStartNodeNameLabel();
@@ -259,18 +262,18 @@ public class StartNodeEditPart extends NodeBaseEditPart {
         org.eclipse.draw2d.Panel panel = new org.eclipse.draw2d.Panel();
         panel.setLayoutManager(new FlowLayout(true));
         // panel.setSize(40, 50);
-        panel.add(label, FlowLayout.ALIGN_CENTER);
+       
         // panel.setBackgroundColor(ColorConstants.red);
         panel.setVisible(true);
 
         addDebugFigure(panel);
         registerStopFigure((BaseImageFigure) primaryShape);
 
-        label.setTextJustification(PositionConstants.CENTER);
-        label.setTextAlignment(PositionConstants.RIGHT);
-        figure.add(panel, BorderLayout.TOP);
-        figure.add(shape, BorderLayout.BOTTOM);
-
+        figure.add(panel, new Rectangle(5, 5, 5, 5));
+        figure.add(shape, new Rectangle(0, 13, 50, 50));
+        figure.add(label,  new Rectangle(0, 0, 150, 20));
+      
+        
         contentPane = setupContentPane(shape);
         return figure;
     }

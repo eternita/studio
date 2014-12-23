@@ -25,6 +25,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
 import org.eclipse.gef.EditPart;
@@ -42,21 +43,23 @@ import org.neuro4j.studio.core.diagram.edit.shapes.FixedConnectionAnchor;
  */
 public class NorthEastSouthWestFixedAnchors extends NorthEastSouthFixedAnchors {
 
-    static {
 
-        anchorLocations.put("WEST", new PrecisionPoint(0, 0.5d));
 
+    public NorthEastSouthWestFixedAnchors(int i, int j, ActionNode action, HashMap<String, PrecisionPoint> locations) {
+        super(new Dimension(i, j), locations);
+        this.action = action;
     }
 
-    public NorthEastSouthWestFixedAnchors(int i, int j,
-            ActionNode action) {
-        super(i, j, action);
-    }
 
     public ConnectionAnchor getSourceConnectionAnchorAt(Point p, String connectionName) {
 
         if (p == null)
         {
+            if (connectionName == null)
+            {
+                return getDefaultSourceAnchor();
+            }
+            
             if (connectionName.equals("NEXT"))
             {
                 return anchors.get("EAST");
@@ -67,29 +70,20 @@ public class NorthEastSouthWestFixedAnchors extends NorthEastSouthFixedAnchors {
             }
         }
 
-        int x = getBounds().x;
-        int y = getBounds().y;
-        int dx = p.x - x;
-        int dy = p.y - y;
-        if (dx > getBounds().width / 2)
-        { // EAST
-            if (dy > getBounds().height / 4 && dy < (getBounds().height - 7))
-            {
-                return getConnectionAnchor("EAST");
-            } else if (dy > (getBounds().height - 7)) {
-                return getConnectionAnchor("SOUTH");
+        double minDistance = Double.MAX_VALUE;
+        String nearestTerminal = null;
+
+        for (String terminal : new String[] { "SOUTH", "EAST" }) {
+
+            FixedConnectionAnchor anchor = anchors.get(terminal);
+            Point anchorPosition = anchor.getLocation();
+            double distance = p.getDistance(anchorPosition);
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestTerminal = terminal;
             }
-        } else
-        {
-            if (dy > getBounds().height / 2)
-                return getConnectionAnchor("SOUTH");
-
         }
-        // System.out.println(p);
-        return getConnectionAnchor("SOUTH");
-
-        // String terminal = getNextFreeTerminal(connectionName);
-        // return getConnectionAnchor(terminal);
+        return anchors.get(nearestTerminal);
 
     }
 
@@ -181,9 +175,7 @@ public class NorthEastSouthWestFixedAnchors extends NorthEastSouthFixedAnchors {
 
     }
 
-    // public String getNextFreeTargetTerminal(String connectionName) {
-    // return action.getFreeInputTerminal(connectionName);
-    // }
+
 
     private boolean hasCiclumConnection(OperatorOutput output, EditPart editPart)
     {
@@ -200,27 +192,7 @@ public class NorthEastSouthWestFixedAnchors extends NorthEastSouthFixedAnchors {
 
     }
 
-    // private void processCicle(List<OperatorOutput> outputs, ActionNode original, ActionNode loopNode, StringBuffer
-    // hasCicle){
-    //
-    // for(OperatorOutput output: outputs)
-    // {
-    // ActionNode target = output.getTarget();
-    // if (target.equals(original))
-    // {
-    // hasCicle.append(Boolean.TRUE);
-    // return;
-    // } else if (loopNode.equals(target)){
-    // hasCicle.append(Boolean.FALSE);
-    // return;
-    // }else
-    // {
-    // processCicle(target.getOutput(), original, loopNode, hasCicle);
-    // }
-    // }
-    //
-    // //return false;
-    // }
+
 
     private List<Node> getDirections(ActionNode sourceNode, ActionNode destinationNode) {
         // Initialization.

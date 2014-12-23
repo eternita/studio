@@ -16,7 +16,10 @@
 package org.neuro4j.studio.core.diagram.edit.shapes;
 
 import org.eclipse.draw2d.BorderLayout;
+import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.FlowLayout;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.swt.graphics.Image;
 import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
@@ -33,7 +36,7 @@ public class ViewNodeFigure extends BaseImageFigure {
      */
     private WrappingLabel fFigureViewNodeViewNameFigure;
 
-    // private GeoShapeDiamondFigure fFigureEndNodeMainInput;
+    private Ellipse input;
 
     /**
      * @generated
@@ -41,13 +44,7 @@ public class ViewNodeFigure extends BaseImageFigure {
     public ViewNodeFigure() {
         super(DEFAULT_IMAGE, 0);
         FlowLayout layoutThis = new FlowLayout();
-        layoutThis.setStretchMinorAxis(false);
-        layoutThis.setMinorAlignment(FlowLayout.ALIGN_LEFTTOP);
 
-        layoutThis.setMajorAlignment(FlowLayout.ALIGN_LEFTTOP);
-        layoutThis.setMajorSpacing(5);
-        layoutThis.setMinorSpacing(5);
-        layoutThis.setHorizontal(true);
 
         this.setLayoutManager(layoutThis);
 
@@ -58,20 +55,15 @@ public class ViewNodeFigure extends BaseImageFigure {
      * @generated
      */
     private void createContents() {
-        // this.getSize()
-
-        // fFigureEndNodeMainInput = new InputEdgeShape(10,10,10);
-        //
-        // fFigureEndNodeMainInput.setSize(10, 10);
-        // // Rectangle bounds = fFigureEndNodeMainInput.getBounds();
-        // // bounds.y += 30;
-        // // fFigureEndNodeMainInput.setBounds(bounds);
-        // fFigureEndNodeMainInput.setBackgroundColor(ColorConstants.yellow);
-        // // fFigureEndNodeMainInput.setLayoutManager(new XYLayout());
-        // this.add(fFigureEndNodeMainInput);
+        
+        input = new Ellipse();
+        input.setFill(true);
+        input.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
+        input.setBackgroundColor(ellipseBGColor);
+        this.add(input);
+        
         fFigureViewNodeViewNameFigure = new WrappingLabel();
-
-        fFigureViewNodeViewNameFigure.setText("<..>");
+      
 
         this.add(fFigureViewNodeViewNameFigure, BorderLayout.BOTTOM);
 
@@ -82,6 +74,10 @@ public class ViewNodeFigure extends BaseImageFigure {
      */
     public WrappingLabel getFigureViewNodeViewNameFigure() {
         return fFigureViewNodeViewNameFigure;
+    }
+
+    public IFigure getInputEllipse() {
+        return input;
     }
 
 }

@@ -151,8 +151,6 @@ public class StandardNodeImpl extends JoinNodeImpl implements StandardNode {
     @Override
     public void setBGColor(Color lightgray) {
 
-        System.out.println();
-
     }
 
     /**

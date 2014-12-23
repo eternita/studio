@@ -16,6 +16,7 @@
 package org.neuro4j.studio.core.diagram.edit.parts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +28,10 @@ import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
+import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PrecisionPoint;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -159,32 +163,30 @@ public class LoopNodeEditPart extends NodeBaseEditPart {
                     .getFigureLoopNodeLabel());
             return true;
         }
+        IFigure pane = getNodeFigure();
         if (childEditPart instanceof LoopNodeLoopNodeLoopInputCompartmentEditPart) {
-            IFigure pane = getPrimaryShape().getFigureLoopNodeLoopInput();
-            setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
-            pane.add(((LoopNodeLoopNodeLoopInputCompartmentEditPart) childEditPart)
-                    .getFigure());
+           
+            IFigure f1 = getPrimaryShape().getFigureLoopNodeLoopInput();
+            pane.add(f1, new Rectangle(3, 31, 8, 8));
             return true;
+
         }
         if (childEditPart instanceof LoopNodeLoopNodeMainInputCompartmentEditPart) {
-            IFigure pane = getPrimaryShape().getFigureLoopNodeMainInput();
-            setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
-            pane.add(((LoopNodeLoopNodeMainInputCompartmentEditPart) childEditPart)
-                    .getFigure());
+        //    IFigure pane = getPrimaryShape().getFigureLoopNodeMainInput();
+            IFigure f1 = getPrimaryShape().getFigureLoopNodeMainInput();
+            pane.add(f1, new Rectangle(31, 3, 8, 8));
             return true;
         }
         if (childEditPart instanceof LoopNodeLogicNodeMainOutputCompartmentEditPart) {
-            IFigure pane = getPrimaryShape().getFigureLoopNodeLoopOuptut();
-            setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
-            pane.add(((LoopNodeLogicNodeMainOutputCompartmentEditPart) childEditPart)
-                    .getFigure());
+
+            IFigure f1 = getPrimaryShape().getFigureLoopNodeLoopOuptut();
+            pane.add(f1, new Rectangle(60, 31, 8, 8));
             return true;
         }
         if (childEditPart instanceof LoopNodeLoopNodeLoopOutputCompartmentEditPart) {
-            IFigure pane = getPrimaryShape().getFigureLoopNodeMainOutput();
-            setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
-            pane.add(((LoopNodeLoopNodeLoopOutputCompartmentEditPart) childEditPart)
-                    .getFigure());
+
+            IFigure f1 = getPrimaryShape().getFigureLoopNodeMainOutput();
+            pane.add(f1, new Rectangle(31, 60, 8, 8));
             return true;
         }
         return false;
@@ -317,7 +319,15 @@ public class LoopNodeEditPart extends NodeBaseEditPart {
     protected NodeFigure createNodePlate() {
         ShapeImpl shape = (ShapeImpl) getModel();
         LoopNodeImpl node = (LoopNodeImpl) shape.getElement();
-        DefaultSizeNodeFigureWithFixedAnchors result = new NorthEastSouthWestFixedAnchors(40, 40, node);
+
+        HashMap<String, PrecisionPoint> locations = new HashMap<String, PrecisionPoint>(4);
+
+        locations.put("WEST", new PrecisionPoint(0, 0.5d));
+        locations.put("NORTH", new PrecisionPoint(0.17d, 0));
+        locations.put("SOUTH", new PrecisionPoint(0.17d, 1d));
+        locations.put("EAST", new PrecisionPoint(0.35d, 0.5d));
+
+        DefaultSizeNodeFigureWithFixedAnchors result = new NorthEastSouthWestFixedAnchors(70, 70, node, locations);
         return result;
     }
 
@@ -331,17 +341,20 @@ public class LoopNodeEditPart extends NodeBaseEditPart {
      */
     protected NodeFigure createNodeFigure() {
         NodeFigure figure = createNodePlate();
-        figure.setLayoutManager(new BorderLayout());
+        figure.setLayoutManager(new XYLayout());
         org.neuro4j.studio.core.diagram.edit.shapes.LoopNodeFigure shape = (org.neuro4j.studio.core.diagram.edit.shapes.LoopNodeFigure) createNodeShape();
         org.eclipse.draw2d.Panel panel = new org.eclipse.draw2d.Panel();
         panel.setLayoutManager(new FlowLayout(true));
-        panel.setVisible(true);
 
         addDebugFigure(panel);
+
         registerStopFigure((BaseImageFigure) primaryShape);
-        figure.add(shape, BorderLayout.BOTTOM);
-        figure.add(shape.getFigureLoopNodeLabel(), BorderLayout.CENTER);
-        figure.add(panel, BorderLayout.TOP);
+
+        figure.add(panel, new Rectangle(5, 5, 5, 5));
+        figure.add(shape, new Rectangle(10, 10, 50, 50));
+
+        figure.add(shape.getFigureLoopNodeLabel(), new Rectangle(55, 7, 150, 25));
+
         contentPane = setupContentPane(shape);
         return figure;
     }

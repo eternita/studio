@@ -79,9 +79,9 @@ public class LogicNodeLogicNodeMainInputEditPart extends
      * @generated
      */
     protected void setRatio(Double ratio) {
-        if (getFigure().getParent().getLayoutManager() instanceof ConstrainedToolbarLayout) {
-            super.setRatio(ratio);
-        }
+//        if (getFigure().getParent().getLayoutManager() instanceof ConstrainedToolbarLayout) {
+//            super.setRatio(ratio);
+//        }
     }
 
 }

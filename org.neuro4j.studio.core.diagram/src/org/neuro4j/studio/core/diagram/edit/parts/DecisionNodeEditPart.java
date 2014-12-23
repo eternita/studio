@@ -16,6 +16,7 @@
 package org.neuro4j.studio.core.diagram.edit.parts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,7 +26,10 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Shape;
+import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PrecisionPoint;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -48,6 +52,7 @@ import org.eclipse.gmf.runtime.notation.impl.ConnectorImpl;
 import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
 import org.eclipse.gmf.tooling.runtime.edit.policies.reparent.CreationEditPolicyWithCustomReparent;
 import org.eclipse.swt.graphics.Color;
+import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.diagram.edit.policies.DecisionNodeItemSemanticEditPolicy;
 import org.neuro4j.studio.core.diagram.edit.policies.MyGraphicalNodeEditPolicy;
 import org.neuro4j.studio.core.diagram.edit.shapes.BaseImageFigure;
@@ -154,25 +159,47 @@ public class DecisionNodeEditPart extends NodeBaseEditPart {
                     .setLabel(getPrimaryShape().getFigureDecisionNodeLabel());
             return true;
         }
+//        if (childEditPart instanceof DecisionNodeDecisionNodeMainInputEditPart) {
+//            IFigure pane = getPrimaryShape().getFigureDecisionNodeMainInput();
+//            setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
+//            pane.add(((DecisionNodeDecisionNodeMainInputEditPart) childEditPart)
+//                    .getFigure());
+//            return true;
+//        }
+//        if (childEditPart instanceof DecisionNodeDecisionNodeFalseOutputCompartmentEditPart) {
+//            IFigure pane = getPrimaryShape().getFigureDecisionNodeFalseOutput();
+//            setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
+//            pane.add(((DecisionNodeDecisionNodeFalseOutputCompartmentEditPart) childEditPart)
+//                    .getFigure());
+//            return true;
+//        }
+//        if (childEditPart instanceof DecisionNodeDecisionNodeTrueOutputCompartmentEditPart) {
+//            IFigure pane = getPrimaryShape().getFigureDecisionNodeTrueOutput();
+//            setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
+//            pane.add(((DecisionNodeDecisionNodeTrueOutputCompartmentEditPart) childEditPart)
+//                    .getFigure());
+//            return true;
+//        }
         if (childEditPart instanceof DecisionNodeDecisionNodeMainInputEditPart) {
-            IFigure pane = getPrimaryShape().getFigureDecisionNodeMainInput();
-            setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
-            pane.add(((DecisionNodeDecisionNodeMainInputEditPart) childEditPart)
-                    .getFigure());
+            IFigure pane = getNodeFigure();
+
+            IFigure f1 = getPrimaryShape().getFigureDecisionNodeMainInput();
+            pane.add(f1, new Rectangle(30, 3, 8, 8));
+            return true;
+        }
+
+        if (childEditPart instanceof DecisionNodeDecisionNodeTrueOutputCompartmentEditPart) {
+            IFigure pane = getNodeFigure();
+
+            IFigure f1 = getPrimaryShape().getFigureDecisionNodeTrueOutput();
+            pane.add(f1, new Rectangle(30, 60, 8, 8));
             return true;
         }
         if (childEditPart instanceof DecisionNodeDecisionNodeFalseOutputCompartmentEditPart) {
-            IFigure pane = getPrimaryShape().getFigureDecisionNodeFalseOutput();
-            setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
-            pane.add(((DecisionNodeDecisionNodeFalseOutputCompartmentEditPart) childEditPart)
-                    .getFigure());
-            return true;
-        }
-        if (childEditPart instanceof DecisionNodeDecisionNodeTrueOutputCompartmentEditPart) {
-            IFigure pane = getPrimaryShape().getFigureDecisionNodeTrueOutput();
-            setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
-            pane.add(((DecisionNodeDecisionNodeTrueOutputCompartmentEditPart) childEditPart)
-                    .getFigure());
+            IFigure pane = getNodeFigure();
+
+            IFigure f1 = getPrimaryShape().getFigureDecisionNodeFalseOutput();
+            pane.add(f1, new Rectangle(59, 31, 8, 8));
             return true;
         }
         return false;
@@ -185,24 +212,27 @@ public class DecisionNodeEditPart extends NodeBaseEditPart {
         if (childEditPart instanceof DecisionNodeCompKeyOperatorDecisionEditPart) {
             return true;
         }
-        if (childEditPart instanceof DecisionNodeDecisionNodeMainInputEditPart) {
-            IFigure pane = getPrimaryShape().getFigureDecisionNodeMainInput();
-            pane.remove(((DecisionNodeDecisionNodeMainInputEditPart) childEditPart)
-                    .getFigure());
-            return true;
-        }
-        if (childEditPart instanceof DecisionNodeDecisionNodeFalseOutputCompartmentEditPart) {
-            IFigure pane = getPrimaryShape().getFigureDecisionNodeFalseOutput();
-            pane.remove(((DecisionNodeDecisionNodeFalseOutputCompartmentEditPart) childEditPart)
-                    .getFigure());
-            return true;
-        }
-        if (childEditPart instanceof DecisionNodeDecisionNodeTrueOutputCompartmentEditPart) {
-            IFigure pane = getPrimaryShape().getFigureDecisionNodeTrueOutput();
-            pane.remove(((DecisionNodeDecisionNodeTrueOutputCompartmentEditPart) childEditPart)
-                    .getFigure());
-            return true;
-        }
+//        if (childEditPart instanceof DecisionNodeDecisionNodeMainInputEditPart) {
+//            IFigure pane = getPrimaryShape().getFigureDecisionNodeMainInput();
+//            pane.remove(((DecisionNodeDecisionNodeMainInputEditPart) childEditPart)
+//                    .getFigure());
+//            return true;
+//        }
+//        if (childEditPart instanceof DecisionNodeDecisionNodeFalseOutputCompartmentEditPart) {
+//            IFigure pane = getPrimaryShape().getFigureDecisionNodeFalseOutput();
+//            pane.remove(((DecisionNodeDecisionNodeFalseOutputCompartmentEditPart) childEditPart)
+//                    .getFigure());
+//            return true;
+//        }
+//        if (childEditPart instanceof DecisionNodeDecisionNodeTrueOutputCompartmentEditPart) {
+//            IFigure pane = getPrimaryShape().getFigureDecisionNodeTrueOutput();
+//            pane.remove(((DecisionNodeDecisionNodeTrueOutputCompartmentEditPart) childEditPart)
+//                    .getFigure());
+//            return true;
+//        }
+//        
+
+        
         return false;
     }
 
@@ -248,7 +278,12 @@ public class DecisionNodeEditPart extends NodeBaseEditPart {
     protected NodeFigure createNodePlate() {
         ShapeImpl shape = (ShapeImpl) getModel();
         DecisionNodeImpl node = (DecisionNodeImpl) shape.getElement();
-        DefaultSizeNodeFigureWithFixedAnchors result = new NorthEastSouthFixedAnchors(40, 40, node);
+        HashMap<String, PrecisionPoint> anchorLocations = new HashMap<String, PrecisionPoint>();
+
+        anchorLocations.put("NORTH", new PrecisionPoint(0.155d, 0));
+        anchorLocations.put("SOUTH", new PrecisionPoint(0.155d, 1d));
+        anchorLocations.put("EAST", new PrecisionPoint(0.31d, 0.5d));
+        DefaultSizeNodeFigureWithFixedAnchors result = new NorthEastSouthFixedAnchors(70, 70, node, anchorLocations);
         return result;
     }
 
@@ -283,16 +318,23 @@ public class DecisionNodeEditPart extends NodeBaseEditPart {
      */
     protected NodeFigure createNodeFigure() {
         NodeFigure figure = createNodePlate();
-        figure.setLayoutManager(new BorderLayout());
+        figure.setLayoutManager(new XYLayout());
         org.neuro4j.studio.core.diagram.edit.shapes.DecisionNodeFigure shape = (org.neuro4j.studio.core.diagram.edit.shapes.DecisionNodeFigure) createNodeShape();
 
         org.eclipse.draw2d.Panel panel = new org.eclipse.draw2d.Panel();
         panel.setLayoutManager(new FlowLayout(true));
+
+
         addDebugFigure(panel);
+
         registerStopFigure((BaseImageFigure) primaryShape);
-        figure.add(shape, BorderLayout.BOTTOM);
-        figure.add(shape.getFigureDecisionNodeLabel(), BorderLayout.CENTER);
-        figure.add(panel, BorderLayout.TOP);
+
+        figure.add(panel, new Rectangle(5, 5, 5, 5));
+        figure.add(shape, new Rectangle(9, 10, 50, 50));
+
+        
+        figure.add(shape.getFigureDecisionNodeLabel(), new Rectangle(65,6, 150, 25));
+        
         contentPane = setupContentPane(shape);
         return figure;
     }

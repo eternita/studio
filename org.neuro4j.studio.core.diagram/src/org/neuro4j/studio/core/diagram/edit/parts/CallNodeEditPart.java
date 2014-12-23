@@ -16,6 +16,7 @@
 package org.neuro4j.studio.core.diagram.edit.parts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,7 +27,10 @@ import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
+import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PrecisionPoint;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -135,8 +139,17 @@ public class CallNodeEditPart extends NodeBaseEditPart {
             ((CallNodeDynamicFlowNameFlowNameEditPart) childEditPart)
                     .setLabel(getPrimaryShape()
                             .getFigureCallNodeFlowNameFigure());
+
+            IFigure pane = getNodeFigure();
+
+            IFigure f1 = getPrimaryShape().getFigureCallNodeMainInput();
+            pane.add(f1, new Rectangle(31, 3, 8, 8));
+
+            f1 = getPrimaryShape().getFigureCallNodeMainOutput();
+            pane.add(f1, new Rectangle(31, 60, 8, 8));
             return true;
         }
+
         return false;
     }
 
@@ -181,7 +194,11 @@ public class CallNodeEditPart extends NodeBaseEditPart {
      * @generated
      */
     protected NodeFigure createNodePlate() {
-        DefaultSizeNodeFigureWithFixedAnchors result = new NorthSouthFixedAnchors(80, 60);
+        HashMap<String, PrecisionPoint> anchorLocations = new HashMap<String, PrecisionPoint>();
+
+        anchorLocations.put("NORTH", new PrecisionPoint(0.155d, 0));
+        anchorLocations.put("SOUTH", new PrecisionPoint(0.155d, 1d));
+        DefaultSizeNodeFigureWithFixedAnchors result = new NorthSouthFixedAnchors(70, 70, anchorLocations);
         return result;
     }
 
@@ -213,7 +230,7 @@ public class CallNodeEditPart extends NodeBaseEditPart {
      */
     protected NodeFigure createNodeFigure() {
         NodeFigure figure = createNodePlate();
-        figure.setLayoutManager(new BorderLayout());
+        figure.setLayoutManager(new XYLayout());
         org.neuro4j.studio.core.diagram.edit.shapes.CallNodeFigure shape = (org.neuro4j.studio.core.diagram.edit.shapes.CallNodeFigure) createNodeShape();
 
         // figure.add(shape.getFigureCallNodeFlowNameFigure());
@@ -223,18 +240,15 @@ public class CallNodeEditPart extends NodeBaseEditPart {
         org.eclipse.draw2d.Panel panel = new org.eclipse.draw2d.Panel();
         panel.setLayoutManager(new FlowLayout(true));
 
-        // panel.setSize(40, 50);
-        // panel.add(label, FlowLayout.ALIGN_CENTER);
-        // panel.setBackgroundColor(ColorConstants.red);
-        // panel.setVisible(true);
-
         addDebugFigure(panel);
 
         registerStopFigure((BaseImageFigure) primaryShape);
 
-        figure.add(panel, BorderLayout.TOP);
-        figure.add(label, BorderLayout.CENTER);
-        figure.add(shape, BorderLayout.BOTTOM);
+        figure.add(panel, new Rectangle(5, 5, 5, 5));
+        figure.add(shape, new Rectangle(10, 10, 50, 50));
+
+        figure.add(label, new Rectangle(75, 10, 150, 25));
+        
         contentPane = setupContentPane(shape);
 
         return figure;

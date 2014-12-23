@@ -81,9 +81,7 @@ public class StartNodeStartNodeMainOutputCompartmentEditPart extends
      * @generated
      */
     protected void setRatio(Double ratio) {
-        if (getFigure().getParent().getLayoutManager() instanceof ConstrainedToolbarLayout) {
-            super.setRatio(ratio);
-        }
+
     }
 
 }

@@ -20,6 +20,8 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.neuro4j.studio.core.ActionNode;
+import org.neuro4j.studio.core.diagram.edit.shapes.anchors.NorthEastSouthFixedAnchors;
 
 public class FixedConnectionAnchor extends AbstractConnectionAnchor {
 
@@ -44,6 +46,7 @@ public class FixedConnectionAnchor extends AbstractConnectionAnchor {
 
     public Point getLocation() {
         Rectangle r = getOwner().getBounds();
+
         Point p = new PrecisionPoint(r.x + r.width * xOffset, r.y + r.height * yOffset);
         getOwner().translateToAbsolute(p);
         return p;
@@ -56,5 +59,17 @@ public class FixedConnectionAnchor extends AbstractConnectionAnchor {
     public void setType(String type) {
         this.type = type;
     }
+    
+    
+     public Point getReferencePoint() {
+         if (getOwner() == null)
+             return null;
+         else {
+             Point ref = getOwner().getBounds().getCenter();
+
+             getOwner().translateToAbsolute(ref);
+             return ref;
+         }
+     }
 
 }

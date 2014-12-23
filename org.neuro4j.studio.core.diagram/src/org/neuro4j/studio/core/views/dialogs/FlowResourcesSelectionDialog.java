@@ -1273,7 +1273,6 @@ public class FlowResourcesSelectionDialog extends FilteredItemsSelectionDialog {
          * @see org.eclipse.ui.dialogs.FilteredItemsSelectionDialog.ItemsFilter#matchItem(java.lang.Object)
          */
         public boolean matchItem(Object item) {
-            // System.out.println(item.toString());
             if (!(item instanceof IResource)) {
                 return false;
             }

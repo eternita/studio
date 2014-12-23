@@ -16,6 +16,7 @@
 package org.neuro4j.studio.core.diagram.edit.parts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PrecisionPoint;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -257,8 +259,12 @@ public class JoinNodeEditPart extends NodeBaseEditPart {
      * @generated NOT
      */
     protected NodeFigure createNodePlate() {
-
-        NorthEastWestFixedAnchors result = new NorthEastWestFixedAnchors(30, 30);
+        HashMap<String, PrecisionPoint> anchorLocations = new HashMap<String, PrecisionPoint>();
+        anchorLocations.put("NORTH", new PrecisionPoint(0.5d, 0));
+        anchorLocations.put("SOUTH", new PrecisionPoint(0.5d, 1d));
+        anchorLocations.put("EAST", new PrecisionPoint(1d, 0.5d));
+        anchorLocations.put("WEST", new PrecisionPoint(0, 0.5d));
+        NorthEastWestFixedAnchors result = new NorthEastWestFixedAnchors(30, 30, anchorLocations);
         return result;
     }
 
@@ -442,7 +448,7 @@ public class JoinNodeEditPart extends NodeBaseEditPart {
             types.add(Neuro4jElementTypes.OperatorOutput_3012);
             types.add(Neuro4jElementTypes.OperatorOutput_3013);
         } else if (relationshipType == Neuro4jElementTypes.OperatorOutput_4008) {
-            types.add(Neuro4jElementTypes.OperatorOutput_4008);
+          //  types.add(Neuro4jElementTypes.OperatorOutput_4008);
             types.add(Neuro4jElementTypes.DecisionNode_2007);
             types.add(Neuro4jElementTypes.FollowByRelationNode_2011);
             types.add(Neuro4jElementTypes.LoopNode_2006);
@@ -546,47 +552,5 @@ public class JoinNodeEditPart extends NodeBaseEditPart {
 
     }
 
-    // /**
-    // * @generated
-    // */
-    // public class JoinNodeFigure extends RectangleFigure {
-    //
-    // /**
-    // * @generated
-    // */
-    // private Ellipse fFigureJoinNodeMainOutput;
-    //
-    // private RoundedRectangle mainFigure;
-    //
-    // /**
-    // * @generated
-    // */
-    // public JoinNodeFigure() {
-    //
-    // BorderLayout layoutThis = new BorderLayout();
-    // this.setLayoutManager(layoutThis);
-    //
-    // createContents();
-    // }
-    //
-    // /**
-    // * @generated
-    // */
-    // private void createContents() {
-    //
-    // fFigureJoinNodeMainOutput = new Ellipse();
-    //
-    // this.add(fFigureJoinNodeMainOutput, BorderLayout.CENTER);
-    //
-    // }
-    //
-    // /**
-    // * @generated
-    // */
-    // public Ellipse getFigureJoinNodeMainOutput() {
-    // return fFigureJoinNodeMainOutput;
-    // }
-    //
-    // }
 
 }

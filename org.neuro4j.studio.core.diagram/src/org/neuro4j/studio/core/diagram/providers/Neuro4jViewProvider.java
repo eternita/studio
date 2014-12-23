@@ -638,8 +638,8 @@ public class Neuro4jViewProvider extends AbstractProvider implements
         node.setElement(domainElement);
         stampShortcut(containerView, node);
         // initializeFromPreferences
-        final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint
-                .getPreferenceStore();
+//        final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint
+//                .getPreferenceStore();
 
         // org.eclipse.swt.graphics.RGB lineRGB = PreferenceConverter.getColor(
         // prefStore, IPreferenceConstants.PREF_LINE_COLOR);
@@ -665,11 +665,11 @@ public class Neuro4jViewProvider extends AbstractProvider implements
         // ViewUtil.setStructuralFeatureValue(node,
         // NotationPackage.eINSTANCE.getFillStyle_FillColor(),
         // FigureUtilities.RGBToInteger(fillRGB));
-        createCompartment(
-                node,
-                Neuro4jVisualIDRegistry
-                        .getType(JoinNodeJoinNodeMainOutputCompartmentEditPart.VISUAL_ID),
-                false, true, true, true);
+//        createCompartment(
+//                node,
+//                Neuro4jVisualIDRegistry
+//                        .getType(JoinNodeJoinNodeMainOutputCompartmentEditPart.VISUAL_ID),
+//                false, true, true, true);
         return node;
     }
 
@@ -683,14 +683,14 @@ public class Neuro4jViewProvider extends AbstractProvider implements
         node.setElement(domainElement);
         stampShortcut(containerView, node);
         // initializeFromPreferences
-        final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint
-                .getPreferenceStore();
+//        final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint
+//                .getPreferenceStore();
 
-        createCompartment(
-                node,
-                Neuro4jVisualIDRegistry
-                        .getType(JoinNodeJoinNodeMainOutputCompartmentEditPart.VISUAL_ID),
-                false, true, true, true);
+//        createCompartment(
+//                node,
+//                Neuro4jVisualIDRegistry
+//                        .getType(JoinNodeJoinNodeMainOutputCompartmentEditPart.VISUAL_ID),
+//                false, true, true, true);
         return node;
     }
 
@@ -2041,6 +2041,16 @@ public class Neuro4jViewProvider extends AbstractProvider implements
                 node,
                 Neuro4jVisualIDRegistry
                         .getType(CallNodeDynamicFlowNameFlowNameEditPart.VISUAL_ID));
+//        createCompartment(
+//                node,
+//                Neuro4jVisualIDRegistry
+//                        .getType(CallNodeMainInputEditPart.VISUAL_ID),
+//                false, true, true, true);
+//        createCompartment(
+//                node,
+//                Neuro4jVisualIDRegistry
+//                        .getType(LogicNodeLogicNodeMainOutputCompartmentEditPart.VISUAL_ID),
+//                false, true, true, true);        
         return node;
     }
 

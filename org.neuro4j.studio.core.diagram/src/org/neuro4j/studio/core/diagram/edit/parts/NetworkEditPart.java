@@ -228,14 +228,12 @@ public class NetworkEditPart extends DiagramEditPart {
 
             @Override
             protected Command getDropCommand(ChangeBoundsRequest request) {
-                System.out.println("drop");
                 return super.getDropCommand(request);
             }
 
             @Override
             protected Command getDropElementCommand(EObject element,
                     DropObjectsRequest request) {
-                System.out.println("drop");
                 return super.getDropElementCommand(element, request);
             }
 

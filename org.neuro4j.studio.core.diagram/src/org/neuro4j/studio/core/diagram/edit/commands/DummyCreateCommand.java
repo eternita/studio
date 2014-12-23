@@ -68,8 +68,6 @@ public class DummyCreateCommand extends JoinNodeCreateCommand {
     protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
             IAdaptable info) throws ExecutionException {
 
-        System.out.println("dummy command");
-
         return CommandResult.newOKCommandResult();
     }
 

@@ -16,6 +16,7 @@
 package org.neuro4j.studio.core.diagram.edit.parts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +25,10 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Shape;
+import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PrecisionPoint;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -49,6 +53,7 @@ import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
 import org.eclipse.gmf.tooling.runtime.edit.policies.reparent.CreationEditPolicyWithCustomReparent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.diagram.edit.policies.LogicNodeItemSemanticEditPolicy;
 import org.neuro4j.studio.core.diagram.edit.policies.MyGraphicalNodeEditPolicy;
 import org.neuro4j.studio.core.diagram.edit.shapes.BaseImageFigure;
@@ -158,27 +163,49 @@ public class LogicNodeEditPart extends NodeBaseEditPart {
                     .getFigureLogicNodeNameFigure());
             return true;
         }
-        // if (childEditPart instanceof LogicNodeLogicNodeMainInputEditPart) {
-        // IFigure pane = getPrimaryShape().getFigureLogicNodeMainInput();
-        // setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
-        // pane.add(((LogicNodeLogicNodeMainInputEditPart) childEditPart)
-        // .getFigure());
-        // return true;
-        // }
-        // if (childEditPart instanceof LogicNodeLogicNodeMainOutputCompartmentEditPart) {
-        // IFigure pane = getPrimaryShape().getFigureLogicNodeMainOutput();
-        // setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
-        // pane.add(((LogicNodeLogicNodeMainOutputCompartmentEditPart) childEditPart)
-        // .getFigure());
-        // return true;
-        // }
-        // if (childEditPart instanceof LogicNodeLogicNodeErrorOutputCompartmentEditPart) {
-        // IFigure pane = getPrimaryShape().getFigureLogicNodeErrorOutput();
-        // setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
-        // pane.add(((LogicNodeLogicNodeErrorOutputCompartmentEditPart) childEditPart)
-        // .getFigure());
-        // return true;
-        // }
+        
+        if (childEditPart instanceof LogicNodeLogicNodeMainInputEditPart) {
+            IFigure pane = getNodeFigure();
+
+            IFigure f1 = getPrimaryShape().getFigureLogicNodeMainInput();
+            pane.add(f1, new Rectangle(31, 3, 8, 8));
+            return true;
+        }
+        if (childEditPart instanceof LogicNodeLogicNodeMainOutputCompartmentEditPart) {
+            IFigure pane = getNodeFigure();
+
+            IFigure f1 = getPrimaryShape().getFigureLogicNodeMainOutput();
+            pane.add(f1, new Rectangle(31, 60, 8, 8));
+            return true;
+        }
+        if (childEditPart instanceof LogicNodeLogicNodeErrorOutputCompartmentEditPart) {
+            IFigure pane = getNodeFigure();
+
+            IFigure f1 = getPrimaryShape().getFigureLogicNodeErrorOutput();
+            pane.add(f1, new Rectangle(60, 31, 8, 8));
+            return true;
+        }
+//         if (childEditPart instanceof LogicNodeLogicNodeMainInputEditPart) {
+//         IFigure pane = getPrimaryShape().getFigureLogicNodeMainInput();
+//         setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
+//         pane.add(((LogicNodeLogicNodeMainInputEditPart) childEditPart)
+//         .getFigure());
+//         return true;
+//         }
+//         if (childEditPart instanceof LogicNodeLogicNodeMainOutputCompartmentEditPart) {
+//         IFigure pane = getPrimaryShape().getFigureLogicNodeMainOutput();
+//         setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
+//         pane.add(((LogicNodeLogicNodeMainOutputCompartmentEditPart) childEditPart)
+//         .getFigure());
+//         return true;
+//         }
+//         if (childEditPart instanceof LogicNodeLogicNodeErrorOutputCompartmentEditPart) {
+//         IFigure pane = getPrimaryShape().getFigureLogicNodeErrorOutput();
+//         setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way
+//         pane.add(((LogicNodeLogicNodeErrorOutputCompartmentEditPart) childEditPart)
+//         .getFigure());
+//         return true;
+//         }
         return false;
     }
 
@@ -189,24 +216,7 @@ public class LogicNodeEditPart extends NodeBaseEditPart {
         if (childEditPart instanceof LogicNodeNameEditPart) {
             return true;
         }
-        // if (childEditPart instanceof LogicNodeLogicNodeMainInputEditPart) {
-        // IFigure pane = getPrimaryShape().getFigureLogicNodeMainInput();
-        // pane.remove(((LogicNodeLogicNodeMainInputEditPart) childEditPart)
-        // .getFigure());
-        // return true;
-        // }
-        // if (childEditPart instanceof LogicNodeLogicNodeMainOutputCompartmentEditPart) {
-        // IFigure pane = getPrimaryShape().getFigureLogicNodeMainOutput();
-        // pane.remove(((LogicNodeLogicNodeMainOutputCompartmentEditPart) childEditPart)
-        // .getFigure());
-        // return true;
-        // }
-        // if (childEditPart instanceof LogicNodeLogicNodeErrorOutputCompartmentEditPart) {
-        // IFigure pane = getPrimaryShape().getFigureLogicNodeErrorOutput();
-        // pane.remove(((LogicNodeLogicNodeErrorOutputCompartmentEditPart) childEditPart)
-        // .getFigure());
-        // return true;
-        // }
+
         return false;
     }
 
@@ -252,8 +262,12 @@ public class LogicNodeEditPart extends NodeBaseEditPart {
     protected NodeFigure createNodePlate() {
         ShapeImpl shape = (ShapeImpl) getModel();
         LogicNodeImpl node = (LogicNodeImpl) shape.getElement();
+        HashMap<String, PrecisionPoint> anchorLocations = new HashMap<String, PrecisionPoint>();
 
-        DefaultSizeNodeFigureWithFixedAnchors result = new NorthEastSouthFixedAnchors(40, 40, node);
+        anchorLocations.put("NORTH", new PrecisionPoint(0.155d, 0));
+        anchorLocations.put("SOUTH", new PrecisionPoint(0.155d, 1d));
+        anchorLocations.put("EAST", new PrecisionPoint(0.31d, 0.5d));
+        DefaultSizeNodeFigureWithFixedAnchors result = new NorthEastSouthFixedAnchors(70, 70, node, anchorLocations);
         updateImageForClass(node.getClassName());
         return result;
     }
@@ -271,22 +285,22 @@ public class LogicNodeEditPart extends NodeBaseEditPart {
         IFigure shape = createNodeShape();
 
         NodeFigure figure = createNodePlate();
-        figure.setLayoutManager(new BorderLayout());
+        figure.setLayoutManager(new XYLayout());
 
         WrappingLabel label = ((org.neuro4j.studio.core.diagram.edit.shapes.LogicNodeFigure) primaryShape)
                 .getFigureLogicNodeNameFigure();
 
         org.eclipse.draw2d.Panel panel = new org.eclipse.draw2d.Panel();
         panel.setLayoutManager(new FlowLayout(true));
-        // panel.setSize(40, 50);
-        panel.add(label, FlowLayout.ALIGN_CENTER);
-        // panel.setBackgroundColor(ColorConstants.red);
-        panel.setVisible(true);
 
         addDebugFigure(panel);
+
         registerStopFigure((BaseImageFigure) primaryShape);
-        figure.add(panel, BorderLayout.TOP);
-        figure.add(shape, BorderLayout.BOTTOM);
+
+        figure.add(panel, new Rectangle(5, 5, 5, 5));
+        figure.add(shape, new Rectangle(10, 10, 50, 50));
+
+        figure.add(label, new Rectangle(75, 10, 150, 25));
 
         contentPane = setupContentPane(shape);
         return figure;

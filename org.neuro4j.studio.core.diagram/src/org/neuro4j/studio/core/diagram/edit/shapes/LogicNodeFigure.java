@@ -16,7 +16,11 @@
 package org.neuro4j.studio.core.diagram.edit.shapes;
 
 import org.eclipse.draw2d.BorderLayout;
+import org.eclipse.draw2d.Ellipse;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.neuro4j.studio.core.ActionNode;
 import org.neuro4j.studio.core.diagram.edit.parts.LogicNodeEditPart;
@@ -35,6 +39,8 @@ public class LogicNodeFigure extends BaseImageFigure {
      * @generated
      */
     private WrappingLabel fFigureLogicNodeNameFigure;
+    
+    private Ellipse input, output, errorOutput;; 
 
     /**
      * @generated
@@ -65,18 +71,38 @@ public class LogicNodeFigure extends BaseImageFigure {
     private void createContents() {
 
         fFigureLogicNodeClassNameFigure = new WrappingLabel();
-        // fFigureLogicNodeClassNameFigure.setFont(new Fon)
 
-        fFigureLogicNodeClassNameFigure.setText("<...>");
+
 
         this.add(fFigureLogicNodeClassNameFigure);
 
         fFigureLogicNodeNameFigure = new WrappingLabel();
 
-        fFigureLogicNodeNameFigure.setText("<1..>");
+
 
         this.add(fFigureLogicNodeNameFigure, BorderLayout.LEFT);
         // this.add(fFigureLogicNodeMainInput, BorderLayout.CENTER);
+        
+        input = new Ellipse();
+        input.setFill(true);
+        input.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
+        input.setBackgroundColor(ellipseBGColor);
+        
+        this.add(input);
+        
+        output = new Ellipse();
+        output.setFill(true);
+        output.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
+        output.setBackgroundColor(ellipseBGColor);
+        
+        this.add(output);
+        
+        errorOutput = new Ellipse();
+        errorOutput.setFill(true);
+        errorOutput.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
+        errorOutput.setBackgroundColor(ellipseBGColor);
+        
+        this.add(errorOutput);
 
     }
 
@@ -93,6 +119,17 @@ public class LogicNodeFigure extends BaseImageFigure {
     public WrappingLabel getFigureLogicNodeNameFigure() {
         return fFigureLogicNodeNameFigure;
     }
+
+    public IFigure getFigureLogicNodeMainInput() {
+        return input;
+    }
     
+    public IFigure getFigureLogicNodeMainOutput() {
+        return output;
+    }
+    
+    public IFigure getFigureLogicNodeErrorOutput() {
+        return errorOutput;
+    }
 
 }

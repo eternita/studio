@@ -113,8 +113,8 @@ public class OperatorOutputEditPart extends ShapeNodeEditPart {
      * @generated
      */
     protected IFigure createNodeShape() {
-        ViewUtil.setStructuralFeatureValue(getPrimaryView(),
-                NotationPackage.eINSTANCE.getFontStyle_Bold(), true);
+//        ViewUtil.setStructuralFeatureValue(getPrimaryView(),
+//                NotationPackage.eINSTANCE.getFontStyle_Bold(), true);
         return primaryShape = new OperatorOutputFigure();
     }
 

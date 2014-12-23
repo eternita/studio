@@ -21,5 +21,6 @@ Export-Package: org.apache.commons.beanutils,
  org.neuro4j.workflow.debug,
  org.neuro4j.workflow.enums,
  org.neuro4j.workflow.loader,
+ org.neuro4j.workflow.log,
  org.neuro4j.workflow.node
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

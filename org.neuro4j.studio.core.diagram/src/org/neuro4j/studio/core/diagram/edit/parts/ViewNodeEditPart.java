@@ -26,7 +26,9 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
+import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
@@ -144,6 +146,10 @@ public class ViewNodeEditPart extends NodeBaseEditPart {
             ((ViewNodeViewNameDynamicViewNameEditPart) childEditPart)
                     .setLabel(getPrimaryShape()
                             .getFigureViewNodeViewNameFigure());
+            IFigure pane = getNodeFigure();
+
+            IFigure f1 = getPrimaryShape().getInputEllipse();
+            pane.add(f1, new Rectangle(21, 1, 8, 8));            
             return true;
         }
         return false;
@@ -192,9 +198,9 @@ public class ViewNodeEditPart extends NodeBaseEditPart {
     protected NodeFigure createNodePlate() {
         HashMap<String, PrecisionPoint> anchorLocations = new HashMap<String, PrecisionPoint>();
 
-        anchorLocations.put("NORTH", new PrecisionPoint(0.5d, 0));
+        anchorLocations.put("NORTH", new PrecisionPoint(0.17d, 0));
 
-        DefaultSizeNodeFigureWithFixedAnchors result = new DefaultSizeNodeFigureWithFixedAnchors(80, 53, anchorLocations);
+        DefaultSizeNodeFigureWithFixedAnchors result = new DefaultSizeNodeFigureWithFixedAnchors(50, 80, anchorLocations);
         return result;
     }
 
@@ -220,7 +226,7 @@ public class ViewNodeEditPart extends NodeBaseEditPart {
      */
     protected NodeFigure createNodeFigure() {
         NodeFigure figure = createNodePlate();
-        figure.setLayoutManager(new BorderLayout());
+        figure.setLayoutManager(new XYLayout());
         IFigure shape = createNodeShape();
 
         WrappingLabel label = ((org.neuro4j.studio.core.diagram.edit.shapes.ViewNodeFigure) primaryShape)
@@ -234,9 +240,9 @@ public class ViewNodeEditPart extends NodeBaseEditPart {
 
         addDebugFigure(panel);
         registerStopFigure((BaseImageFigure) primaryShape);
-        figure.add(panel, BorderLayout.TOP);
-        figure.add(shape, BorderLayout.CENTER);
-        figure.add(label, BorderLayout.BOTTOM);
+        figure.add(panel, new Rectangle(5, 5, 5, 5));
+        figure.add(shape, new Rectangle(0, 10, 50, 60));
+        figure.add(label,  new Rectangle(0, 71, 150, 20));
         ShapeImpl shapeImpl = (ShapeImpl) getModel();
         ViewNodeImpl node = (ViewNodeImpl) shapeImpl.getElement();
         

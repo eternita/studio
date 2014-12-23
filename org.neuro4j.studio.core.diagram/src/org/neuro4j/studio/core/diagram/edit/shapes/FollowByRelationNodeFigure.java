@@ -15,7 +15,10 @@
  */
 package org.neuro4j.studio.core.diagram.edit.shapes;
 
+import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.FlowLayout;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.swt.graphics.Image;
 import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
@@ -27,6 +30,8 @@ public class FollowByRelationNodeFigure extends BaseImageFigure {
 
     public static final Image DEFAULT_IMAGE = Neuro4jDiagramEditorPlugin.imageDescriptorFromPlugin(Neuro4jDiagramEditorPlugin.ID, "icons/images/SwitchNode.png").createImage();
 
+    
+    private Ellipse input, output; 
     /**
      * @generated
      */
@@ -51,9 +56,22 @@ public class FollowByRelationNodeFigure extends BaseImageFigure {
 
         fFigureFollowByRelationNodeRelationNameFigure = new WrappingLabel();
 
-        fFigureFollowByRelationNodeRelationNameFigure.setText("<...>");
+        fFigureFollowByRelationNodeRelationNameFigure.setText("");
 
         this.add(fFigureFollowByRelationNodeRelationNameFigure);
+        
+        input = new Ellipse();
+        input.setFill(true);
+        input.setBackgroundColor(ellipseBGColor);
+        input.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
+        
+        
+        this.add(input);
+        
+        output = new Ellipse();
+        output.setFill(true);
+        output.setBackgroundColor(ellipseBGColor);
+        output.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
 
     }
 
@@ -62,6 +80,14 @@ public class FollowByRelationNodeFigure extends BaseImageFigure {
      */
     public WrappingLabel getFigureFollowByRelationNodeRelationNameFigure() {
         return fFigureFollowByRelationNodeRelationNameFigure;
+    }
+    
+    public IFigure getFigureSwitchNodeMainInput() {
+        return input;
+    }
+    
+    public IFigure getFigureSwitchNodeMainOutput() {
+        return output;
     }
 
 }

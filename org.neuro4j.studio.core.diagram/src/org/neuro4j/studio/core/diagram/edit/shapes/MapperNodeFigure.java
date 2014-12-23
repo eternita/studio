@@ -17,6 +17,8 @@ package org.neuro4j.studio.core.diagram.edit.shapes;
 
 import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.Ellipse;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Image;
 import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
 
@@ -27,10 +29,11 @@ public class MapperNodeFigure extends BaseImageFigure {
 
     private static final Image DEFAULT_IMAGE = Neuro4jDiagramEditorPlugin.imageDescriptorFromPlugin(Neuro4jDiagramEditorPlugin.ID, "icons/images/MapperNode.png").createImage();
 
+    
     /**
      * @generated
      */
-    private Ellipse fFigureMapperNodeMainOutput;
+    private Ellipse input, output;
 
     /**
      * @generated
@@ -48,17 +51,30 @@ public class MapperNodeFigure extends BaseImageFigure {
      */
     private void createContents() {
 
-        fFigureMapperNodeMainOutput = new Ellipse();
-
-        // this.add(fFigureMapperNodeMainOutput, BorderLayout.CENTER);
+        input = new Ellipse();
+        input.setFill(true);
+        input.setBackgroundColor(ellipseBGColor);
+        input.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
+        
+        
+        this.add(input);
+        
+        output = new Ellipse();
+        output.setFill(true);
+        output.setBackgroundColor(ellipseBGColor);
+        output.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
 
     }
 
     /**
      * @generated
      */
-    public Ellipse getFigureMapperNodeMainOutput() {
-        return fFigureMapperNodeMainOutput;
+    public IFigure getFigureMapperNodeMainOutput() {
+        return output;
+    }
+    
+    public IFigure getFigureMapperNodeMainInput() {
+        return input;
     }
 
 }

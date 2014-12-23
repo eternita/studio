@@ -22,16 +22,11 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.neuro4j.studio.core.diagram.edit.shapes.FixedConnectionAnchor;
 
 public class NorthSouthFixedAnchors extends DefaultSizeNodeFigureWithFixedAnchors {
-    static final HashMap<String, PrecisionPoint> anchorLocations = new HashMap<String, PrecisionPoint>();
 
-    static {
-
-        anchorLocations.put("NORTH", new PrecisionPoint(0.5d, 0));
-        anchorLocations.put("SOUTH", new PrecisionPoint(0.5d, 1d));
-    }
 
     public NorthSouthFixedAnchors(Dimension defSize,
             HashMap<String, PrecisionPoint> anchorLocations) {
@@ -39,7 +34,7 @@ public class NorthSouthFixedAnchors extends DefaultSizeNodeFigureWithFixedAnchor
 
     }
 
-    public NorthSouthFixedAnchors(int i, int j) {
+    public NorthSouthFixedAnchors(int i, int j, HashMap<String, PrecisionPoint> anchorLocations) {
         super(i, j, anchorLocations);
 
     }
@@ -76,6 +71,12 @@ public class NorthSouthFixedAnchors extends DefaultSizeNodeFigureWithFixedAnchor
     private ConnectionAnchor findNearestAnchorFrom(Point point, String string) {
         return getConnectionAnchor(string);
 
+    }
+
+    @Override
+    public Rectangle getHandleBounds() {
+        Rectangle original = super.getHandleBounds();
+        return new Rectangle(original.x,original.y,70,70);
     }
 
 }

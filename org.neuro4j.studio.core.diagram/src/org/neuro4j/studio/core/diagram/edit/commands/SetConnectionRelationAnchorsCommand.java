@@ -49,6 +49,8 @@ public class SetConnectionRelationAnchorsCommand extends SetConnectionAnchorsCom
         Edge edge = (Edge) getEdgeAdaptor().getAdapter(Edge.class);
         assert null != edge : "Null edge in SetConnectionAnchorsCommand";//$NON-NLS-1$		
 
+      //  setNewSourceTerminal("SOUTH");
+        
         if (getNewSourceTerminal() != null) {
             if (getNewSourceTerminal().length() == 0)
                 edge.setSourceAnchor(null);

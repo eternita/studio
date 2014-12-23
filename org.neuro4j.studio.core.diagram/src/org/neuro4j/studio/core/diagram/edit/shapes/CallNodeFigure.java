@@ -16,6 +16,9 @@
 package org.neuro4j.studio.core.diagram.edit.shapes;
 
 import org.eclipse.draw2d.BorderLayout;
+import org.eclipse.draw2d.Ellipse;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.swt.graphics.Image;
 import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
@@ -27,10 +30,16 @@ public class CallNodeFigure extends BaseImageFigure {
 
     public static final Image DEFAULT_IMAGE = Neuro4jDiagramEditorPlugin.imageDescriptorFromPlugin(Neuro4jDiagramEditorPlugin.ID, "icons/images/CallNode.png").createImage();
 
+    
+
+    
     /**
      * @generated
      */
     private WrappingLabel fFigureCallNodeFlowNameFigure;
+    
+    private Ellipse input, output; 
+    
 
     /**
      * @generated
@@ -54,6 +63,19 @@ public class CallNodeFigure extends BaseImageFigure {
         fFigureCallNodeFlowNameFigure.setText("<...>");
 
         this.add(fFigureCallNodeFlowNameFigure);
+        
+        input = new Ellipse();
+        input.setFill(true);
+        input.setBackgroundColor(ellipseBGColor);
+        input.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
+        
+        
+        this.add(input);
+        
+        output = new Ellipse();
+        output.setFill(true);
+        output.setBackgroundColor(ellipseBGColor);
+        output.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
 
     }
 
@@ -62,6 +84,14 @@ public class CallNodeFigure extends BaseImageFigure {
      */
     public WrappingLabel getFigureCallNodeFlowNameFigure() {
         return fFigureCallNodeFlowNameFigure;
+    }
+    
+    public IFigure getFigureCallNodeMainInput() {
+        return input;
+    }
+    
+    public IFigure getFigureCallNodeMainOutput() {
+        return output;
     }
 
 }

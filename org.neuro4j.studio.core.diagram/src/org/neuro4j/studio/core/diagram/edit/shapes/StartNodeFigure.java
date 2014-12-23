@@ -15,9 +15,13 @@
  */
 package org.neuro4j.studio.core.diagram.edit.shapes;
 
+import org.eclipse.draw2d.BorderLayout;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.PositionConstants;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
 
@@ -46,6 +50,8 @@ public class StartNodeFigure extends BaseImageFigure {
      */
     public StartNodeFigure() {
         super(DEFAULT_IMAGE, 2);
+        BorderLayout layoutThis = new BorderLayout();
+        this.setLayoutManager(layoutThis);
 
         createContents();
     }
@@ -55,13 +61,16 @@ public class StartNodeFigure extends BaseImageFigure {
      */
     private void createContents() {
 
-        fFigureStartNodeNameLabel = new WrappingLabel();
+        fFigureStartNodeNameLabel = new WrappingLabel("");
 
-        fFigureStartNodeNameLabel.setText("StartNode");
+       add(fFigureStartNodeNameLabel);
 
-        fFigureStartNodeMainOutput = new OutputEdgeShape();
-        fFigureStartNodeNameLabel.setTextAlignment(PositionConstants.RIGHT);
-
+        fFigureStartNodeMainOutput = new Ellipse();
+        fFigureStartNodeMainOutput.setFill(true);
+        fFigureStartNodeMainOutput.setBackgroundColor(ellipseBGColor);
+        fFigureStartNodeMainOutput.setPreferredSize(new Dimension(ELLIPSE_SIZE, ELLIPSE_SIZE));
+        this.add(fFigureStartNodeMainOutput);
+        
         // add(getDebugFigure());
     }
 

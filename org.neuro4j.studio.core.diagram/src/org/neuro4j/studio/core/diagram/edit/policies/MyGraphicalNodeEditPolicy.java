@@ -15,12 +15,12 @@
  */
 package org.neuro4j.studio.core.diagram.edit.policies;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.Request;
@@ -70,8 +70,9 @@ public class MyGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
                 .getSourceConnectionAnchor(request);
         SetConnectionRelationAnchorsCommand scaCommand = new SetConnectionRelationAnchorsCommand(editingDomain, StringStatics.BLANK);
         scaCommand.setEdgeAdaptor(getViewAdapter());
-        scaCommand.setNewSourceTerminal(getConnectableEditPart()
-                .mapConnectionAnchorToTerminal(sourceAnchor));
+        INodeEditPart editPart =  getConnectableEditPart();
+        String anchor = editPart.mapConnectionAnchorToTerminal(sourceAnchor);
+        scaCommand.setNewSourceTerminal(anchor);
 
         MySetConnectionBendpointsCommand sbbCommand = new MySetConnectionBendpointsCommand(editingDomain);
         sbbCommand.setEdgeAdapter(getViewAdapter());
@@ -120,10 +121,16 @@ public class MyGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
         ConnectionAnchor sourceAnchor = sourceEditPart
                 .mapTerminalToConnectionAnchor(scaCommand.getNewSourceTerminal());
 
+
         OperatorOutput operator = null;
         List<RelativeBendpoint> coordinates = null;
 
         PointList pointList = new PointList();
+
+        if (sourceAnchor != null)
+        {
+         
+        
         if (request.getLocation() == null) {
 
             if (mrequest instanceof MyCreateConnectionViewRequest)
@@ -138,11 +145,14 @@ public class MyGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
                 sbbCommand.setNewPointList(coordinates, sourceAnchor.getReferencePoint(),
                         targetAnchor.getReferencePoint());
             } else {
-                pointList.addPoint(sourceAnchor.getLocation(targetAnchor.getReferencePoint()));
+                Point targetP =  targetAnchor.getReferencePoint();
+                
+                
+                pointList.addPoint(sourceAnchor.getLocation(targetP));
                 pointList.addPoint(targetAnchor.getLocation(sourceAnchor.getReferencePoint()));
                 MySetConnectionBendpointsCommand sbbCommand = (MySetConnectionBendpointsCommand) commandItr.next(); // 3
                 sbbCommand.setNewPointList(pointList, sourceAnchor.getReferencePoint(),
-                        targetAnchor.getReferencePoint());
+                        targetP);
             }
 
         }
@@ -153,7 +163,7 @@ public class MyGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
             sbbCommand.setNewPointList(pointList, sourceAnchor.getReferencePoint(),
                     targetAnchor.getReferencePoint());
         }
-
+        }
         return request.getStartCommand();
     }
 

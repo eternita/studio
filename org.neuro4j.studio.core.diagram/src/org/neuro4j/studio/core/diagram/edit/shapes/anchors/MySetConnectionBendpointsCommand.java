@@ -22,6 +22,8 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.draw2d.RelativeBendpoint;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -31,12 +33,8 @@ import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.RelativeBendpoints;
 
 public class MySetConnectionBendpointsCommand extends SetConnectionBendpointsCommand {
-    // private IAdaptable edgeAdapter;
-    // private PointList newPointList;
-    private List relPointList;
+    private List relPointList = new ArrayList<>(4);
 
-    // private Point sourceRefPoint;
-    // private Point targetRefPoint;
 
     /**
      * @param editingDomain
@@ -45,39 +43,15 @@ public class MySetConnectionBendpointsCommand extends SetConnectionBendpointsCom
      */
     public MySetConnectionBendpointsCommand(TransactionalEditingDomain editingDomain) {
         super(editingDomain);
+
     }
 
-    // public List getAffectedFiles() {
-    // View view = (View) edgeAdapter.getAdapter(View.class);
-    // if (view != null)
-    // return getWorkspaceFiles(view);
-    // return super.getAffectedFiles();
-    // }
 
     /**
      * Returns the edgeAdaptor.
      * 
      * @return IAdaptable
      */
-    // public IAdaptable getEdgeAdaptor() {
-    // return edgeAdapter;
-    // }
-    //
-    // /**
-    // * Returns the targetRefPoint.
-    // * @return Point
-    // */
-    // public Point getTargetRefPoint() {
-    // return targetRefPoint;
-    // }
-    //
-    // /**
-    // * Returns the newPointList.
-    // * @return PointList
-    // */
-    // public PointList getNewPointList() {
-    // return newPointList;
-    // }
 
     public List getRelPointList() {
         return relPointList;
@@ -105,17 +79,17 @@ public class MySetConnectionBendpointsCommand extends SetConnectionBendpointsCom
     // * @param sourceRefPoint
     // * @param targetRefPoint
     // */
-    // public void setNewPointList(
-    // PointList newPointList,
-    // Point sourceRefPoint,
-    // Point targetRefPoint) {
-    // this.newPointList = new PointList(newPointList.size());
-    // for (int i = 0; i < newPointList.size(); i++) {
-    // this.newPointList.addPoint(newPointList.getPoint(i));
-    // }
-    // this.sourceRefPoint = sourceRefPoint;
-    // this.targetRefPoint = targetRefPoint;
-    // }
+    public void setNewPointList(
+            PointList newPointList,
+            Point sourceRefPoint,
+            Point targetRefPoint) {
+        super.setNewPointList(newPointList, sourceRefPoint, targetRefPoint);
+     //   for (int i = 0; i < newPointList.size(); i++) {
+     //   this.relPointList = new ArrayList(newPointList.size());
+        for (int i = 0; i < newPointList.size(); i++) {
+           // this.relPointList.add(newPointList.getPoint(i));
+        }
+    }
 
     /**
      * set a new point list
@@ -212,7 +186,8 @@ public class MySetConnectionBendpointsCommand extends SetConnectionBendpointsCom
         {
             return doExecuteWithSavedResult(progressMonitor, info);
         }
+        
         return super.doExecuteWithResult(progressMonitor, info);
     }
-
+    
 }

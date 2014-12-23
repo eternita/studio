@@ -16,6 +16,7 @@
 package org.neuro4j.studio.core.diagram.edit.parts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,6 +28,10 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
+import org.eclipse.draw2d.XYLayout;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.PrecisionPoint;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -44,6 +49,7 @@ import org.neuro4j.studio.core.diagram.edit.policies.MapperNodeItemSemanticEditP
 import org.neuro4j.studio.core.diagram.edit.policies.MyGraphicalNodeEditPolicy;
 import org.neuro4j.studio.core.diagram.edit.shapes.BaseImageFigure;
 import org.neuro4j.studio.core.diagram.edit.shapes.anchors.DefaultSizeNodeFigureWithFixedAnchors;
+import org.neuro4j.studio.core.diagram.edit.shapes.anchors.MapperNodeAnchors;
 import org.neuro4j.studio.core.diagram.edit.shapes.anchors.NorthSouthFixedAnchors;
 import org.neuro4j.studio.core.diagram.providers.Neuro4jElementTypes;
 
@@ -134,7 +140,10 @@ public class MapperNodeEditPart extends NodeBaseEditPart {
      * @generated
      */
     protected NodeFigure createNodePlate() {
-        DefaultSizeNodeFigureWithFixedAnchors result = new NorthSouthFixedAnchors(80, 45);
+        HashMap<String, PrecisionPoint> anchorLocations = new HashMap<String, PrecisionPoint>();
+        anchorLocations.put("NORTH", new PrecisionPoint(0.5d, 0));
+        anchorLocations.put("SOUTH", new PrecisionPoint(0.5d, 1d));
+        MapperNodeAnchors result = new MapperNodeAnchors(new Dimension(60, 70), anchorLocations);
         return result;
     }
 
@@ -148,7 +157,7 @@ public class MapperNodeEditPart extends NodeBaseEditPart {
      */
     protected NodeFigure createNodeFigure() {
         NodeFigure figure = createNodePlate();
-        figure.setLayoutManager(new StackLayout());
+        figure.setLayoutManager(new XYLayout());
         IFigure shape = createNodeShape();
         org.eclipse.draw2d.Panel panel = new org.eclipse.draw2d.Panel();
         panel.setLayoutManager(new FlowLayout(true));
@@ -156,8 +165,15 @@ public class MapperNodeEditPart extends NodeBaseEditPart {
 
         addDebugFigure(panel);
         registerStopFigure((BaseImageFigure) primaryShape);
-        figure.add(panel);
-        figure.add(shape);
+        figure.add(panel, new Rectangle(5, 5, 5, 5));
+        figure.add(shape, new Rectangle(5, 10, 50, 50));
+        
+        IFigure f1 = getPrimaryShape().getFigureMapperNodeMainInput();
+        figure.add(f1, new Rectangle(27, 3, 8, 8));
+
+        IFigure f2 = getPrimaryShape().getFigureMapperNodeMainOutput();
+        figure.add(f2, new Rectangle(27, 60, 8, 8));
+        
         contentPane = setupContentPane(shape);
         return figure;
     }
