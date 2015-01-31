@@ -21,6 +21,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IWorkspace;
@@ -46,6 +48,12 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.neuro4j.studio.core.diagram.edit.parts.EditPartUpdateObserver;
 import org.neuro4j.studio.core.diagram.edit.parts.EditPartUpdater;
@@ -387,7 +395,6 @@ public class Neuro4jDiagramEditorPlugin extends AbstractUIPlugin {
         }
 
 
-
         InputStream is = ClassloaderHelper.loadImage(name);
 
         if (is != null) {
@@ -404,6 +411,29 @@ public class Neuro4jDiagramEditorPlugin extends AbstractUIPlugin {
             excludeImageRegister.add(name);
         }
         return image;
+    }
+    
+    private static IProject getActiveProject() {
+
+        IWorkbench iworkbench = PlatformUI.getWorkbench();
+        if (iworkbench != null) {
+            IWorkbenchWindow iworkbenchwindow = iworkbench.getActiveWorkbenchWindow();
+            if (iworkbenchwindow != null) {
+                IWorkbenchPage iworkbenchpage = iworkbenchwindow.getActivePage();
+                if (iworkbenchpage != null) {
+            
+                IEditorPart editorPart = iworkbenchpage.getActiveEditor();
+
+                if (editorPart != null)
+                {
+                    IFileEditorInput input = (IFileEditorInput) editorPart.getEditorInput();
+                    IFile file = input.getFile();
+                    return file.getProject();
+                }
+            }
+        }
+        }
+        return null;
     }
 
     public void addListToObserver(WorkspaceUpdater updater)

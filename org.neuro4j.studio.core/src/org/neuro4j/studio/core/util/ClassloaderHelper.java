@@ -66,12 +66,15 @@ public class ClassloaderHelper
 
     public static InputStream loadImage(String name)
     {
-        if (!loaders.containsKey(getActiveProjectName()))
+        String project = getActiveProjectName();
+
+        if (!loaders.containsKey(project))
         {
-            load(getActiveProjectName());
+            load(project);
         }
 
-        for (URLClassLoader loader : loaders.values()) {
+        URLClassLoader loader = loaders.get(project);
+        if (loader != null){
             InputStream clazz = loader.getResourceAsStream(name);
             if (clazz != null)
             {
@@ -80,7 +83,6 @@ public class ClassloaderHelper
         }
 
         return null;
-
     }
 
     private static synchronized void load(String name)
@@ -438,19 +440,12 @@ public class ClassloaderHelper
     }
 
     public static String getActiveProjectName() {
-        if (currentJavaProject == null)
+        
+        if (getCurrentResource() != null)
         {
-        	if (getCurrentResource() != null)
-        	{
-            	currentJavaProject = getCurrentResource().getProject().getName();
-            	System.out.println("currentJavaProject was null set to " + getCurrentResource().getProject().getName() );          
-        	} 
-//        	else {
-//        	   ResourcesPlugin.getWorkspace().get
-//        	}
-        	
-
-        }
+            currentJavaProject = getCurrentResource().getProject().getName();              
+        } 
+        
     	
         return currentJavaProject;
 
