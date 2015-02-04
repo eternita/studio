@@ -396,7 +396,7 @@ public class ClassloaderHelper
     {
         return new MapWorkspaceUpdater(loaders) {
             public void update(IResource iResource, int action) {
-                if (iResource != null && (iResource.getName().equals("pom.xml") || iResource.getFileExtension().equals("classpath")|| iResource.getFileExtension().equals("class")))
+                if (iResource != null && iResource.getName()!= null && (iResource.getName().equals("pom.xml") || iResource.getFileExtension().equals("classpath")|| iResource.getFileExtension().equals("class")))
                 {
                     loaders.remove(iResource.getProject().getName());
                 }

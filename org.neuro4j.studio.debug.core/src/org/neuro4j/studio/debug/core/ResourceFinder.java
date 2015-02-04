@@ -216,11 +216,15 @@ public class ResourceFinder {
                 }
 
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             } finally {
                 closeStream(stream);
-                s.close();
+                
+                if (s != null)
+                {
+                    s.close();    
+                }
+                
             }
 
             return exist;
