@@ -224,7 +224,7 @@ public class LogicClassNameLoader {
     {
         return new MapWorkspaceUpdater(instance.classes) {
             public void update(IResource iResource, int action) {
-                if (iResource != null && (iResource.getFileExtension().equals("classpath") || iResource.getName().equals("pom.xml") || iResource.getFileExtension().equals("class")))
+                if (iResource != null && iResource.getFileExtension() != null && iResource.getName()!= null && (iResource.getFileExtension().equals("classpath") || iResource.getName().equals("pom.xml") || iResource.getFileExtension().equals("class")))
                 {
                     instance.classes.remove(iResource.getProject().getName());
                 }
@@ -248,7 +248,7 @@ public class LogicClassNameLoader {
             } catch (CoreException e) {
                 e.printStackTrace();
             }
-        }
+        }   
         return null;
     }
 

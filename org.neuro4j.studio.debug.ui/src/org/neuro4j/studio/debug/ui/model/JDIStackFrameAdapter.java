@@ -298,7 +298,14 @@ public class JDIStackFrameAdapter extends JDIStackFrame implements org.eclipse.d
     }
 
     public IVariable[] getVariables() throws DebugException {
-        IVariable[] vars = getContextVars();
+        IVariable[] vars = null;
+        try{
+             vars = getContextVars(); 
+        } catch(Exception ex)
+        {
+            System.err.println(ex);
+        }
+
         if (vars != null)
         {
             return vars;
@@ -343,7 +350,15 @@ public class JDIStackFrameAdapter extends JDIStackFrame implements org.eclipse.d
             {
                 return new IVariable[0];
             }
-            IVariable[] topVars = jDIStackFrame.getVariables();
+            IVariable[] topVars = null;
+            try{
+                 topVars = jDIStackFrame.getVariables();    
+            } catch (DebugException ex)
+            {
+                isValid = false;
+                return new IVariable[0];
+            }
+            
             IVariable r = findVariableByName(topVars, "request");
             if (r == null)
             {

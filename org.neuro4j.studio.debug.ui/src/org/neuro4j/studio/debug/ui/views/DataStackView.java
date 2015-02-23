@@ -15,6 +15,8 @@
  */
 package org.neuro4j.studio.debug.ui.views;
 
+import java.lang.reflect.Field;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.debug.internal.ui.viewers.model.provisional.TreeModelViewer;
 import org.eclipse.debug.internal.ui.views.variables.VariablesView;
@@ -89,13 +91,16 @@ public class DataStackView extends VariablesView {
             return;
         }
         showViewer();
-        if (context instanceof JDIStackFrame)
+        if (context instanceof JDIStackFrame  )
         {
-            JDIStackFrameAdapter adapter = new JDIStackFrameAdapter((JDIStackFrame) context);
-        	
-        	//BreakpointContainer adapter  = new BreakpointContainer();
-        	
-            getViewer().setInput(adapter);
+            if (isValidDateFrame((JDIStackFrame)context)){
+                JDIStackFrameAdapter adapter = new JDIStackFrameAdapter((JDIStackFrame) context);
+                
+                //BreakpointContainer adapter  = new BreakpointContainer();
+                
+                getViewer().setInput(adapter);                
+            }
+
         } else {
             getViewer().setInput(context);
         }
@@ -103,6 +108,26 @@ public class DataStackView extends VariablesView {
         updateObjects();
     }
 
+    public boolean isValidDateFrame(JDIStackFrame frame) {
+
+        Field f;
+        try {
+            f = frame.getClass().getDeclaredField("fDepth");
+            f.setAccessible(true);
+            Integer o = (Integer) f.get(frame); // IllegalAccessException
+            if (o < 0)
+            {
+                return false;
+            }
+            return o > 0;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        
+        }
+
+        return true;
+    }
     
 
 }

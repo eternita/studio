@@ -16,6 +16,7 @@
 package org.neuro4j.studio.debug.core.launching;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.sourcelookup.AbstractSourceLookupParticipant;
 import org.eclipse.jdt.internal.debug.core.model.JDIStackFrame;
 import org.neuro4j.studio.debug.core.BreakpoinMng;
@@ -32,10 +33,23 @@ public class FlowSourceLookupParticipant extends AbstractSourceLookupParticipant
      */
     public String getSourceName(Object object) throws CoreException {
         if (object instanceof JDIStackFrame) {
-            String resourceName = BreakpoinMng.getInstance().getResourceName((JDIStackFrame) object);
-            return resourceName;
+            try{
+                String resourceName = BreakpoinMng.getInstance().getResourceName((JDIStackFrame) object);
+                return resourceName;                
+            }catch (DebugException ex){
+                System.err.println(ex);
+            }
+
         }
         return null;
     }
+
+    @Override
+    public Object[] findSourceElements(Object object) throws CoreException {
+        // TODO Auto-generated method stub
+        return super.findSourceElements(object);
+    }
+    
+    
 
 }

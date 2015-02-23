@@ -53,9 +53,13 @@ public class FlowFromJarsLoader {
         return new MapWorkspaceUpdater(itemsFromJars) {
 
             public void update(IResource iResource,  int action) {
-                if (iResource != null && (iResource.getFileExtension().equals("classpath")|| iResource.getName().equals("pom.xml")))                
+                if (iResource != null && iResource.getFileExtension() != null && iResource.getName()!= null && (iResource.getFileExtension().equals("classpath")|| iResource.getName().equals("pom.xml")))                
                 {
-                    itemsFromJars.remove(iResource.getProject().getName());    
+                    if (iResource.getProject() != null)
+                    {
+                        itemsFromJars.remove(iResource.getProject().getName());                          
+                    }
+  
                 }
                 
             }

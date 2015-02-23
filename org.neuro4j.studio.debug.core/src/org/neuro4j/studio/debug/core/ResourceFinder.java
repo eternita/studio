@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IContainer;
@@ -35,6 +37,8 @@ import org.neuro4j.studio.core.ActionNode;
 public class ResourceFinder {
 
     public static final String UNKNOWN = "unknown";
+    
+    Pattern pattern = Pattern.compile("<node uuid=\"(.*)\" name=\"(.*)\" x=");
 
     private static ResourceFinder instance = new ResourceFinder();
 
@@ -195,7 +199,7 @@ public class ResourceFinder {
         private boolean isContains(File file, String uuid)
         {
             boolean exist = false;
-            String uuidStr = "uuid=\"" + uuid + "\"";
+            
             InputStream stream = null;
             java.util.Scanner s = null;
             try {
@@ -205,14 +209,19 @@ public class ResourceFinder {
                 {
                     String str = s.nextLine();
 
-                    if (str.contains(uuidStr) && str.contains(NAME_PATERN))
+                    Matcher matcher = pattern.matcher(str);
+                    
+                    while(matcher.find())
                     {
-
-                        processNodeName(str, uuid);
-
-                        exist = true;
-                        break;
+                        String id = matcher.group(1);
+                        registerNodeName(matcher.group(2), id);
+                        resources.put(id, file);
+                        if (id.equals(uuid))
+                        {
+                            exist = true;
+                        }                       
                     }
+
                 }
 
             } catch (Exception e) {
@@ -230,18 +239,18 @@ public class ResourceFinder {
             return exist;
         }
 
-        private void processNodeName(String str, String uuid) {
-            str = str.trim();
-            int index = str.trim().indexOf(NAME_PATERN);
-            if (index > 0)
-            {
-                int i2 = str.indexOf("\"", index + NAME_PATERN.length());
-
-                String name = str.substring(index + NAME_PATERN.length(), i2);
-                registerNodeName(name, uuid);
-            }
-
-        }
+//        private void processNodeName(String str, String uuid) {
+//            str = str.trim();
+//            int index = str.trim().indexOf(NAME_PATERN);
+//            if (index > 0)
+//            {
+//                int i2 = str.indexOf("\"", index + NAME_PATERN.length());
+//
+//                String name = str.substring(index + NAME_PATERN.length(), i2);
+//                registerNodeName(name, uuid);
+//            }
+//
+//        }
 
         private void closeStream(InputStream stream) {
             if (stream != null) {
