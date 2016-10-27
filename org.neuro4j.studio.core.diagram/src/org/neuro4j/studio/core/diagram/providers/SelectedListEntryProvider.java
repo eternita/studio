@@ -137,7 +137,6 @@ public class SelectedListEntryProvider {
             availableForInsert = false;
             switch (this.entry.getType()) {
 
-                case TRIGGER_BLOCK:
                 case CUSTOM_BLOCK:
 
                     CreateUnspecifiedTypeRequest request = new

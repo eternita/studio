@@ -131,7 +131,7 @@ public class ViewNodeRenderLoader {
 
         if (parentType == null)
         {
-            System.err.print(LOGIC_BASE_CLASS + " not found in classpath. Please add neuro4j-logic-web.jar to your classpath.");
+            System.err.print(LOGIC_BASE_CLASS + " not found in classpath. Please add neuro4j-web-core.jar to your classpath.");
             return EMPTY_ARRAY;
         }
         ITypeHierarchy h = parentType.newTypeHierarchy(project, pm);

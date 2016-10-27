@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.neuro4j.studio.ui_1.0.1.jar" id="org.neuro4j.studio.ui" version="1.0.1">
+   <feature url="features/org.neuro4j.studio.ui_2.0.1.jar" id="org.neuro4j.studio.ui" version="2.0.1">
       <category name="org_neuro4j_category"/>
    </feature>
-   <feature url="features/org.neuro4j.studio.ui.debug_0.0.3.jar" id="org.neuro4j.studio.ui.debug" version="0.0.3">
+   <feature url="features/org.neuro4j.studio.ui.debug_0.0.4.jar" id="org.neuro4j.studio.ui.debug" version="0.0.4">
       <category name="org_neuro4j_category"/>
    </feature>
    <category-def name="org_neuro4j_category" label="Neuro4j"/>

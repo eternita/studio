@@ -2,13 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Neuro4j-studio-properties-ui
 Bundle-SymbolicName: org.neuro4j.studio.properties.ui
-Bundle-Version: 1.0.1
+Bundle-Version: 2.0.1
 Bundle-Activator: org.neuro4j.studio.properties.ui.Activator
 Require-Bundle: org.eclipse.jdt.core;bundle-version="3.8.3",
  org.eclipse.emf.edit.ui;bundle-version="2.8.0",
  org.eclipse.gmf.runtime.diagram.ui.properties;bundle-version="1.4.2",
- org.neuro4j.studio.workflow;bundle-version="1.0.1",
- org.neuro4j.studio.core;bundle-version="1.0.1",
+ org.neuro4j.studio.workflow;bundle-version="2.0.1",
+ org.neuro4j.studio.core;bundle-version="2.0.1",
  org.eclipse.ui.ide;bundle-version="3.8.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

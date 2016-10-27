@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.neuro4j.studio.core.diagram; singleton:=true
-Bundle-Version: 1.0.1
+Bundle-Version: 2.0.1
 Bundle-Activator: org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -26,6 +26,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.edit.ui,
  org.eclipse.gmf.runtime.emf.core,
+ org.eclipse.gmf.runtime.diagram.core;visibility:=reexport,
  org.eclipse.gmf.runtime.emf.commands.core,
  org.eclipse.gmf.runtime.emf.ui.properties,
  org.eclipse.gmf.runtime.diagram.ui,
@@ -35,7 +36,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.gmf.runtime.diagram.ui.render,
  org.eclipse.gmf.runtime.diagram.ui.resources.editor,
  org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide,
- org.eclipse.gmf.tooling.runtime;bundle-version="3.0.0";visibility:=reexport,
+ org.eclipse.gmf.tooling.runtime;visibility:=reexport,
  org.eclipse.draw2d;visibility:=reexport,
  org.eclipse.gmf.runtime.draw2d.ui;visibility:=reexport,
  org.neuro4j.studio.core;visibility:=reexport,
@@ -53,12 +54,13 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jdt.ui;bundle-version="3.8.1",
  org.eclipse.jdt.core;bundle-version="3.8.2",
  org.eclipse.jst.servlet.ui,
- org.eclipse.wst.web.ui;bundle-version="1.1.600",
+ org.eclipse.wst.web.ui,
  org.eclipse.wst.common.project.facet.core;bundle-version="1.4.300",
  org.eclipse.wst.common.frameworks;bundle-version="1.2.200",
- org.eclipse.jst.j2ee;bundle-version="1.1.602",
+ org.eclipse.jst.j2ee,
  org.eclipse.wst.common.project.facet.ui;bundle-version="1.4.300",
- org.neuro4j.studio.workflow;bundle-version="0.8.0"
+ org.neuro4j.studio.workflow;bundle-version="2.0.1",
+ org.eclipse.jst.server.ui
 Bundle-ActivationPolicy: lazy
 Import-Package: com.ibm.icu.text;version="50.1.1",
  org.eclipse.gmf.runtime.diagram.ui.geoshapes.internal.draw2d.figures

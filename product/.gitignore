@@ -1,3 +1,6 @@
-/eclipse
-/repository
-/target
+/bin/
+/target/
+/.settings/
+/.externalToolBuilders/
+.classpath
+.project

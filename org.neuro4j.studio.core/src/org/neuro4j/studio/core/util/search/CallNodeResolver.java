@@ -35,6 +35,7 @@ import org.neuro4j.studio.core.format.f4j.TransitionXML;
 import org.neuro4j.workflow.common.FlowExecutionException;
 import org.neuro4j.workflow.common.FlowInitializationException;
 import org.neuro4j.workflow.common.WorkflowEngine;
+import org.neuro4j.workflow.node.FlowParameter;
 
 
 public class CallNodeResolver {
@@ -68,15 +69,19 @@ public class CallNodeResolver {
     }
 
     public List<String> getEndNodeList(String flowName) {
-
-        String[] fArr = null;
+    	
+    	String fileName = null;
+    	FlowParameter fp = null;
         try {
-            fArr = WorkflowEngine.parseFlowName(flowName);
+            
+            fp = FlowParameter.parse(flowName);
+            fileName = fp.getFlowName().replace(".", File.separator) + ".n4j";
+            
         } catch (FlowExecutionException e1) {
             e1.printStackTrace();
             return Collections.emptyList();
         }
-        String fileName = fArr[0] + ".n4j";
+
 
         List<String> endNodeNames = map.get(flowName);
 
@@ -96,7 +101,7 @@ public class CallNodeResolver {
             		continue;
             	}
                 try {
-                    endNodeNames = getEndNodeListForStartNode(file.getContents(), fArr[0], fArr[1]);
+                    endNodeNames = getEndNodeListForStartNode(file.getContents(), fp.getFlowName().replace(".", File.pathSeparator), fp.getStartNode());
                     if (!endNodeNames.isEmpty())
                     {
                         List<String> n = map.get(flowName);
@@ -189,10 +194,10 @@ public class CallNodeResolver {
         Set<String> keys = map.keySet();
         for (String key : keys)
         {
-            String[] fArr = null;
             try {
-                fArr = WorkflowEngine.parseFlowName(key);
-                if (path.endsWith(fArr[0])) {
+
+                FlowParameter parameter = FlowParameter.parse(key);
+                if (path.endsWith(parameter.getFlowName().replace(".", File.separator))) {
                     map.remove(key);
                 }
                 

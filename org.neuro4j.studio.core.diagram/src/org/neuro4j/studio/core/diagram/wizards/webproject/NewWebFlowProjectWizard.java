@@ -225,9 +225,9 @@ public class NewWebFlowProjectWizard extends WebProjectWizard {
             URL logicLib = coreBundle.getEntry("neuro4j-workflow-common.jar");
             bao = readStreamToBAO(logicLib.openStream());
             saveToFile(bao, path, "neuro4j-workflow-common.jar");
-            URL webLib = coreBundle.getEntry("neuro4j-logic-web.jar");
+            URL webLib = coreBundle.getEntry("neuro4j-web-core.jar");
             bao = readStreamToBAO(webLib.openStream());
-            saveToFile(bao, path, "neuro4j-logic-web.jar");
+            saveToFile(bao, path, "neuro4j-web-core.jar");
 
         } catch (IOException e) {
 

@@ -2,13 +2,13 @@
 <feature
       id="org.neuro4j.studio.ui"
       label="Neuro4j Flows"
-      version="1.0.1"
+      version="2.0.1"
       provider-name="Neuro4j.org"
       image="eclipse_n4j_update_120.jpg">
 
    <description url="http://neuro4j.org/projects/java-workflow-engine">
       Neuro4j Studio - Neuro4j Workflow Project 
-      Copyright (c) 2014 Neuro4j. All rights reserved.
+      Copyright (c) 2016 Neuro4j. All rights reserved.
       For information about the Neuro4j Workflow project  visit http://neuro4j.org/projects/java-workflow-engine
    </description>
 
@@ -40,56 +40,56 @@
          id="org.neuro4j.studio.core"
          download-size="0"
          install-size="0"
-         version="1.0.1"
+         version="2.0.1"
          unpack="false"/>
 
    <plugin
          id="org.neuro4j.studio.core.ext"
          download-size="0"
          install-size="0"
-         version="1.0.1"
+         version="2.0.1"
          unpack="false"/>
 
    <plugin
          id="org.neuro4j.studio.core.diagram"
          download-size="0"
          install-size="0"
-         version="1.0.1"
+         version="2.0.1"
          unpack="false"/>
 
    <plugin
          id="org.neuro4j.studio.core.edit"
          download-size="0"
          install-size="0"
-         version="1.0.1"
+         version="2.0.1"
          unpack="false"/>
 
    <plugin
          id="org.neuro4j.studio.core.editor"
          download-size="0"
          install-size="0"
-         version="1.0.1"
+         version="2.0.1"
          unpack="false"/>
 
    <plugin
          id="org.neuro4j.studio.flow"
          download-size="0"
          install-size="0"
-         version="1.0.1"
+         version="2.0.1"
          unpack="false"/>
 
    <plugin
          id="org.neuro4j.studio.properties.ui"
          download-size="0"
          install-size="0"
-         version="1.0.1"
+         version="2.0.1"
          unpack="false"/>
 
    <plugin
          id="org.neuro4j.studio.workflow"
          download-size="0"
          install-size="0"
-         version="1.0.1"
+         version="2.0.1"
          unpack="true"
 />
 

@@ -31,7 +31,7 @@ public class FlowPerspectiveFactory implements IPerspectiveFactory {
         folder.addView("org.eclipse.jdt.ui.PackageExplorer");
         folder.addView("org.neuro4j.studio.core.views.flows.FlowTreeView");
         folder.addView("org.neuro4j.studio.core.views.flows.CustomBlocksTreeView");
-        folder.addView("org.neuro4j.studio.core.views.flows.TriggerBlocksTreeView");
+        //folder.addView("org.neuro4j.studio.core.views.flows.TriggerBlocksTreeView");
         
         folder.addPlaceholder("org.eclipse.jdt.ui.TypeHierarchy");
         folder.addPlaceholder("org.eclipse.ui.views.ResourceNavigator");
@@ -83,7 +83,7 @@ public class FlowPerspectiveFactory implements IPerspectiveFactory {
         layout.addNewWizardShortcut("org.neuro4j.studio.core.diagram.wizards.webproject.NewWebFlowProjectWizard");
         layout.addNewWizardShortcut("org.neuro4j.studio.core.diagram.part.Neuro4jCreationWizardID");
         layout.addNewWizardShortcut("org.neuro4j.studio.core.diagram.wizards.customblock.CustomBlockNewWizardID");
-        layout.addNewWizardShortcut("org.neuro4j.studio.core.diagram.wizards.customblock.TriggerBlockNewWizardID");
+        //layout.addNewWizardShortcut("org.neuro4j.studio.core.diagram.wizards.customblock.TriggerBlockNewWizardID");
         layout.addNewWizardShortcut("org.eclipse.jdt.ui.wizards.JavaProjectWizard");
         layout.addNewWizardShortcut("org.eclipse.jdt.ui.wizards.NewPackageCreationWizard");
         layout.addNewWizardShortcut("org.eclipse.jdt.ui.wizards.NewClassCreationWizard");

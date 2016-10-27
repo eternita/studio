@@ -2,12 +2,12 @@
 <feature
       id="org.neuro4j.studio.ui.debug"
       label="Neuro4j Flow Debug"
-      version="0.0.3"
+      version="0.0.4"
       provider-name="neuro4j.org">
 
    <description url="http://www.example.com/description">
       Neuro4j - Debug Plugin
-Copyright (c) 2014 Neuro4j. All rights reserved.
+Copyright (c) 2016 Neuro4j. All rights reserved.
 For information about the Neuro4j Workflow project  visit http://neuro4j.org/projects/java-workflow-engine
    </description>
 
@@ -16,7 +16,7 @@ For information about the Neuro4j Workflow project  visit http://neuro4j.org/pro
    </copyright>
 
    <license url="http://neuro4j.org/license">
-      Copyright 2013 Neuro4j.org
+    Copyright 2016 Neuro4j.org
 
    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
    you may not use this file except in compliance with the License.
@@ -39,14 +39,14 @@ For information about the Neuro4j Workflow project  visit http://neuro4j.org/pro
          id="org.neuro4j.studio.debug.core"
          download-size="0"
          install-size="0"
-         version="0.0.3"
+         version="0.0.4"
          unpack="false"/>
 
    <plugin
          id="org.neuro4j.studio.debug.ui"
          download-size="0"
          install-size="0"
-         version="0.0.3"
+         version="0.0.4"
          unpack="false"/>
 
 </feature>

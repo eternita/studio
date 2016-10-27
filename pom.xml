@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.neuro4j</groupId>
   <artifactId>studio</artifactId>
-  <version>1.0.1</version>
+  <version>2.0.1</version>
   <packaging>pom</packaging>
   <modules>
     <module>org.neuro4j.studio.workflow</module>
@@ -30,25 +32,25 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- <juno-repo.url>http://download.eclipse.org/releases/juno</juno-repo.url> 
     <juno-repo.url>http://download.eclipse.org/m2e-wtp/releases/kepler</juno-repo.url> -->
-    <keplerwt-repo.url>http://download.eclipse.org/webtools/repository/kepler</keplerwt-repo.url>
-    <kepler-repo.url>http://download.eclipse.org/releases/kepler</kepler-repo.url> 
+    <eclipsewt-repo.url>http://download.eclipse.org/webtools/repository/neon</eclipsewt-repo.url>
+    <eclipse-repo.url>http://download.eclipse.org/releases/neon</eclipse-repo.url> 
     <pde-repo.url>http://download.eclipse.org/eclipse/pde/visualization/updates</pde-repo.url> 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <studio.version>1.0.1</studio.version>
-    <studio.debug.version>0.0.3</studio.debug.version>
+    <studio.version>2.0.1</studio.version>
+    <studio.debug.version>0.0.4</studio.debug.version>
     <maven.compiler.source>1.6</maven.compiler.source>
     <maven.compiler.target>1.6</maven.compiler.target>
   </properties>
 
   <repositories>
     <repository>
-      <id>kepler</id>
-      <url>${kepler-repo.url}</url>
+      <id>eclipse</id>
+      <url>${eclipse-repo.url}</url>
       <layout>p2</layout>
     </repository>
     <repository>
-      <id>keplerwt</id>
-      <url>${keplerwt-repo.url}</url>
+      <id>eclipsewt</id>
+      <url>${eclipsewt-repo.url}</url>
       <layout>p2</layout>
     </repository>
     <repository>

@@ -51,9 +51,9 @@ import org.neuro4j.studio.core.util.ListEntryType;
 import org.neuro4j.studio.core.util.MapWorkspaceUpdater;
 import org.neuro4j.studio.core.util.ParameterDefinitionLoader;
 import org.neuro4j.studio.core.util.WorkspaceUpdater;
+import org.neuro4j.workflow.ActionBlock;
 import org.neuro4j.workflow.common.ParameterDefinition;
-import org.neuro4j.workflow.common.TriggerBlock;
-import org.neuro4j.workflow.node.CustomBlock;
+//import org.neuro4j.workflow.common.TriggerBlock;
 
 public class LogicClassNameLoader {
 
@@ -62,8 +62,8 @@ public class LogicClassNameLoader {
     private static LogicClassNameLoader instance = new LogicClassNameLoader();
 
     private static final IType[] EMPTY_ARRAY = new IType[0];
-    private static final String LOGIC_BASE_CLASS = CustomBlock.class.getCanonicalName();
-    private static final String TRIGGER_BASE_CLASS = TriggerBlock.class.getCanonicalName();
+    private static final String LOGIC_BASE_CLASS = ActionBlock.class.getCanonicalName();
+    //private static final String TRIGGER_BASE_CLASS = TriggerBlock.class.getCanonicalName();
 
     private Map<String, List<ListEntry>> classes = new HashMap<String, List<ListEntry>>();
 
@@ -100,7 +100,7 @@ public class LogicClassNameLoader {
      */
     private void loadClassses(String projectName) {
 
-        Set<IType> triggers = new HashSet<IType>();
+//        Set<IType> triggers = new HashSet<IType>();
 
         IJavaProject javaProject = ClassloaderHelper.getJavaProject(projectName);
         List<ListEntry> classList = new LinkedList<ListEntry>();
@@ -113,22 +113,22 @@ public class LogicClassNameLoader {
 
         }
 
-        try {
-            IType[] triggersClasses = getAllSubtypes(javaProject, new NullProgressMonitor(), TRIGGER_BASE_CLASS);
-            triggers.addAll(Arrays.asList(triggersClasses));
-        } catch (JavaModelException e) {
-            e.printStackTrace();
-
-        }
+//        try {
+//            IType[] triggersClasses = getAllSubtypes(javaProject, new NullProgressMonitor(), TRIGGER_BASE_CLASS);
+//            triggers.addAll(Arrays.asList(triggersClasses));
+//        } catch (JavaModelException e) {
+//            e.printStackTrace();
+//
+//        }
 
         for (IType t : types) {
             ListEntry entry = getEntry(t, projectName);
             if (entry != null)
             {
-                if (triggers.contains(t))
-                {
-                    entry.setType(ListEntryType.TRIGGER_BLOCK);
-                }
+//                if (triggers.contains(t))
+//                {
+//                    entry.setType(ListEntryType.TRIGGER_BLOCK);
+//                }
                 classList.add(entry);
             }
 

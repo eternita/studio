@@ -621,7 +621,7 @@ public abstract class AbstractListView extends ViewPart {
         ListEntry entry = (ListEntry) ((TreeSelection) selection).getFirstElement();
         if (entry == null)
             return;
-        if (entry.getType() == ListEntryType.TRIGGER_BLOCK || entry.getType() == ListEntryType.CUSTOM_BLOCK || (entry.getType() == ListEntryType.CHILD && entry.getParent() != null && entry.getParent().getType() == ListEntryType.FLOW))
+        if (entry.getType() == ListEntryType.CUSTOM_BLOCK || (entry.getType() == ListEntryType.CHILD && entry.getParent() != null && entry.getParent().getType() == ListEntryType.FLOW))
         {
             SelectedConnectionProvider.getInstance().setAvailableForInsert(false);
             SelectedListEntryProvider.getInstance().setAvailableForInsert(true);
