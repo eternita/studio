@@ -446,6 +446,13 @@ public class Neuro4jPackageImpl extends EPackageImpl implements Neuro4jPackage {
     public EReference getJoinNode_MainOutput() {
         return (EReference) joinNodeEClass.getEStructuralFeatures().get(0);
     }
+    
+    @Override
+    public EAttribute getJoinNode_Fork() {
+        return (EAttribute) joinNodeEClass.getEStructuralFeatures().get(1);
+    }
+    
+
 
     /**
      * <!-- begin-user-doc -->
@@ -906,6 +913,7 @@ public class Neuro4jPackageImpl extends EPackageImpl implements Neuro4jPackage {
     public EAttribute getFollowByRelationNode_RelationName() {
         return (EAttribute) followByRelationNodeEClass.getEStructuralFeatures().get(0);
     }
+    
 
     /**
      * <!-- begin-user-doc -->
@@ -917,6 +925,10 @@ public class Neuro4jPackageImpl extends EPackageImpl implements Neuro4jPackage {
         return (EReference) followByRelationNodeEClass.getEStructuralFeatures().get(1);
     }
 
+    public EAttribute getFollowByRelationNode_Fork() {
+        return (EAttribute) followByRelationNodeEClass.getEStructuralFeatures().get(2);
+    }
+    
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1163,6 +1175,7 @@ public class Neuro4jPackageImpl extends EPackageImpl implements Neuro4jPackage {
 
         joinNodeEClass = createEClass(JOIN_NODE);
         createEReference(joinNodeEClass, JOIN_NODE__MAIN_OUTPUT);
+        createEAttribute(joinNodeEClass, JOIN_NODE_FEATURE_FORK);
 
         decisionNodeEClass = createEClass(DECISION_NODE);
         createEReference(decisionNodeEClass, DECISION_NODE__MAIN_TRUE_OUTPUT);
@@ -1220,6 +1233,7 @@ public class Neuro4jPackageImpl extends EPackageImpl implements Neuro4jPackage {
         followByRelationNodeEClass = createEClass(FOLLOW_BY_RELATION_NODE);
         createEAttribute(followByRelationNodeEClass, FOLLOW_BY_RELATION_NODE__RELATION_NAME);
         createEReference(followByRelationNodeEClass, FOLLOW_BY_RELATION_NODE__MAIN_INPUT);
+        createEAttribute(followByRelationNodeEClass, FOLLOW_BY_RELATION_NODE_FEATURE_FORK);
 
         logicNodeEClass = createEClass(LOGIC_NODE);
         createEAttribute(logicNodeEClass, LOGIC_NODE__CLASS_NAME);
@@ -1319,7 +1333,9 @@ public class Neuro4jPackageImpl extends EPackageImpl implements Neuro4jPackage {
 
         initEClass(joinNodeEClass, JoinNode.class, "JoinNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getJoinNode_MainOutput(), this.getOperatorOutput(), null, "mainOutput", null, 0, 1, JoinNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getJoinNode_Fork(), theXMLTypePackage.getString(), "fork", null, 0, 1, JoinNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+        
         initEClass(decisionNodeEClass, DecisionNode.class, "DecisionNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getDecisionNode_MainTrueOutput(), this.getOperatorOutput(), null, "mainTrueOutput", null, 0, 1, DecisionNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getDecisionNode_MainFalseOutput(), this.getOperatorOutput(), null, "mainFalseOutput", null, 0, 1, DecisionNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1376,6 +1392,7 @@ public class Neuro4jPackageImpl extends EPackageImpl implements Neuro4jPackage {
         initEClass(followByRelationNodeEClass, FollowByRelationNode.class, "FollowByRelationNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getFollowByRelationNode_RelationName(), theXMLTypePackage.getString(), "relationName", null, 0, 1, FollowByRelationNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getFollowByRelationNode_MainInput(), this.getOperatorInput(), null, "mainInput", null, 0, 1, FollowByRelationNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getFollowByRelationNode_Fork(), theXMLTypePackage.getString(), "fork", null, 0, 1, FollowByRelationNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(logicNodeEClass, LogicNode.class, "LogicNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getLogicNode_ClassName(), theXMLTypePackage.getString(), "className", null, 0, 1, LogicNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1488,5 +1505,6 @@ public class Neuro4jPackageImpl extends EPackageImpl implements Neuro4jPackage {
                         "kind", "elementOnly"
                 });
     }
+
 
 } // Neuro4jPackageImpl

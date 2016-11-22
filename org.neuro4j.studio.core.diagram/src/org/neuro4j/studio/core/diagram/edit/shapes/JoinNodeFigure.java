@@ -23,6 +23,7 @@ import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
 public class JoinNodeFigure extends BaseImageFigure {
 
     public static final Image DEFAULT_IMAGE = Neuro4jDiagramEditorPlugin.imageDescriptorFromPlugin(Neuro4jDiagramEditorPlugin.ID, "icons/images/JoinNode.png").createImage();
+    public static final Image FORK_IMAGE = Neuro4jDiagramEditorPlugin.imageDescriptorFromPlugin(Neuro4jDiagramEditorPlugin.ID, "icons/images/JoinNodeFork.png").createImage();
 
     /**
      * @generated
@@ -69,4 +70,13 @@ public class JoinNodeFigure extends BaseImageFigure {
         return fFigureJoinNodeMainOutput;
     }
 
+	public void setForkImage() {
+		setImage(FORK_IMAGE);    	
+		
+	}
+	public void setDefaultImage() {
+		setImage(DEFAULT_IMAGE);    	
+		
+	}
+    
 }

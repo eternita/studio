@@ -29,6 +29,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -80,6 +81,7 @@ public class ClassloaderHelper
             {
                 return clazz;
             }
+          
         }
 
         return null;
@@ -234,17 +236,30 @@ public class ClassloaderHelper
         } catch (JavaModelException e) {
             return;
         }
+
         IClasspathEntry entry;
         for (int i = 0; i < entries.length; i++) {
             entry = entries[i];
             switch (entry.getEntryKind()) {
                 case IClasspathEntry.CPE_LIBRARY:
-                    collectClasspathEntryURL(entry, urls);
+				try {
+					urls.add(resolvePath(entry.getPath()));
+				} catch (MalformedURLException e1) {
+				} 
                     break;
                 case IClasspathEntry.CPE_CONTAINER:
                 case IClasspathEntry.CPE_VARIABLE:
                     collectClasspathEntryURL(entry, urls);
                     break;
+                case IClasspathEntry.CPE_SOURCE:
+                    IPath p = entry.getOutputLocation(); 
+                    if (p != null)
+						try {
+							urls.add(resolvePath(p));
+						} catch (MalformedURLException e) {
+
+						} 
+                    break; 
                 case IClasspathEntry.CPE_PROJECT: {
                     if (isFirstProject || entry.isExported())
                         collectClasspathURLs(getJavaProject(entry), urls, visited, false);
@@ -253,7 +268,15 @@ public class ClassloaderHelper
             }
         }
     }
-
+    public static URL resolvePath(IPath path) throws MalformedURLException 
+    { 
+     IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot(); 
+     IResource res = root.findMember(path); 
+     if (res != null) 
+      path = res.getLocation(); 
+      
+     return path.toFile().toURI().toURL(); 
+    } 
     private static void collectClasspathIPath(IJavaProject javaProject, List<IPath> urls, Set<IJavaProject> visited,
             boolean isFirstProject)
     {
@@ -305,7 +328,7 @@ public class ClassloaderHelper
             url = new URL("file:/" + path.toOSString());
 
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+        	System.err.println(e.getMessage());
         }
         return url;
     }

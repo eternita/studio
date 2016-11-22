@@ -57,6 +57,7 @@ public class FollowByRelationNodeImpl extends ActionNodeImpl implements FollowBy
      * @ordered
      */
     protected static final String RELATION_NAME_EDEFAULT = null;
+    protected static final String FORK_DEFAULT = "";
 
     /**
      * The cached value of the '{@link #getRelationName() <em>Relation Name</em>}' attribute.
@@ -69,6 +70,7 @@ public class FollowByRelationNodeImpl extends ActionNodeImpl implements FollowBy
      */
     protected String relationName = RELATION_NAME_EDEFAULT;
 
+    protected String fork = FORK_DEFAULT;
     /**
      * The cached value of the '{@link #getMainInput() <em>Main Input</em>}' reference.
      * <!-- begin-user-doc -->
@@ -102,7 +104,8 @@ public class FollowByRelationNodeImpl extends ActionNodeImpl implements FollowBy
     }
 
     /**
-     * <!-- begin-user-doc -->
+
+     * 3<!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
      * @generated
@@ -177,6 +180,8 @@ public class FollowByRelationNodeImpl extends ActionNodeImpl implements FollowBy
         switch (featureID) {
             case Neuro4jPackage.FOLLOW_BY_RELATION_NODE__RELATION_NAME:
                 return getRelationName();
+            case Neuro4jPackage.FOLLOW_BY_RELATION_NODE_FEATURE_FORK:
+                return getFork();              
             case Neuro4jPackage.FOLLOW_BY_RELATION_NODE__MAIN_INPUT:
                 if (resolve)
                     return getMainInput();
@@ -200,6 +205,9 @@ public class FollowByRelationNodeImpl extends ActionNodeImpl implements FollowBy
             case Neuro4jPackage.FOLLOW_BY_RELATION_NODE__MAIN_INPUT:
                 setMainInput((OperatorInput) newValue);
                 return;
+            case Neuro4jPackage.FOLLOW_BY_RELATION_NODE_FEATURE_FORK:
+                setFork((String) newValue);
+                return;     
         }
         super.eSet(featureID, newValue);
     }
@@ -219,6 +227,9 @@ public class FollowByRelationNodeImpl extends ActionNodeImpl implements FollowBy
             case Neuro4jPackage.FOLLOW_BY_RELATION_NODE__MAIN_INPUT:
                 setMainInput((OperatorInput) null);
                 return;
+            case Neuro4jPackage.FOLLOW_BY_RELATION_NODE_FEATURE_FORK:
+                setFork(FORK_DEFAULT);
+                return;    
         }
         super.eUnset(featureID);
     }
@@ -234,6 +245,8 @@ public class FollowByRelationNodeImpl extends ActionNodeImpl implements FollowBy
         switch (featureID) {
             case Neuro4jPackage.FOLLOW_BY_RELATION_NODE__RELATION_NAME:
                 return RELATION_NAME_EDEFAULT == null ? relationName != null : !RELATION_NAME_EDEFAULT.equals(relationName);
+            case Neuro4jPackage.FOLLOW_BY_RELATION_NODE_FEATURE_FORK:
+                return FORK_DEFAULT == null ? fork != null : !FORK_DEFAULT.equals(fork);
             case Neuro4jPackage.FOLLOW_BY_RELATION_NODE__MAIN_INPUT:
                 return mainInput != null;
         }
@@ -266,14 +279,17 @@ public class FollowByRelationNodeImpl extends ActionNodeImpl implements FollowBy
     @Override
     public void setNodeSpecificProperties(NodeXML entity) {
         setNotNullConfig(entity, SWF_PARAM_DEFAULT, getRelationName());
+        setNotNullConfig(entity, FORK, getFork());
     }
 
     @Override
     public void getNodeSpecificProperties(NodeXML entity) {
         setRelationName(entity.getConfig(SWF_PARAM_DEFAULT));
+        setFork(entity.getConfig(FORK));
     }
 
     public static final String SWF_PARAM_DEFAULT = SWFParametersConstants.SWITCH_NODE_ACTION_NAME;
+    public static final String FORK = "FORK";
 
     @Override
     public String getLogicImplementationClassName() {
@@ -305,5 +321,18 @@ public class FollowByRelationNodeImpl extends ActionNodeImpl implements FollowBy
 	public NodeType getNodeType() {
 		return NodeType.SWITCH;
 	}
+
+	@Override
+	public String getFork() {
+		return fork;
+	}
+
+	@Override
+    public void setFork(String newValue) {
+        String oldValue = fork;
+        fork = newValue;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, Neuro4jPackage.FOLLOW_BY_RELATION_NODE_FEATURE_FORK, oldValue, fork));
+    }
 
 } // FollowByRelationNodeImpl

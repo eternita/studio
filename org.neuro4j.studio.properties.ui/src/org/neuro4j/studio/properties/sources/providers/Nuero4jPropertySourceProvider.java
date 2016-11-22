@@ -29,8 +29,11 @@ import org.neuro4j.studio.core.Node;
 import org.neuro4j.studio.core.OperatorOutput;
 import org.neuro4j.studio.core.StartNode;
 import org.neuro4j.studio.core.ViewNode;
+import org.neuro4j.studio.core.impl.FollowByRelationNodeImpl;
+import org.neuro4j.studio.core.impl.JoinNodeImpl;
 import org.neuro4j.studio.core.impl.StandardNodeImpl;
 import org.neuro4j.studio.properties.sources.DecisionNodePropertySource;
+import org.neuro4j.studio.properties.sources.JoinNodePropertySource;
 import org.neuro4j.studio.properties.sources.LogicNodePropertySource;
 import org.neuro4j.studio.properties.sources.MapperNodePropertySource;
 import org.neuro4j.studio.properties.sources.NetworkPropertySource;
@@ -38,6 +41,7 @@ import org.neuro4j.studio.properties.sources.Neuro4jPropertySource;
 import org.neuro4j.studio.properties.sources.OutputPropertySource;
 import org.neuro4j.studio.properties.sources.StandardListPropertySource;
 import org.neuro4j.studio.properties.sources.StartNodePropertySource;
+import org.neuro4j.studio.properties.sources.SwitchNodePropertySource;
 import org.neuro4j.studio.properties.sources.ViewNodePropertySource;
 
 public class Nuero4jPropertySourceProvider implements IPropertySourceProvider {
@@ -108,7 +112,18 @@ public class Nuero4jPropertySourceProvider implements IPropertySourceProvider {
                     StandardListPropertySource sSource = new StandardListPropertySource((StandardNodeImpl) object);
                     actionNode.setPropertySource(sSource);
                     return actionNode.getPropertySource();
-                }
+                
+            } else if (object instanceof FollowByRelationNodeImpl) {
+                SwitchNodePropertySource mnpSource = new SwitchNodePropertySource(
+                        object, itemPropertySource, this.adapterFactory);
+                actionNode.setPropertySource(mnpSource);
+                return actionNode.getPropertySource();
+            } else if (object instanceof JoinNodeImpl) {
+                JoinNodePropertySource mnpSource = new JoinNodePropertySource(
+                        object, itemPropertySource, this.adapterFactory);
+                actionNode.setPropertySource(mnpSource);
+                return actionNode.getPropertySource();
+            }
                 else {
                     Neuro4jPropertySource mnpSource = new Neuro4jPropertySource(
                             object, itemPropertySource, this.adapterFactory);

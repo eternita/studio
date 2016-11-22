@@ -119,6 +119,10 @@ public class OutputPropertySource extends PropertySource {
             {
                 newValue = strValue;
             }
+            if (newValue == null)
+            {
+                newValue = "";
+            }
             return new PropertyValueWrapper(af, object, newValue, null);
 
         } else if ("standardName".equals(propertyId)) {

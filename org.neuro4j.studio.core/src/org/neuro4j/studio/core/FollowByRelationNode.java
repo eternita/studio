@@ -36,6 +36,8 @@ public interface FollowByRelationNode extends ActionNode {
     public static final int X_OFFSET = 25;
 
     public static final int Y_OFFSET = 20;
+    
+    public static final String FORK = "FORK";
 
     /**
      * Returns the value of the '<em><b>Relation Name</b></em>' attribute.
@@ -82,6 +84,10 @@ public interface FollowByRelationNode extends ActionNode {
      * @model
      * @generated
      */
+    
+    String getFork();
+    void setFork(String value);
+    
     OperatorInput getMainInput();
 
     /**

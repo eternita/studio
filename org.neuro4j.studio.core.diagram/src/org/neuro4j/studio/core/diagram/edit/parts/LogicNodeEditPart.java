@@ -20,9 +20,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
@@ -44,7 +41,6 @@ import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.gmf.runtime.diagram.core.edithelpers.CreateElementRequestAdapter;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
-import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramGraphicalViewer;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewAndElementRequest;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
@@ -52,32 +48,21 @@ import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.runtime.notation.impl.ConnectorImpl;
-import org.eclipse.gmf.runtime.notation.impl.DiagramImpl;
 import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
 import org.eclipse.gmf.tooling.runtime.edit.policies.reparent.CreationEditPolicyWithCustomReparent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
-import org.neuro4j.studio.core.ActionNode;
-import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.diagram.edit.policies.LogicNodeItemSemanticEditPolicy;
 import org.neuro4j.studio.core.diagram.edit.policies.MyGraphicalNodeEditPolicy;
 import org.neuro4j.studio.core.diagram.edit.shapes.BaseImageFigure;
 import org.neuro4j.studio.core.diagram.edit.shapes.anchors.DefaultSizeNodeFigureWithFixedAnchors;
 import org.neuro4j.studio.core.diagram.edit.shapes.anchors.MyCreateConnectionViewRequest;
 import org.neuro4j.studio.core.diagram.edit.shapes.anchors.NorthEastSouthFixedAnchors;
-import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditor;
 import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin;
 import org.neuro4j.studio.core.diagram.part.Neuro4jVisualIDRegistry;
 import org.neuro4j.studio.core.diagram.providers.Neuro4jElementTypes;
 import org.neuro4j.studio.core.impl.LogicNodeImpl;
 import org.neuro4j.studio.core.impl.OperatorOutputImpl;
-import org.neuro4j.studio.core.util.ClassloaderHelper;
 
 /**
  * @generated
@@ -179,20 +164,14 @@ public class LogicNodeEditPart extends NodeBaseEditPart {
         
 //        ShapeImpl shape = (ShapeImpl) getModel();
 //        LogicNodeImpl node = (LogicNodeImpl) shape.getElement();
-        if (getPrimaryShape().getImage() == DEFAULT_IMAGE)
+     //   if (getPrimaryShape().getImage() == DEFAULT_IMAGE)
+        if (getPrimaryShape().getImage()  == DEFAULT_IMAGE)
         {
             if (childEditPart instanceof LogicNodeLogicNodeMainInputEditPart) {
                 IFigure pane = getNodeFigure();
 
                 IFigure f1 = getPrimaryShape().getFigureLogicNodeMainInput();
                 pane.add(f1, new Rectangle(31, 3, 8, 8));
-                return true;
-            }
-            if (childEditPart instanceof LogicNodeLogicNodeMainOutputCompartmentEditPart) {
-                IFigure pane = getNodeFigure();
-
-                IFigure f1 = getPrimaryShape().getFigureLogicNodeMainOutput();
-                pane.add(f1, new Rectangle(31, 60, 8, 8));
                 return true;
             }
             if (childEditPart instanceof LogicNodeLogicNodeErrorOutputCompartmentEditPart) {
@@ -202,6 +181,13 @@ public class LogicNodeEditPart extends NodeBaseEditPart {
                 pane.add(f1, new Rectangle(60, 31, 8, 8));
                 return true;
             }            
+        }
+        if (childEditPart instanceof LogicNodeLogicNodeMainOutputCompartmentEditPart) {
+            IFigure pane = getNodeFigure();
+
+            IFigure f1 = getPrimaryShape().getFigureLogicNodeMainOutput();
+            pane.add(f1, new Rectangle(31, 60, 8, 8));
+            return true;
         }
         
 

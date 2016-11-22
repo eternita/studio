@@ -48,6 +48,7 @@ import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
 import org.eclipse.gmf.tooling.runtime.edit.policies.reparent.CreationEditPolicyWithCustomReparent;
 import org.eclipse.swt.graphics.Color;
 import org.neuro4j.studio.core.OperatorOutput;
@@ -58,6 +59,8 @@ import org.neuro4j.studio.core.diagram.edit.shapes.anchors.MyCreateConnectionVie
 import org.neuro4j.studio.core.diagram.edit.shapes.anchors.NorthEastWestFixedAnchors;
 import org.neuro4j.studio.core.diagram.part.Neuro4jVisualIDRegistry;
 import org.neuro4j.studio.core.diagram.providers.Neuro4jElementTypes;
+import org.neuro4j.studio.core.impl.JoinNodeImpl;
+import org.neuro4j.studio.core.impl.StartNodeImpl;
 
 /**
  * @generated
@@ -265,6 +268,12 @@ public class JoinNodeEditPart extends NodeBaseEditPart {
         anchorLocations.put("EAST", new PrecisionPoint(1d, 0.5d));
         anchorLocations.put("WEST", new PrecisionPoint(0, 0.5d));
         NorthEastWestFixedAnchors result = new NorthEastWestFixedAnchors(30, 30, anchorLocations);
+        ShapeImpl shape = (ShapeImpl) getModel();
+        JoinNodeImpl node = (JoinNodeImpl) shape.getElement();
+        if ("true".equals(node.getFork()))
+        {
+        	getPrimaryShape().setForkImage();
+        }
         return result;
     }
 
@@ -277,9 +286,10 @@ public class JoinNodeEditPart extends NodeBaseEditPart {
      * @generated
      */
     protected NodeFigure createNodeFigure() {
-        NodeFigure figure = createNodePlate();
-        figure.setLayoutManager(new StackLayout());
         IFigure shape = createNodeShape();
+    	NodeFigure figure = createNodePlate();
+        figure.setLayoutManager(new StackLayout());
+
 
         org.eclipse.draw2d.Panel panel = new org.eclipse.draw2d.Panel();
         panel.setLayoutManager(new FlowLayout(true));
@@ -551,6 +561,14 @@ public class JoinNodeEditPart extends NodeBaseEditPart {
         }
 
     }
-
+    public void setImage(boolean isFork){
+    	
+    	if (isFork){
+    		getPrimaryShape().setForkImage();
+    	} else {
+    		getPrimaryShape().setDefaultImage();
+		}
+    	
+    }
 
 }

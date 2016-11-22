@@ -67,4 +67,8 @@ public interface JoinNode extends ActionNode {
      * @generated
      */
     void setMainOutput(OperatorOutput value);
+    
+    
+    String getFork();
+    void setFork(String value);
 } // JoinNode

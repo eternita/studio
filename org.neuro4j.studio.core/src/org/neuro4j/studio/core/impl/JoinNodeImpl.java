@@ -25,6 +25,7 @@ import org.neuro4j.studio.core.Network;
 import org.neuro4j.studio.core.Neuro4jPackage;
 import org.neuro4j.studio.core.NodeType;
 import org.neuro4j.studio.core.OperatorOutput;
+import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.util.UUIDMgr;
 
 /**
@@ -43,7 +44,9 @@ import org.neuro4j.studio.core.util.UUIDMgr;
 public class JoinNodeImpl extends ActionNodeImpl implements JoinNode {
 
     protected static final String NAME_EDEFAULT = "JoinNode";
-
+    protected static final String FORK_DEFAULT = "";
+    protected String fork = FORK_DEFAULT;
+    
     /**
      * The cached value of the '{@link #getMainOutput() <em>Main Output</em>}' reference.
      * <!-- begin-user-doc -->
@@ -130,6 +133,8 @@ public class JoinNodeImpl extends ActionNodeImpl implements JoinNode {
                 if (resolve)
                     return getMainOutput();
                 return basicGetMainOutput();
+            case Neuro4jPackage.JOIN_NODE_FEATURE_FORK:
+                return getFork();      
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -146,6 +151,9 @@ public class JoinNodeImpl extends ActionNodeImpl implements JoinNode {
             case Neuro4jPackage.JOIN_NODE__MAIN_OUTPUT:
                 setMainOutput((OperatorOutput) newValue);
                 return;
+            case Neuro4jPackage.JOIN_NODE_FEATURE_FORK:
+                setFork((String) newValue);
+                return;     
         }
         super.eSet(featureID, newValue);
     }
@@ -162,7 +170,11 @@ public class JoinNodeImpl extends ActionNodeImpl implements JoinNode {
             case Neuro4jPackage.JOIN_NODE__MAIN_OUTPUT:
                 setMainOutput((OperatorOutput) null);
                 return;
+            case Neuro4jPackage.JOIN_NODE_FEATURE_FORK:
+                setFork(FORK_DEFAULT);
+                return;         
         }
+        
         super.eUnset(featureID);
     }
 
@@ -177,6 +189,8 @@ public class JoinNodeImpl extends ActionNodeImpl implements JoinNode {
         switch (featureID) {
             case Neuro4jPackage.JOIN_NODE__MAIN_OUTPUT:
                 return mainOutput != null;
+            case Neuro4jPackage.JOIN_NODE_FEATURE_FORK:
+                return fork != null; 
         }
         return super.eIsSet(featureID);
     }
@@ -201,7 +215,7 @@ public class JoinNodeImpl extends ActionNodeImpl implements JoinNode {
 
         node.setX(this.getX() + 100);
         node.setY(this.getY() + 100);
-
+        node.setFork(this.getFork());
         return node;
     }
 
@@ -209,5 +223,31 @@ public class JoinNodeImpl extends ActionNodeImpl implements JoinNode {
 	public NodeType getNodeType() {
 		return NodeType.JOIN;
 	}
-    
+	
+	@Override
+	public String getFork() {
+		return fork;
+	}
+
+	@Override
+    public void setFork(String newValue) {
+//		if(newValue == null){
+//			newValue = FORK_DEFAULT;
+//		}
+        String oldValue = fork;
+        fork = newValue;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, Neuro4jPackage.JOIN_NODE_FEATURE_FORK, oldValue, fork));
+    }
+	
+    @Override
+    public void setNodeSpecificProperties(NodeXML entity) {
+        setNotNullConfig(entity, FORK, getFork());
+    }
+
+    @Override
+    public void getNodeSpecificProperties(NodeXML entity) {
+        setFork(entity.getConfig(FORK));
+    }
+    public static final String FORK = "FORK";
 } // JoinNodeImpl

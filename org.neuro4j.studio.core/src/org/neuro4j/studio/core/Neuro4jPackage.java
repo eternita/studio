@@ -416,7 +416,9 @@ public interface Neuro4jPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int JOIN_NODE_FEATURE_COUNT = ACTION_NODE_FEATURE_COUNT + 1;
+   // int JOIN_NODE_FEATURE_COUNT = ACTION_NODE_FEATURE_COUNT + 1;
+    
+    int JOIN_NODE_FEATURE_FORK = ACTION_NODE_FEATURE_COUNT + 1;
 
     /**
      * The meta object id for the '{@link org.neuro4j.studio.core.impl.DecisionNodeImpl <em>Decision Node</em>}' class.
@@ -1447,8 +1449,10 @@ public interface Neuro4jPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int FOLLOW_BY_RELATION_NODE_FEATURE_COUNT = ACTION_NODE_FEATURE_COUNT + 2;
+  //  int FOLLOW_BY_RELATION_NODE_FEATURE_COUNT = ACTION_NODE_FEATURE_COUNT + 2;
 
+    
+    int FOLLOW_BY_RELATION_NODE_FEATURE_FORK = ACTION_NODE_FEATURE_COUNT + 2;
     /**
      * The meta object id for the '{@link org.neuro4j.studio.core.impl.LogicNodeImpl <em>Logic Node</em>}' class.
      * <!-- begin-user-doc -->
@@ -2237,6 +2241,7 @@ public interface Neuro4jPackage extends EPackage {
      * @generated
      */
     EReference getJoinNode_MainOutput();
+    EAttribute getJoinNode_Fork();
 
     /**
      * Returns the meta object for class '{@link org.neuro4j.studio.core.DecisionNode <em>Decision Node</em>}'.
@@ -2823,6 +2828,8 @@ public interface Neuro4jPackage extends EPackage {
      * @generated
      */
     EReference getFollowByRelationNode_MainInput();
+    
+    EAttribute getFollowByRelationNode_Fork();
 
     /**
      * Returns the meta object for class '{@link org.neuro4j.studio.core.LogicNode <em>Logic Node</em>}'.
@@ -3246,6 +3253,7 @@ public interface Neuro4jPackage extends EPackage {
          */
         EReference JOIN_NODE__MAIN_OUTPUT = eINSTANCE.getJoinNode_MainOutput();
 
+        EAttribute JOIN_NODE__FORK = eINSTANCE.getJoinNode_Fork();
         /**
          * The meta object literal for the '{@link org.neuro4j.studio.core.impl.DecisionNodeImpl <em>Decision Node</em>}
          * ' class.
@@ -3685,6 +3693,8 @@ public interface Neuro4jPackage extends EPackage {
          * @generated
          */
         EAttribute FOLLOW_BY_RELATION_NODE__RELATION_NAME = eINSTANCE.getFollowByRelationNode_RelationName();
+
+        EAttribute FOLLOW_BY_RELATION_NODE__FORK = eINSTANCE.getFollowByRelationNode_Fork();
 
         /**
          * The meta object literal for the '<em><b>Main Input</b></em>' reference feature.

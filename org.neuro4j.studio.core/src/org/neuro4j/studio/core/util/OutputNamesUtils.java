@@ -96,7 +96,7 @@ public class OutputNamesUtils {
 				return index;
 			}
 		}
-		return 0;
+		return null;
 	}
 
 	private static String[] getEndNodesForCallNode(CallNode callNode) {

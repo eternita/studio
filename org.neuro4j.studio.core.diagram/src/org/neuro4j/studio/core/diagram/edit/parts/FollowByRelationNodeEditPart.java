@@ -42,6 +42,7 @@ import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.runtime.notation.impl.ShapeImpl;
 import org.eclipse.swt.graphics.Color;
 import org.neuro4j.studio.core.diagram.edit.policies.FollowByRelationNodeItemSemanticEditPolicy;
 import org.neuro4j.studio.core.diagram.edit.policies.MyGraphicalNodeEditPolicy;
@@ -49,6 +50,9 @@ import org.neuro4j.studio.core.diagram.edit.shapes.BaseImageFigure;
 import org.neuro4j.studio.core.diagram.edit.shapes.anchors.NorthSouthFixedAnchors;
 import org.neuro4j.studio.core.diagram.part.Neuro4jVisualIDRegistry;
 import org.neuro4j.studio.core.diagram.providers.Neuro4jElementTypes;
+import org.neuro4j.studio.core.impl.FollowByRelationNodeImpl;
+import org.neuro4j.studio.core.impl.JoinNodeImpl;
+import org.neuro4j.workflow.enums.StartNodeTypes;
 
 /**
  * @generated
@@ -197,6 +201,12 @@ public class FollowByRelationNodeEditPart extends NodeBaseEditPart {
         anchorLocations.put("NORTH", new PrecisionPoint(0.155d, 0));
         anchorLocations.put("SOUTH", new PrecisionPoint(0.155d, 1d));
         DefaultSizeNodeFigure result = new NorthSouthFixedAnchors(70, 70, anchorLocations);
+        ShapeImpl shape = (ShapeImpl) getModel();
+        FollowByRelationNodeImpl node = (FollowByRelationNodeImpl) shape.getElement();
+        if ("true".equals(node.getFork()))
+        {
+        	getPrimaryShape().setForkImage();
+        }
         return result;
     }
 
@@ -209,9 +219,10 @@ public class FollowByRelationNodeEditPart extends NodeBaseEditPart {
      * @generated
      */
     protected NodeFigure createNodeFigure() {
-        NodeFigure figure = createNodePlate();
-        figure.setLayoutManager(new XYLayout());
         IFigure shape = createNodeShape();
+    	NodeFigure figure = createNodePlate();
+        figure.setLayoutManager(new XYLayout());
+
         WrappingLabel label = ((org.neuro4j.studio.core.diagram.edit.shapes.FollowByRelationNodeFigure) primaryShape)
                 .getFigureFollowByRelationNodeRelationNameFigure();
 
@@ -436,6 +447,16 @@ public class FollowByRelationNodeEditPart extends NodeBaseEditPart {
             types.add(Neuro4jElementTypes.ViewNode_2018);
         }
         return types;
+    }
+    
+    public void setImage(boolean isFork){
+    	
+    	if (isFork){
+    		getPrimaryShape().setForkImage();
+    	} else {
+    		getPrimaryShape().setDefaultImage();
+		}
+    	
     }
 
     // /**

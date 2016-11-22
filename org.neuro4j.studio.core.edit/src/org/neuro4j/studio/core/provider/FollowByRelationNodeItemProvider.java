@@ -72,6 +72,7 @@ public class FollowByRelationNodeItemProvider
 
             addRelationNamePropertyDescriptor(object);
             addMainInputPropertyDescriptor(object);
+            addForkPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -91,6 +92,22 @@ public class FollowByRelationNodeItemProvider
                         getString("_UI_FollowByRelationNode_relationName_feature"),
                         getString("_UI_PropertyDescriptor_description", "_UI_FollowByRelationNode_relationName_feature", "_UI_FollowByRelationNode_type"),
                         Neuro4jPackage.Literals.FOLLOW_BY_RELATION_NODE__RELATION_NAME,
+                        true,
+                        false,
+                        false,
+                        ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+                        null,
+                        null));
+    }
+    
+    protected void addForkPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+                (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                        getResourceLocator(),
+                        getString("_UI_FollowByRelationNode_fork_feature"),
+                        getString("_UI_PropertyDescriptor_description", "_UI_FollowByRelationNode_fork_feature", "_UI_FollowByRelationNode_type"),
+                        Neuro4jPackage.Literals.FOLLOW_BY_RELATION_NODE__FORK,
                         true,
                         false,
                         false,
