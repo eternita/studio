@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/neuro4j/studio.png?branch=master)](https://travis-ci.org/neuro4j/studio)
+
 Neuro4j Studio
 ======
 
