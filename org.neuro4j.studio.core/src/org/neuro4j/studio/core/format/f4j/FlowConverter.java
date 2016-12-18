@@ -26,7 +26,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.neuro4j.studio.core.format.n4j.NetworkXML;
-import org.neuro4j.workflow.common.FlowInitializationException;
+import org.neuro4j.workflow.common.FlowExecutionException;
 
 public class FlowConverter {
 
@@ -75,10 +75,10 @@ public class FlowConverter {
 	 * 
 	 * @param xml
 	 * @return
-	 * @throws FlowInitializationException
+	 * @throws FlowExecutionException
 	 */
 	public static FlowXML xml2workflow(InputStream xml, String flow)
-			throws  FlowInitializationException {
+			throws  FlowExecutionException {
 		if (null == xml)
 			return null;
 
@@ -95,7 +95,7 @@ public class FlowConverter {
 
 		} catch (JAXBException e) {
 			e.printStackTrace();
-			throw new FlowInitializationException("Can't convert stream to workflow");
+			throw new FlowExecutionException("Can't convert stream to workflow");
 		}
 		
 		return net;

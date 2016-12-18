@@ -33,7 +33,7 @@ import org.neuro4j.studio.core.format.f4j.FlowXML;
 import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.format.f4j.TransitionXML;
 import org.neuro4j.workflow.common.FlowExecutionException;
-import org.neuro4j.workflow.common.FlowInitializationException;
+import org.neuro4j.workflow.common.FlowExecutionException;
 import org.neuro4j.workflow.common.WorkflowEngine;
 import org.neuro4j.workflow.node.FlowParameter;
 
@@ -147,7 +147,7 @@ public class CallNodeResolver {
         	NodeXML startNode = wflow.getNodeByName(startNodeName);        	
             findEndNodes(startNode, visited, endNodes, wflow);
             return endNodes;        
-        } catch (FlowInitializationException e) {
+        } catch (FlowExecutionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

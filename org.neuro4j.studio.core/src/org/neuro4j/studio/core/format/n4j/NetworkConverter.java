@@ -32,7 +32,7 @@ import javax.xml.bind.Unmarshaller;
 import org.neuro4j.studio.core.format.f4j.FlowXML;
 import org.neuro4j.studio.core.format.f4j.NodeXML;
 import org.neuro4j.studio.core.format.f4j.TransitionXML;
-import org.neuro4j.workflow.common.FlowInitializationException;
+import org.neuro4j.workflow.common.FlowExecutionException;
 
 public class NetworkConverter {
 
@@ -156,7 +156,7 @@ public class NetworkConverter {
 				try {
 					entity = createNode(network, e, parameters);
 					network.registerNode(entity);
-				} catch (FlowInitializationException e1) {
+				} catch (FlowExecutionException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -207,7 +207,7 @@ public class NetworkConverter {
 	}
 
 	private static NodeXML createNode(FlowXML workflow, EntityXML e,
-			Map<String, String> parameters) throws FlowInitializationException {
+			Map<String, String> parameters) throws FlowExecutionException {
 		NodeXML node = null;
 
 

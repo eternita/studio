@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Neuro4j-studio-flow
 Bundle-SymbolicName: org.neuro4j.studio.flow;singleton:=true
-Bundle-Version: 2.0.1
+Bundle-Version: 3.1.1
 Bundle-Activator: org.neuro4j.studio.flow.Activator
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,

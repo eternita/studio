@@ -48,7 +48,7 @@ import org.neuro4j.studio.core.util.search.CallNodeResolver;
 import org.neuro4j.studio.flow.convert.Entity2ECoreConverter;
 import org.neuro4j.studio.flow.convert.impl.Entity2ECoreConverterImpl;
 import org.neuro4j.studio.flow.convert.impl.Neuro2XMLSaveImpl;
-import org.neuro4j.workflow.common.FlowInitializationException;
+import org.neuro4j.workflow.common.FlowExecutionException;
 import org.neuro4j.workflow.enums.FlowVisibility;
 import org.neuro4j.workflow.node.WorkflowNode;
 import org.xml.sax.InputSource;
@@ -180,7 +180,7 @@ public class FlowResourceImpl extends GMFResource {
     private static FlowXML xml2network(InputStream stream) {
         try {
 			return FlowConverter.xml2workflow(stream, "123");		
-		} catch (FlowInitializationException e) {
+		} catch (FlowExecutionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

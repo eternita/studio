@@ -146,10 +146,10 @@ public class FollowByRelationNodeEditPart extends NodeBaseEditPart {
             IFigure pane = getNodeFigure();
             
             IFigure f1 = getPrimaryShape().getFigureSwitchNodeMainInput();
-            pane.add(f1, new Rectangle(31, 3, 8, 8));
+            pane.add(f1, new Rectangle(30, 2, 9, 8));
 
             f1 = getPrimaryShape().getFigureSwitchNodeMainOutput();
-            pane.add(f1, new Rectangle(31, 60, 8, 8));            
+            pane.add(f1, new Rectangle(30, 60, 9, 8));            
             return true;
         }
         return false;
@@ -198,8 +198,8 @@ public class FollowByRelationNodeEditPart extends NodeBaseEditPart {
     protected NodeFigure createNodePlate() {
         HashMap<String, PrecisionPoint> anchorLocations = new HashMap<String, PrecisionPoint>();
 
-        anchorLocations.put("NORTH", new PrecisionPoint(0.155d, 0));
-        anchorLocations.put("SOUTH", new PrecisionPoint(0.155d, 1d));
+        anchorLocations.put("NORTH", new PrecisionPoint(0.16d, 0));
+        anchorLocations.put("SOUTH", new PrecisionPoint(0.16d, 1d));
         DefaultSizeNodeFigure result = new NorthSouthFixedAnchors(70, 70, anchorLocations);
         ShapeImpl shape = (ShapeImpl) getModel();
         FollowByRelationNodeImpl node = (FollowByRelationNodeImpl) shape.getElement();

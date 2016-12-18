@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.neuro4j.studio.core.diagram; singleton:=true
-Bundle-Version: 2.0.1
+Bundle-Version: 3.1.1
 Bundle-Activator: org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -59,7 +59,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.wst.common.frameworks;bundle-version="1.2.200",
  org.eclipse.jst.j2ee,
  org.eclipse.wst.common.project.facet.ui;bundle-version="1.4.300",
- org.neuro4j.studio.workflow;bundle-version="2.0.1",
+ org.neuro4j.studio.workflow;bundle-version="3.1.1",
  org.eclipse.jst.server.ui
 Bundle-ActivationPolicy: lazy
 Import-Package: com.ibm.icu.text;version="50.1.1",

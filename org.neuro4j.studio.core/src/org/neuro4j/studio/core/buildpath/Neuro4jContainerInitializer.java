@@ -38,7 +38,7 @@ public class Neuro4jContainerInitializer extends ClasspathContainerInitializer
     private static final IStatus NOT_SUPPORTED = new Status(4, "org.neuro4j.workflow", 1, new String(), null);
     private static final IStatus READ_ONLY = new Status(4, "org.neuro4j.workflow", 2, new String(), null);
 
-    private static final String NEURO4J = "2.0.1";
+    private static final String NEURO4J = "3.1.1";
 
     @Override
     public void initialize(IPath containerPath, IJavaProject project)

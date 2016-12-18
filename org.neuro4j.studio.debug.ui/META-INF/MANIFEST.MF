@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: DebugUi
 Bundle-SymbolicName: org.neuro4j.studio.debug.ui;singleton:=true
-Bundle-Version: 0.0.4
+Bundle-Version: 0.0.5
 Bundle-Localization: plugin
 Bundle-Activator: org.neuro4j.studio.debug.ui.Activator
 Require-Bundle: org.eclipse.ui,

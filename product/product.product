@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Neuro4j Studio" uid="Neuro4jStudio" id="org.eclipse.platform.ide" version="2.0.1" useFeatures="true" includeLaunchers="true">
+<product name="Neuro4j Studio" uid="Neuro4jStudio" id="org.eclipse.platform.ide" version="3.1.1" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
@@ -1045,8 +1045,8 @@ org.eclipse.platform
       <feature id="org.eclipse.rcp"/>
       <feature id="org.eclipse.equinox.p2.discovery.feature"/>
       <feature id="org.eclipse.equinox.p2.extras.feature"/>
-      <feature id="org.neuro4j.studio.ui" version="2.0.1"/>
-      <feature id="org.neuro4j.studio.ui.debug" version="0.0.4"/>
+      <feature id="org.neuro4j.studio.ui" version="3.1.1"/>
+      <feature id="org.neuro4j.studio.ui.debug" version="0.0.5"/>
       <feature id="org.eclipse.draw2d"/>
       <feature id="org.eclipse.m2e.feature"/>
       <feature id="org.eclipse.m2e.logback.feature"/>

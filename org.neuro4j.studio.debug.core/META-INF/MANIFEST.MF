@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: DebugCore
 Bundle-SymbolicName: org.neuro4j.studio.debug.core;singleton:=true
-Bundle-Version: 0.0.4
+Bundle-Version: 0.0.5
 Bundle-Activator: org.neuro4j.studio.debug.core.DebugCoreActivator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jdt.debug,

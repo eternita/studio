@@ -21,6 +21,6 @@ import org.eclipse.core.runtime.Path;
 public class Neuro4jCore {
 
     public static final String NEURO4J_CONTAINER_ID = "org.neuro4j.studio.core.NEURO4J_CONTAINER";
-    public static final IPath NEURO4J_CONTAINER_PATH = new Path("org.neuro4j.studio.core.NEURO4J_CONTAINER").append("2.0.1");
+    public static final IPath NEURO4J_CONTAINER_PATH = new Path("org.neuro4j.studio.core.NEURO4J_CONTAINER").append("3.1.1");
 
 }

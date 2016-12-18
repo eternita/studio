@@ -219,6 +219,7 @@
            name="New Trigger Block Wizard">
      </wizard>   
      -->  
+     <!--
       <wizard
             name="%web.neuro4jproject_ui_"
             icon="icons/obj16/web_wiz.gif"
@@ -236,7 +237,7 @@
          <selection
                class="org.eclipse.core.resources.IResource" />
       </wizard>
-     
+     -->
    </extension>
 
 <extension point="org.eclipse.ui.commands">
