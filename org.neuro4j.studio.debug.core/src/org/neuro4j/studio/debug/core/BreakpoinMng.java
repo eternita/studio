@@ -52,7 +52,6 @@ import org.neuro4j.studio.core.diagram.part.Neuro4jDiagramEditorUtil;
 import org.neuro4j.studio.core.impl.CallNodeImpl;
 import org.neuro4j.studio.core.util.ClassloaderHelper;
 import org.neuro4j.studio.debug.core.model.ActionNodeBreakpoint;
-import org.neuro4j.studio.debug.core.model.FlowDebugTarget;
 import org.neuro4j.studio.debug.core.model.FlowLineBreakpointAdapter;
 import org.neuro4j.studio.debug.core.model.MarkerManager;
 import org.neuro4j.workflow.debug.DebugService;
@@ -429,8 +428,16 @@ public class BreakpoinMng {
         IVariable[] vars = lba.getValue().getVariables();
         for (IVariable var : vars)
         {
-            if (var.getName().equals("uuid"))
-                return var.getValue().getValueString();
+            if (var.getName().equals("nodeInfo")){
+            	IVariable[] vars1  = var.getValue().getVariables();
+            	  for (IVariable v : vars1)
+            	  {
+            		    if (v.getName().equals("uuid")){
+                            return v.getValue().getValueString();            		    	
+            		    }
+            	  }
+
+            }
         }
         return null;
     }
